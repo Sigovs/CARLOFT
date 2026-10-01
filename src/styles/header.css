@@ -265,3 +265,40 @@
     justify-self: end;
   }
 }
+
+/* Wordmark tab (client, 2026-09-30): CAR LOFT sits in a solid deep-navy box
+   that bleeds off the top edge of the screen and hangs a little below the bar,
+   so the name reads as the brand mark on every hero frame, on the white bar
+   and over the dark Classics stage alike. The tracking is pulled back inside
+   the padding so the letters sit optically centred. */
+.header__bar {
+  position: relative;
+}
+
+.header__wordmark {
+  align-self: start;
+  justify-content: center;
+  height: calc(var(--header-h) + var(--s-5)); /* 24px below the bar */
+  margin-right: 0;
+  padding: 0 calc(var(--s-5) - var(--tr-wordmark)) 0 var(--s-5);
+  padding-top: var(--s-2); /* the visible face sits a touch low, like a hanging tab */
+  background: var(--c-deep);
+  color: var(--c-white);
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.header__wordmark:hover,
+.header__wordmark:focus-visible {
+  background: var(--c-deep-hover);
+  color: var(--c-white);
+}
+
+.header__wordmark:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 3px;
+}
+
+/* the tab is never recoloured by the header's tone states */
+.header[data-header] .header__wordmark {
+  color: var(--c-white);
+}
