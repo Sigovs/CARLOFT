@@ -1,0 +1,599 @@
+/* =============================================================================
+   base.css — reset, page frame, shared typography roles, buttons, links,
+   image frames, focus. Components build on these; they do not redefine them.
+   ============================================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* The gutter is reserved permanently, so locking scroll (dialog, menu)
+     never shifts the layout by a scrollbar's width. */
+  scrollbar-gutter: stable;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* MOTION.md §4.1: sticky needs no overflow:hidden ancestor — clip, never hidden. */
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  overflow-x: clip;
+  background: var(--c-white);
+  color: var(--c-ink-2);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body.is-locked {
+  overflow: hidden;
+}
+
+/* The page behind an open modal dialog does not scroll (QA P3-3). */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+dl,
+dd,
+figure,
+blockquote {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+/* The page frame is the inline-size container, so --edge (the content column's
+   left edge measured from the viewport) excludes the scrollbar exactly like the
+   container does. Plates that bleed to one edge align their text to --edge. */
+.page {
+  container-type: inline-size;
+}
+
+.page * {
+  --edge: max(var(--gutter), (100cqw - var(--container-max)) / 2);
+}
+
+.container {
+  width: min(var(--container-max), 100% - 2 * var(--gutter));
+  margin-inline: auto;
+}
+
+/* Every in-page anchor target clears the sticky header (U10). */
+[id] {
+  scroll-margin-top: var(--header-h);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--s-2);
+  left: var(--s-2);
+  z-index: calc(var(--z-sheet) + 1);
+  padding: var(--s-3) var(--s-4);
+  background: var(--c-ink);
+  color: var(--c-white);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radius);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+}
+
+/* ---------- focus: 2px ring, never removed (color I3) ---------- */
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.on-dark :focus-visible,
+[data-header='dark'] :focus-visible {
+  outline-color: var(--c-on-dark);
+}
+
+/* ---------- typography roles (BRIEF §13) ---------- */
+/* Line breaks (typography I6): prose avoids a stranded last word; short
+   multi-line titles balance. Display ranks balance below (authored lines win). */
+p,
+li,
+blockquote,
+figcaption {
+  text-wrap: pretty;
+}
+
+.eyebrow {
+  display: block;
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase;
+  color: var(--c-ink-2);
+}
+
+.display,
+.display-peak,
+.h2,
+.h3 {
+  color: var(--c-ink);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 104%;
+  text-wrap: balance;
+}
+
+/* Width carries rank inside the one heading voice: the hero is the widest. */
+.display {
+  font-stretch: 115%;
+}
+
+.display {
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--tr-display);
+}
+
+.display-peak {
+  font-size: var(--fs-display-peak);
+  line-height: var(--lh-peak);
+  letter-spacing: var(--tr-display);
+}
+
+.h2 {
+  font-size: var(--fs-h2);
+  line-height: var(--lh-h2);
+  letter-spacing: var(--tr-h2);
+}
+
+.h3 {
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--tr-h3);
+}
+
+.title {
+  text-wrap: balance;
+  color: var(--c-ink);
+  font-size: var(--fs-title);
+  font-weight: 600;
+  line-height: var(--lh-title);
+  letter-spacing: var(--tr-title);
+}
+
+.lead {
+  max-width: var(--measure-lead);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--c-ink-2);
+  text-wrap: pretty;
+}
+
+.body {
+  max-width: var(--measure-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--c-ink-2);
+  text-wrap: pretty;
+}
+
+.small {
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Authored headline lines ("/" breaks in BRIEF). Each line is a block so the
+   break is decided, and each is its own mask-ready unit for the motion layer. */
+.line-block {
+  display: block;
+}
+
+/* MOTION.md §2: descender safety for SplitText / authored masks. */
+.line-mask {
+  display: block;
+  padding-block: 0.12em;
+  margin-block: -0.12em;
+}
+
+.line-mask > .line {
+  display: block;
+}
+
+/* Section text stack — internal gaps smaller than external (spacing I1). */
+.stack > .eyebrow + * {
+  margin-top: var(--gap-eyebrow);
+}
+
+.stack > :is(.display, .display-peak, .h2, .h3) + :is(.lead, .body, p) {
+  margin-top: var(--gap-head-lead);
+}
+
+.stack > :is(.lead, .body, p) + :is(.lead, .body, p) {
+  margin-top: var(--s-4);
+}
+
+.stack > * + .actions {
+  margin-top: var(--gap-cta);
+}
+
+/* ---------- buttons (BRIEF §13 "Buttons & controls") ---------- */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-buttons);
+}
+
+.btn {
+  --btn-bg: var(--c-blue);
+  --btn-fg: var(--c-white);
+  --btn-border: var(--c-blue);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-3);
+  min-height: 48px;
+  padding: 0 var(--s-5);
+  border: 1px solid var(--btn-border);
+  border-radius: var(--radius);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-size: var(--fs-button);
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-xs) var(--ease-out),
+    border-color var(--dur-xs) var(--ease-out),
+    color var(--dur-xs) var(--ease-out);
+}
+
+.btn .icon {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  transition: transform var(--dur-s) var(--ease-out);
+}
+
+.btn:hover,
+.btn:focus-visible {
+  --btn-bg: var(--c-blue-hover);
+  --btn-border: var(--c-blue-hover);
+}
+
+.btn:hover .icon,
+.btn:focus-visible .icon {
+  transform: translateX(var(--arrow-nudge));
+}
+
+.btn:active {
+  --btn-bg: var(--c-blue-hover);
+}
+
+/* Secondary: SOLID deep navy (client, 2026-09-30: "a second, dark CTA colour;
+   secondary solid too"). Same hue as the primary blue, so the pair reads as one
+   system: blue = the main action, deep = the alternative. */
+.btn--secondary {
+  --btn-bg: var(--c-deep);
+  --btn-fg: var(--c-white);
+  --btn-border: var(--c-deep);
+}
+
+.btn--secondary:hover,
+.btn--secondary:focus-visible,
+.btn--secondary:active {
+  --btn-bg: var(--c-deep-hover);
+  --btn-fg: var(--c-white);
+  --btn-border: var(--c-deep-hover);
+}
+
+/* On the graphite Classics stage deep navy would disappear: the solid secondary
+   there is light (ink label on --c-on-dark ≈16:1). */
+.btn--on-dark {
+  --btn-bg: var(--c-on-dark);
+  --btn-fg: var(--c-ink);
+  --btn-border: var(--c-on-dark);
+}
+
+.btn--on-dark:hover,
+.btn--on-dark:focus-visible,
+.btn--on-dark:active {
+  --btn-bg: var(--c-white);
+  --btn-fg: var(--c-ink);
+  --btn-border: var(--c-white);
+}
+
+/* Text link — a control (blue, 600), underline on hover/focus, arrow nudge. */
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--c-blue);
+  font-size: var(--fs-small);
+  transition: color var(--dur-xs) var(--ease-out);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+  text-decoration: none;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+  min-height: 44px;
+}
+
+.text-link .icon {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--dur-s) var(--ease-out);
+}
+
+.text-link:hover,
+.text-link:focus-visible {
+  color: var(--c-blue-hover);
+  text-decoration-line: underline;
+}
+
+.text-link:hover .icon,
+.text-link:focus-visible .icon {
+  transform: translateX(var(--arrow-nudge));
+}
+
+/* ---------- icons (Lucide geometry, 1.5 stroke) ---------- */
+.icon {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- image frames: fixed boxes, no CLS ---------- */
+.frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--c-ground);
+}
+
+.frame img,
+.cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Placeholder tag for business info (content-provenance CP4). */
+.tag {
+  display: inline-block;
+  padding: 0 var(--s-2);
+  border: var(--hairline);
+  border-radius: var(--radius);
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-ink-3);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* A leading glyph (phone) marks what the button is; only arrows nudge. */
+.btn:hover .icon--static,
+.btn:focus-visible .icon--static {
+  transform: none;
+}
+
+/* ---------- display voice beyond the headlines (client, 2026-09-30: "the font
+   wasn't changed everywhere") ----------
+   Archivo carries every heading, label, brand and control; Inter Tight keeps
+   the reading text (leads, body, captions, meta, form values). The width axis
+   ranks the roles: wordmark widest, labels wide, titles and controls near-normal. */
+.title,
+.card__price-value,
+.reviews__name,
+.btn,
+.text-link,
+.header__link,
+.header__sheet-link,
+.hero__counter,
+.sell__index-btn,
+.svcfin__index-btn,
+.footer__link {
+  font-family: var(--font-display);
+  font-stretch: 104%;
+}
+
+.title {
+  font-weight: 700;
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-stretch: 110%;
+  font-weight: 700;
+}
+
+.header__wordmark,
+.footer__wordmark {
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 800;
+}
+
+
+/* =========================================================================
+   Pills & tags (client, 2026-09-30: "mix pills through the site; tags").
+   The rule: RECTANGLES (2px) are the primary actions; PILLS are utility —
+   phone, navigation toggles, quick filters, "see all" — and TAGS are small
+   factual chips (body type, specs, what a section covers). Nothing claims.
+   ========================================================================= */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-height: 40px;
+  padding: 0 var(--s-4);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-stretch: 104%;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-xs) var(--ease-out),
+    color var(--dur-xs) var(--ease-out),
+    border-color var(--dur-xs) var(--ease-out);
+}
+
+.pill .icon {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--dur-s) var(--ease-out);
+}
+
+.pill:hover .icon:not(.icon--static),
+.pill:focus-visible .icon:not(.icon--static) {
+  transform: translateX(var(--arrow-nudge));
+}
+
+.pill:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 3px;
+}
+
+/* outline — on light grounds */
+.pill--outline {
+  border-color: var(--c-line-strong);
+  color: var(--c-ink);
+  background: transparent;
+}
+
+.pill--outline:hover,
+.pill--outline:focus-visible {
+  border-color: var(--c-ink);
+}
+
+/* toggle state (quick filters, index steps) */
+.pill--toggle[aria-pressed='true'],
+.pill[aria-current='step'] {
+  border-color: var(--c-deep);
+  background: var(--c-deep);
+  color: var(--c-white);
+}
+
+/* on dark grounds */
+.pill--on-dark {
+  border-color: var(--c-on-dark-line);
+  color: var(--c-on-dark);
+}
+
+.pill--on-dark:hover,
+.pill--on-dark:focus-visible {
+  border-color: var(--c-on-dark);
+  background: var(--c-on-dark);
+  color: var(--c-ink);
+}
+
+/* chips — static tags, not controls */
+.pill--chip,
+.pill--chip-dark {
+  min-height: 28px;
+  padding: 0 var(--s-3);
+  font-weight: 600;
+  cursor: default;
+}
+
+.pill--chip {
+  background: var(--c-ground);
+  color: var(--c-ink-2);
+}
+
+.pill--chip-dark {
+  border-color: var(--c-on-dark-hairline);
+  background: rgb(255 255 255 / 0.06);
+  color: var(--c-on-dark-2);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: var(--s-4);
+}
+
+/* the placeholder tag follows the pill language too */
+.tag {
+  border-radius: 999px;
+  padding: 0 var(--s-3);
+}

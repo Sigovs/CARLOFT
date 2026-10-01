@@ -1,0 +1,531 @@
+/* =============================================================================
+   Search band (BRIEF §14.3) + Featured inventory (§14.4) + vehicle dialog.
+   ============================================================================= */
+
+/* ---------- search band ---------- */
+.search-band {
+  background: var(--c-ground);
+}
+
+.search {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-4) var(--s-3);
+  padding-block: var(--s-6) var(--s-7);
+}
+
+.search__title {
+  grid-column: 1 / -1;
+}
+
+.search__field {
+  display: grid;
+  gap: var(--s-2);
+  min-width: 0;
+}
+
+.search__label {
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  line-height: var(--lh-tight);
+  color: var(--c-ink-2);
+}
+
+.select {
+  position: relative;
+}
+
+.select select {
+  appearance: none;
+  width: 100%;
+  height: 48px;
+  padding: 0 calc(var(--s-4) + 24px) 0 var(--s-4);
+  border: 1px solid var(--c-line-strong);
+  border-radius: var(--radius);
+  background: var(--c-white);
+  color: var(--c-ink);
+  font-size: var(--fs-small);
+  line-height: 1;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: border-color var(--dur-xs) var(--ease-out);
+}
+
+.select select:hover {
+  border-color: var(--c-ink);
+}
+
+.select select:focus-visible {
+  border-color: var(--c-ink);
+}
+
+.select__chevron {
+  position: absolute;
+  top: 50%;
+  right: var(--s-3);
+  width: 16px;
+  height: 16px;
+  color: var(--c-ink);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.search__submit {
+  grid-column: 1 / -1;
+  margin-top: var(--s-2);
+}
+
+@media (min-width: 768px) {
+  .search {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: end;
+  }
+
+  .search__submit {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .search {
+    grid-template-columns: auto repeat(4, minmax(0, 1fr)) auto;
+    align-items: center;
+    gap: var(--s-4);
+    min-height: calc(var(--s-9) + var(--s-2)); /* 104 */
+    padding-block: var(--s-5);
+  }
+
+  .search__title {
+    grid-column: auto;
+    padding-right: var(--s-4);
+    white-space: nowrap;
+  }
+
+  .search__submit {
+    grid-column: auto;
+    margin-top: 0;
+    padding-inline: var(--s-6);
+  }
+
+  /* Desktop: the first option ("Any make") names the field; the label stays
+     for assistive tech (BRIEF §13 "Select"). */
+  .search__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
+/* ---------- featured ---------- */
+.featured {
+  /* The working section: compact, even padding (reference; critique #5). */
+  padding-block: var(--s-8);
+  background: var(--c-white);
+}
+
+.featured__head {
+  display: flex;
+  flex-wrap: wrap;
+  /* The section note and the count share one baseline (critique #7). */
+  align-items: last baseline;
+  justify-content: space-between;
+  gap: var(--s-4) var(--s-6);
+  margin-bottom: var(--s-6);
+}
+
+.featured__note {
+  color: var(--c-ink-3);
+}
+
+.stack > .h3 + .featured__note {
+  margin-top: var(--s-3);
+}
+
+.featured__tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-1) var(--s-5);
+}
+
+.featured__count {
+  color: var(--c-ink-2);
+}
+
+.featured__count:focus {
+  outline: none;
+}
+
+.featured__count:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--s-1);
+}
+
+.featured__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-5);
+}
+
+/* Three columns from 768: the default set is three cards, so a 2-up grid
+   would orphan the third at tablet width. */
+@media (min-width: 768px) {
+  .featured__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--column-gap);
+  }
+}
+
+/* ---------- card ---------- */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: var(--hairline);
+  border-radius: var(--radius);
+  background: var(--c-white);
+  transition: border-color var(--dur-xs) var(--ease-out);
+}
+
+.card__media {
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.card__img {
+  position: absolute;
+  inset: 0;
+  transition: transform var(--dur-m) var(--ease-out);
+}
+
+.card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: var(--pad-card);
+}
+
+
+.card__open {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  color: inherit;
+}
+
+/* The whole card is the button's hit area. */
+.card__open::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: var(--radius);
+}
+
+.card__open:focus-visible {
+  outline: none;
+}
+
+.card:has(.card__open:focus-visible) {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1) var(--s-2);
+  margin-top: var(--s-2);
+  color: var(--c-ink-3);
+}
+
+.card__meta li {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 var(--s-2);
+  border-radius: 999px;
+  background: var(--c-ground);
+  color: var(--c-ink-2);
+}
+
+.card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-top: auto;
+  padding-top: var(--s-3);
+  border-top: var(--hairline);
+}
+
+.card__meta + .card__foot {
+  margin-top: var(--s-4);
+}
+
+.card__price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+}
+
+.card__price-label {
+  font-size: var(--fs-eyebrow);
+  color: var(--c-ink-3);
+}
+
+.card__price-value {
+  font-size: var(--fs-price);
+  font-weight: 600;
+  line-height: var(--lh-title);
+  color: var(--c-ink);
+}
+
+.card__arrow {
+  width: 20px;
+  height: 20px;
+  color: var(--c-blue);
+  transition: transform var(--dur-s) var(--ease-out);
+}
+
+.card:hover,
+.card:has(.card__open:focus-visible) {
+  border-color: var(--c-line-strong);
+}
+
+.card:hover .card__arrow,
+.card:has(.card__open:focus-visible) .card__arrow {
+  transform: translateX(var(--arrow-nudge));
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .card:hover .card__img {
+    transform: scale(var(--hover-scale));
+  }
+}
+
+/* ---------- empty state ---------- */
+.featured__empty {
+  display: grid;
+  justify-items: start;
+  gap: var(--s-4);
+  padding: var(--s-7) var(--pad-card);
+  border: var(--hairline);
+  border-radius: var(--radius);
+}
+
+.featured__empty .btn {
+  margin-top: var(--s-2);
+}
+
+/* ---------- vehicle dialog ---------- */
+.vehicle-dialog {
+  width: min(960px, 100% - 2 * var(--gutter));
+  max-height: calc(100% - 2 * var(--s-6));
+  padding: 0;
+  border: var(--hairline);
+  border-radius: var(--radius);
+  background: var(--c-white);
+  color: var(--c-ink-2);
+}
+
+.vehicle-dialog::backdrop {
+  background: rgba(14, 17, 19, 0.64);
+}
+
+.vehicle-dialog__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.vehicle-dialog__media {
+  aspect-ratio: 3 / 2;
+}
+
+.vehicle-dialog__body {
+  padding: var(--s-5) var(--pad-card) var(--s-6);
+}
+
+.vehicle-dialog__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-bottom: var(--s-2);
+}
+
+.vehicle-dialog__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-right: calc(-1 * var(--s-3));
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--c-ink);
+}
+
+.vehicle-dialog__close .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.plate {
+  margin-top: var(--s-5);
+  font-size: var(--fs-small);
+}
+
+.plate__row {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: var(--s-4);
+  padding-block: var(--s-2);
+  border-top: var(--hairline);
+}
+
+.plate dt {
+  color: var(--c-ink-3);
+}
+
+.plate dd {
+  color: var(--c-ink);
+}
+
+.vehicle-dialog__note {
+  margin-top: var(--s-4);
+  color: var(--c-ink-3);
+}
+
+.vehicle-dialog .actions {
+  margin-top: var(--s-5);
+}
+
+@media (min-width: 768px) {
+  .vehicle-dialog__inner {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .vehicle-dialog__media {
+    aspect-ratio: auto;
+    min-height: 100%;
+  }
+
+  .vehicle-dialog__body {
+    padding: var(--s-6);
+  }
+}
+
+
+/* Quick filters by make (pills) and the body-type tag on each photo. */
+.featured__makes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-block: var(--s-6) var(--s-7); /* 32 under the heading row, 48 above the cards */
+}
+
+.card__media {
+  position: relative;
+}
+
+.card__tag {
+  position: absolute;
+  top: var(--s-3);
+  left: var(--s-3);
+  z-index: 1;
+  background: var(--c-white);
+  color: var(--c-ink);
+  pointer-events: none;
+}
+
+
+/* ---------- inventory rail (client, 2026-09-30) ----------
+   One row of cards that runs off the right edge of the page. Mobile and
+   reduced motion: a native horizontal scroller with snap. Desktop with motion
+   (.is-rail, useInventoryRail): the section pins and vertical scroll drives
+   the track leftwards; the viewport clips instead of scrolling. */
+.featured__viewport {
+  margin-inline: calc(-1 * var(--edge));
+  padding-inline: var(--edge);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--edge);
+  scrollbar-width: none;
+}
+
+.featured__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.featured__track.featured__grid {
+  display: flex;
+  gap: var(--column-gap);
+  width: max-content;
+  grid-template-columns: none;
+}
+
+.featured__track > li {
+  flex: 0 0 clamp(272px, 78vw, 360px);
+  scroll-snap-align: start;
+}
+
+@media (min-width: 768px) {
+  .featured__track > li {
+    flex-basis: clamp(320px, 31vw, 440px);
+  }
+}
+
+.featured.is-rail .featured__viewport {
+  overflow: hidden;
+  scroll-snap-type: none;
+}
+
+.featured.is-rail .featured__track {
+  will-change: transform;
+}
+
+
+/* Make pills and the actions share one row: filters left, Clear Filters +
+   View All Inventory right, on one centre line (client, 2026-09-30). */
+.featured__makes {
+  align-items: center;
+}
+
+.featured__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+  margin-left: auto;
+}
+
+@media (max-width: 767px) {
+  .featured__actions {
+    width: 100%;
+    margin-left: 0;
+    margin-top: var(--s-2);
+  }
+}
+
+.featured__make-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}

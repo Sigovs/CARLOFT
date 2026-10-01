@@ -1,0 +1,412 @@
+/* =============================================================================
+   Hero — FULL-SCREEN photographic slider (lead decision 2026-09-30).
+   Replaces the split scene of BRIEF §10 / §14.2 (client: "FULL SCREEN HERO").
+
+   Frame      100svh (fallback 100vh), min --h-hero-min, edge to edge, starting
+              at y=0 under the sticky header (margin-top = -header height, so the
+              header keeps its flow slot and nothing shifts).
+   Crops      keyed to the viewport's SHAPE, not its width:
+                landscape  (1:1 < aspect < 1.85)  --pos
+                wide       (aspect >= 1.85)       --pos-wide
+                portrait   (aspect <= 1:1)        --pos-portrait + per-slide placement
+   Type       on the photograph, per-slide tone (.slide__copy[data-tone]).
+   Chrome     the transparent header follows .hero[data-tone] (via :has in
+              header.css), switched by the motion layer at mid-wipe. The slider
+              controls sit on a small white plate: measured, the frames' ground
+              (concrete, scrub, road) defeats either tone (1.1–3.5:1).
+   Scrim      only where glyph-pixel measurement needed one (data in hero.js):
+              header band on slides 2 (landscape crops) and 3.
+   Phone      eyebrow / headline / lead at the top of the frame, actions at its
+              foot just above the controls — the same on every slide (critic #3).
+   ============================================================================= */
+
+.hero {
+  --hero-top: clamp(var(--s-6), 5.5vh, var(--s-8));    /* air under the header (tighter since the display type grew) */
+  --hero-bottom: clamp(var(--s-7), 9vh, var(--s-9));   /* controls + CTAs from the bottom (raised, client 2026-09-30) */
+  --hero-col: max(calc(42vw - var(--edge)), 20rem);    /* text column (lead: left 42%) */
+  --h-hero-min: 640px;                                 /* local: short screens keep the composition */
+  position: relative;
+  display: grid;
+  margin-top: calc(-1 * var(--header-h));
+  height: 100vh;
+  height: 100svh;
+  min-height: var(--h-hero-min);
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--c-graphite);
+  /* The field overlays the plate, so the swipe surface is the whole hero:
+     vertical page panning stays native, horizontal goes to the Observer. */
+  touch-action: pan-y;
+}
+
+/* ---------- plate: full-bleed stack ---------- */
+.hero__plate {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  overflow: hidden;
+}
+
+.slide__media {
+  grid-area: 1 / 1;
+  position: relative;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.slide__media.is-active,
+.slide__media.is-leaving {
+  visibility: visible;
+}
+
+.slide__media.is-active {
+  z-index: 1;
+}
+
+.slide__img {
+  position: absolute;
+  inset: 0;
+}
+
+.slide__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--pos, 50% 50%);
+}
+
+@media (min-aspect-ratio: 37 / 20) {
+  .slide__img img {
+    object-position: var(--pos-wide, var(--pos, 50% 50%));
+  }
+}
+
+@media (min-aspect-ratio: 1001 / 1000) and (max-aspect-ratio: 3 / 2) {
+  .slide__img img {
+    object-position: var(--pos-narrow, var(--pos, 50% 50%));
+  }
+}
+
+/* Header-band gradient (color I4), where the nav/wordmark measured under AA.
+   Localised to the band, never a full-frame wash; part of the slide, so it wipes with it. */
+.slide__media[data-scrim-top]::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 1;
+  height: clamp(160px, 26vh, 280px);
+  background: linear-gradient(to bottom, rgba(14, 17, 19, 0.62), rgba(14, 17, 19, 0));
+  pointer-events: none;
+}
+
+/* 'light': a pale frame whose sky deepens at the very top (slide 1) — charcoal
+   nav needs the band lightened, not darkened. */
+.slide__media[data-scrim-top='light']::before {
+  height: clamp(120px, 18vh, 200px);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0));
+}
+
+/* Slide 3: a near-white sky gap between the cypresses lands under the nav. */
+.slide__media[data-scrim-top='strong']::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(14, 17, 19, 0.72) 0%,
+    rgba(14, 17, 19, 0.5) 35%,
+    rgba(14, 17, 19, 0) 100%
+  );
+}
+
+/* 'strong' (slide 3), 4:3 screens: the narrow crop puts the bright gap between
+   the cypresses behind the whole text column, beside the car → a left-to-right
+   band (the type sits beside the subject, so the axis is horizontal). */
+@media (min-aspect-ratio: 1001 / 1000) and (max-aspect-ratio: 3 / 2) {
+  .slide__media[data-scrim-top='strong']::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      90deg,
+      rgba(14, 17, 19, 0.66) 0%,
+      rgba(14, 17, 19, 0.52) 38%,
+      rgba(14, 17, 19, 0) 62%
+    );
+    pointer-events: none;
+  }
+}
+
+/* 'strong' (slide 3), portrait: the copy stack runs down to ~35% of the frame
+   over the same gap → the header band grows into a top band that holds it,
+   clear of the car and the bottom actions. */
+@media (max-aspect-ratio: 1 / 1) {
+  .slide__media[data-scrim-top='strong']::before {
+    height: 52%;
+    background: linear-gradient(
+      to bottom,
+      rgba(14, 17, 19, 0.74) 0%,
+      rgba(14, 17, 19, 0.6) 62%,
+      rgba(14, 17, 19, 0) 100%
+    );
+  }
+}
+
+@media (max-aspect-ratio: 1 / 1) {
+  /* Portrait: optional per-slide overscale, anchored to the frame's foot, so
+     the car rises out of the actions band instead of being cropped (--zoom-portrait
+     from hero.js; 1 = plain cover). `sizes` in hero.js accounts for it. */
+  .slide__img img {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: calc(100% * var(--zoom-portrait, 1));
+    object-position: var(--pos-portrait, var(--pos, 50% 50%));
+  }
+}
+
+/* ---------- field: the content grid over the plate ---------- */
+.hero__field {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: calc(var(--header-h) + var(--hero-top)) var(--edge) var(--hero-bottom);
+}
+
+/* All copies stacked in one cell: the copy area never resizes on a slide change. */
+.hero__copies {
+  display: grid;
+  flex: 1;
+  min-height: 0;
+}
+
+.slide__copy {
+  --t-fg: var(--c-white);
+  grid-area: 1 / 1;
+  align-self: start;
+  visibility: hidden;
+  color: var(--t-fg);
+}
+
+.slide__copy[data-tone='dark'] {
+  --t-fg: var(--c-ink);
+}
+
+.slide__copy.is-active,
+.slide__copy.is-leaving {
+  visibility: visible;
+}
+
+.slide__eyebrow,
+.slide__headline,
+.slide__lead {
+  color: var(--t-fg);
+}
+
+.slide__headline {
+  max-width: var(--hero-col);
+  /* Grows 64 -> 72px between 1440 and 1600w (critic #3: type spread on large
+     screens); the Classics peak grows in step (80px), so it stays the largest.
+     Capped by height too, so short/wide viewports keep the copy in its zone. */
+  /* Larger (client, 2026-09-30): 48px (390) → 88px (1440) → 96px (≥1600),
+     capped by height so short screens keep the words in the sky. The authored
+     two lines are short, so the column may run wider than the lead's. */
+  max-width: none;
+  font-size: min(clamp(2.5rem, calc(2.5rem + 48 * (100vw - 390px) / 1050), 6rem), 10.5vh);
+  line-height: 0.86; /* tight (client, 2026-09-30) */
+  letter-spacing: -0.045em;
+}
+
+/* The tighter leading brings descenders ("p", "y") closer to the line-mask edge:
+   the hero's masks carry more padding so nothing is clipped at rest or in motion. */
+.slide__headline .line-mask {
+  padding-block: 0.2em;
+  margin-block: -0.2em;
+}
+
+.slide__headline .line-block {
+  white-space: nowrap;
+}
+
+.slide__eyebrow + .slide__headline {
+  margin-top: var(--gap-eyebrow);
+}
+
+.slide__lead {
+  max-width: min(36ch, var(--hero-col));
+  /* Three lines reserved on every slide, so the CTA row never moves on a change. */
+  min-height: calc(3 * var(--lh-lead) * 1em);
+  margin-top: var(--gap-head-lead);
+}
+
+.slide__actions {
+  margin-top: var(--gap-lead-next);
+}
+
+/* Focus ring follows the slide tone. */
+.slide__copy :focus-visible {
+  outline-color: var(--t-fg);
+}
+
+/* Secondary over the photograph: SOLID deep navy on every slide and every
+   crop (white label ≈15:1) — no tone variants, no outline to lose on the ground. */
+.btn--photo {
+  --btn-bg: var(--c-deep);
+  --btn-fg: var(--c-white);
+  --btn-border: var(--c-deep);
+}
+
+.btn--photo:hover,
+.btn--photo:focus-visible,
+.btn--photo:active {
+  --btn-bg: var(--c-deep-hover);
+  --btn-fg: var(--c-white);
+  --btn-border: var(--c-deep-hover);
+}
+
+/* ---------- controls: a small white plate, identical on every slide ---------- */
+.hero__controls {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--s-1);
+  margin-top: var(--s-6);
+  padding: var(--s-1);
+  border-radius: var(--radius);
+  background: var(--c-white);
+  color: var(--c-ink);
+}
+
+.hero__counter {
+  min-width: 7ch;
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  color: var(--c-ink);
+  text-align: center;
+}
+
+.hero__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: var(--c-white);
+  color: var(--c-ink);
+  transition:
+    border-color var(--dur-xs) var(--ease-out),
+    background-color var(--dur-xs) var(--ease-out);
+}
+
+.hero__btn .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.hero__btn:hover,
+.hero__btn:focus-visible {
+  border-color: var(--c-line-strong);
+  background: var(--c-ground);
+}
+
+/* ---------- phone ---------- */
+@media (max-width: 767px) {
+  .hero {
+    --hero-top: var(--s-6);
+    --hero-col: 100%;
+  }
+
+  .slide__actions {
+    flex-direction: column;
+  }
+
+  .slide__actions .btn {
+    width: 100%;
+  }
+
+}
+
+/* Per-slide lead measure (hero.js leadMax), landscape only. */
+@media (min-aspect-ratio: 1001 / 1000) {
+  .slide__lead {
+    /* One measure on every slide, so the three leads read as the same volume. */
+    max-width: var(--lead-max, min(30ch, var(--hero-col)));
+  }
+}
+
+/* ---------- landscape distribution (client layout, 2026-09-30) ----------
+   Words top-left over the sky; ONE bottom row: slider controls bottom-left, the
+   CTAs bottom-right on the same line — the middle of the frame (the cars) stays
+   free on every slide. The copies stack spans the whole field; the controls sit
+   in its last row, over it. */
+@media (min-aspect-ratio: 1001 / 1000) {
+  .hero__field {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  .hero__copies {
+    grid-row: 1 / -1;
+    grid-column: 1;
+  }
+
+  .slide__copy {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+  }
+
+  .slide__actions {
+    margin-top: auto;
+    padding-top: var(--gap-lead-next);
+    align-self: flex-end;
+  }
+
+  .hero__controls {
+    grid-row: 2;
+    grid-column: 1;
+    align-self: end;
+    justify-self: start;
+    position: relative;
+    z-index: 2;
+    margin-top: 0;
+  }
+}
+
+/* ---------- portrait (phones, portrait tablets) ----------
+   One placement on every slide: the words at the top of the frame, the actions
+   at its foot (margin-top: auto), 16px above the controls — clear of the car,
+   which the per-slide crop keeps in the band between (critic #3). */
+@media (max-aspect-ratio: 1 / 1) {
+  .slide__copy {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+  }
+
+  .slide__actions {
+    margin-top: auto;
+    padding-top: var(--gap-lead-next);
+  }
+
+  .hero__controls {
+    margin-top: var(--s-4);
+  }
+
+}
+
+
+/* Slider controls as a pill (client, 2026-09-30). */
+.hero__controls {
+  border-radius: 999px;
+  padding-inline: var(--s-2);
+}
+
+.hero__btn {
+  border-radius: 50%;
+}

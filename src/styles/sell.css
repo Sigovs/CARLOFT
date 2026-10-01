@@ -1,0 +1,298 @@
+/* =============================================================================
+   Sell / Consign — BRIEF §14.5 (static) + MOTION.md §4.1 (.is-staged).
+   Static layout is the default. `.is-staged` exists only while the desktop
+   motion branch that manages it exists (contract in SellConsign.jsx).
+   ============================================================================= */
+
+.sell {
+  position: relative;
+  background: var(--c-white);
+}
+
+.sell__stage {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- media ---------- */
+.sell__media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--c-ground);
+}
+
+.sell__frame {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  /* Spare = the layout's own x travel, no more: the source car spans 80% of the
+     image width and the image fills the frame, so every px of spare pushes the
+     car off-centre by half of it. <1024 the frame settles from x -24px. */
+  width: calc(100% + var(--s-5));
+}
+
+.sell__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--focus-m, 50% 55%);
+}
+
+/* ---------- copy ---------- */
+.sell__copy {
+  padding: var(--pad-chapter-top) var(--gutter) var(--pad-chapter-bottom);
+  container-type: inline-size;
+  container-name: sell-copy;
+}
+
+.sell__heading {
+  margin-top: var(--gap-eyebrow);
+}
+
+.sell__slot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: var(--gap-head-lead);
+}
+
+.sell__group--intro {
+  padding-bottom: var(--gap-cta);
+}
+
+.sell__group--path {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sell__group--path + .sell__group--path {
+  margin-top: var(--s-6);
+  padding-top: var(--s-6);
+  border-top: var(--hairline);
+}
+
+.sell__path-text {
+  margin-top: var(--s-3);
+  max-width: 36ch;
+}
+
+.sell__path-actions {
+  margin-top: var(--s-5);
+}
+
+/* Two pathway columns split by a hairline, once the column can hold them. */
+@container sell-copy (min-width: 520px) {
+  .sell__slot {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .sell__group--intro {
+    grid-column: 1 / -1;
+  }
+
+  .sell__group--path + .sell__group--path {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+    padding-left: var(--s-6);
+    border-left: var(--hairline);
+  }
+
+  .sell__group[data-phase='1'] {
+    padding-right: var(--s-6);
+  }
+
+  .sell__path-actions {
+    margin-top: auto;
+    padding-top: var(--s-5);
+  }
+}
+
+/* ---------- index (staged only) ---------- */
+.sell__index {
+  display: none;
+}
+
+.sell__index-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.sell__index-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+  color: var(--c-ink-2); /* 7.96:1 — inactive labels stay AA (they are controls) */
+  transition: color var(--dur-xs) var(--ease-out);
+}
+
+.sell__index-num {
+  color: var(--c-ink-3);
+}
+
+.sell__index-btn[aria-current='step'],
+.sell__index-btn[aria-current='step'] .sell__index-num {
+  color: var(--c-blue);
+}
+
+.sell__index-btn:hover {
+  color: var(--c-ink);
+}
+
+.sell__track {
+  position: relative;
+  height: 2px;
+  margin-top: var(--s-2);
+}
+
+.sell__track::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: var(--c-line);
+}
+
+.sell__fill {
+  position: absolute;
+  inset: 0;
+  background: var(--c-blue);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* ---------- tablet ---------- */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* 4:3, not 3:2: the portrait source's car (y .275–.77) needs ~0.9 of the
+     frame's width in height to show roof to diffuser whole. */
+  .sell__media {
+    aspect-ratio: 4 / 3;
+  }
+
+  .sell__frame img {
+    object-position: var(--focus-t, 50% 54%);
+  }
+}
+
+/* ---------- desktop static: text left, plate right 50%, bleeding ---------- */
+@media (min-width: 1024px) {
+  .sell__stage {
+    position: relative;
+    display: block;
+    min-height: var(--h-sell);
+  }
+
+  .sell__media {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    aspect-ratio: auto;
+  }
+
+  /* Static desktop (reduced motion / no JS): no pan, no spare. */
+  .sell__frame {
+    width: 100%;
+  }
+
+  /* Car centred in the plate (source car y .275–.77, light bar ~.50) in both
+     the static 720px and the sticky 100vh-72 stage, 1440–1920. */
+  .sell__frame img {
+    object-position: var(--focus-d, 50% 58%);
+  }
+
+  .sell__copy {
+    padding: var(--pad-chapter-top) calc(50% + var(--s-8)) var(--pad-chapter-bottom) var(--edge);
+  }
+}
+
+/* ---------- desktop staged (motion branch only) ---------- */
+@media (min-width: 1024px) {
+  .sell.is-staged {
+    height: 180vh;
+  }
+
+  /* Staged: the frame pans to x -56px → 64px spare, anchored left. */
+  .sell.is-staged .sell__frame {
+    width: calc(100% + var(--s-8));
+  }
+
+  .sell.is-staged .sell__stage {
+    position: sticky;
+    top: var(--header-h);
+    height: calc(100vh - var(--header-h));
+    min-height: 0;
+  }
+
+  .sell.is-staged .sell__copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    padding-block: var(--s-8);
+  }
+
+  .sell.is-staged .sell__slot {
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: var(--gap-lead-next);
+  }
+
+  .sell.is-staged .sell__group {
+    grid-area: 1 / 1;
+    padding: 0;
+    border: 0;
+    pointer-events: none;
+  }
+
+  .sell.is-staged .sell__group[data-active] {
+    pointer-events: auto;
+  }
+
+  .sell.is-staged .sell__group--intro {
+    padding: 0;
+  }
+
+  .sell.is-staged .sell__path-actions {
+    margin-top: var(--s-5);
+    padding-top: 0;
+  }
+
+  .sell.is-staged .sell__index {
+    display: block;
+    margin-top: var(--s-7);
+    max-width: 420px;
+  }
+}
+
+
+/* Index steps as pills (client, 2026-09-30): the active step fills deep navy. */
+.sell__index-btn {
+  min-height: 36px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--c-line-strong);
+  border-radius: 999px;
+}
+
+.sell__index-btn[aria-current='step'] {
+  border-color: var(--c-deep);
+  background: var(--c-deep);
+  color: var(--c-white);
+}
+
+.sell__index-btn[aria-current='step'] .tabular,
+.sell__index-btn[aria-current='step'] .sell__index-num {
+  color: var(--c-white);
+}

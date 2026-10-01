@@ -1,0 +1,267 @@
+/* =============================================================================
+   Header — BRIEF §14.1. Sticky, stable height, skin-only states:
+   [data-header="top"] · [data-header="scrolled"] · [data-header="dark"].
+   Aliases .is-scrolled / .is-dark are styled too, in case the motion layer
+   prefers classes; the attribute is the documented contract.
+   ============================================================================= */
+
+.header {
+  --h-bg: var(--c-white);
+  --h-fg: var(--c-ink);
+  --h-fg-2: var(--c-ink-2);
+  --h-border: transparent;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  height: var(--header-h);
+  background: var(--h-bg);
+  color: var(--h-fg);
+  border-bottom: 1px solid var(--h-border); /* inside the fixed height (border-box) */
+  transition:
+    background-color var(--dur-s) var(--ease-out),
+    color var(--dur-s) var(--ease-out),
+    border-color var(--dur-s) var(--ease-out);
+}
+
+.header[data-header='scrolled'],
+.header.is-scrolled {
+  --h-border: var(--c-line);
+}
+
+/* TOP — over the full-screen hero photograph (lead decision 2026-09-30).
+   Transparent ground, no border; type tone follows the hero's shared-chrome tone
+   (.hero[data-tone], switched by the motion layer at mid-wipe). The white ground
+   and the hairline arrive only once the hero has been left ("scrolled"), never
+   while the photograph still runs under the bar (U13). */
+.header[data-header='top'] {
+  --h-bg: rgb(255 255 255 / 0);
+  --h-border: rgb(255 255 255 / 0);
+}
+
+.page:has(.hero[data-tone='light']) .header[data-header='top'] {
+  --h-fg: var(--c-white);
+  --h-fg-2: var(--c-white);
+}
+
+.page:has(.hero[data-tone='dark']) .header[data-header='top'] {
+  --h-fg: var(--c-ink);
+  --h-fg-2: var(--c-ink);
+}
+
+.page:has(.hero[data-tone='light']) .header[data-header='top'] :focus-visible {
+  outline-color: var(--c-white);
+}
+
+/* The mobile sheet is white: while it is open the bar is solid, whatever lies under it. */
+.header:has(.header__sheet.is-open) {
+  --h-bg: var(--c-white) !important;
+  --h-fg: var(--c-ink) !important;
+  --h-fg-2: var(--c-ink-2) !important;
+  --h-border: var(--c-line) !important;
+}
+
+.header[data-header='dark'],
+.header.is-dark {
+  --h-bg: var(--c-graphite);
+  --h-fg: var(--c-on-dark);
+  --h-fg-2: var(--c-on-dark-2);
+  --h-border: var(--c-on-dark-hairline);
+}
+
+.header__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-6);
+  height: 100%;
+}
+
+.header__wordmark {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--fs-wordmark);
+  font-weight: 700;
+  letter-spacing: var(--tr-wordmark);
+  line-height: 1;
+  color: var(--h-fg);
+  text-decoration: none;
+  /* tracking adds trailing space after the last letter; pull it back optically */
+  margin-right: calc(-1 * var(--tr-wordmark));
+}
+
+.header__nav {
+  display: none;
+}
+
+.header__links {
+  display: flex;
+  align-items: center;
+  gap: var(--s-6);
+}
+
+.header__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--fs-nav);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--h-fg-2);
+  text-decoration: none;
+  transition: color var(--dur-xs) var(--ease-out);
+}
+
+/* No underline on nav (anti-patterns D5): a short rule offset below on hover. */
+.header__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--s-2);
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-s) var(--ease-out);
+}
+
+.header__link:hover,
+.header__link:focus-visible {
+  color: var(--h-fg);
+}
+
+.header__link:hover::after,
+.header__link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.header__menu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 var(--s-3);
+  margin-right: calc(-1 * var(--s-3));
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--h-fg);
+  font-size: var(--fs-nav);
+  font-weight: 500;
+}
+
+.header__menu-btn .icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Full-height white sheet below the bar (<1024). */
+.header__sheet {
+  position: fixed;
+  inset: var(--header-h) 0 0 0;
+  z-index: var(--z-sheet);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--s-5) var(--gutter) var(--s-7);
+  background: var(--c-white);
+  border-top: var(--hairline);
+  overflow-y: auto;
+}
+
+.header__sheet[hidden] {
+  display: none;
+}
+
+.header__sheet-links li + li {
+  border-top: var(--hairline);
+}
+
+.header__sheet-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+  font-size: var(--fs-menu);
+  font-weight: 600;
+  letter-spacing: var(--tr-title);
+  color: var(--c-ink);
+  text-decoration: none;
+}
+
+.header__sheet-link .icon {
+  width: 20px;
+  height: 20px;
+  color: var(--c-blue);
+}
+
+.header__sheet-note {
+  color: var(--c-ink-3);
+}
+
+@media (min-width: 1024px) {
+  .header__nav {
+    display: block;
+  }
+
+  .header__menu-btn,
+  .header__sheet {
+    display: none !important;
+  }
+}
+
+
+/* Phone pill (client, 2026-09-30). Follows the header's tone (currentColor):
+   charcoal over the pale hero frame and on the white bar, light over dark. */
+.header__phone {
+  flex: none;
+  margin-left: auto;
+  min-height: 40px;
+  padding: 0 var(--s-3);
+  border-color: currentColor;
+  color: inherit;
+}
+
+.header__phone-num {
+  display: none;
+}
+
+.header__phone:hover,
+.header__phone:focus-visible {
+  /* a tint of the header's own tone: works over every hero frame and the dark state */
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
+
+@media (min-width: 1024px) {
+  .header__phone {
+    margin-left: 0;
+    padding: 0 var(--s-4);
+  }
+
+  .header__phone-num {
+    display: inline;
+  }
+}
+
+
+/* Desktop bar: wordmark left, nav on the true centre of the bar, phone right —
+   a 1fr / auto / 1fr grid, so the nav's centre never drifts with the widths of
+   the wordmark or the phone pill (client, 2026-09-30). */
+@media (min-width: 1024px) {
+  .header__bar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+  }
+
+  .header__wordmark {
+    justify-self: start;
+  }
+
+  .header__phone {
+    justify-self: end;
+  }
+}

@@ -1,0 +1,138 @@
+/* =============================================================================
+   tokens.css — the only source of colour, type, spacing and layout values.
+   Spec: BRIEF.md §13. Every component reads from here; no raw values elsewhere
+   except 0, 1px hairlines and 100%-class values (anti-patterns U5).
+
+   Fluid sizes interpolate linearly between 390px and 1440px viewports:
+     calc(MIN + (MAX - MIN) * (100vw - 390px) / 1050)   clamped to [MIN, MAX]
+   ============================================================================= */
+
+:root {
+  /* ---------- colour (sampled from reference/reff1.png; ratios in BRIEF §13) ---------- */
+  --c-white: #ffffff;
+  --c-finance: #ede3d6;         /* Finance phase ground — warm sand taken from the cognac interior photo */
+  --c-ground: #f4f4f5;          /* search band, Finance, review panels */
+  --c-ink: #17191c;             /* headlines, titles — 17.6:1 on white */
+  --c-ink-2: #4e5157;           /* body, leads, eyebrows — 7.96:1 on white, 7.24 on ground */
+  --c-ink-3: #6a6d73;           /* meta, captions, "Sample price" — 5.19 / 4.72 */
+  --c-line: #e3e4e6;            /* decorative hairlines, card borders */
+  --c-line-strong: #8e9197;     /* form + slider borders — 3.16:1 (UI boundary) */
+  --c-blue: #2a6793;            /* primary fill / secondary outline — white on it 6.07 */
+  --c-blue-hover: #1e527a;      /* hover / pressed — white on it 8.26 */
+  --c-deep: #16283a;            /* secondary CTA fill — the blue's hue, deep; white on it ≈15:1 */
+  --c-deep-hover: #213a52;      /* secondary hover / pressed — white on it ≈11.7:1 */
+  --c-graphite: #0e1113;        /* Classics ground + header dark state */
+  --c-graphite-2: #1a1e21;      /* Classics mobile text block */
+  --c-on-dark: #f2f2f0;         /* 16.9:1 on graphite */
+  --c-on-dark-2: #b8bcc2;       /* 9.93:1 on graphite */
+  --c-on-dark-line: rgba(242, 242, 240, 0.72);
+  --c-on-dark-hairline: rgba(255, 255, 255, 0.12);
+
+  /* ---------- type ---------- */
+  --font-sans: 'Inter Tight Variable', 'Inter Tight', 'Helvetica Neue', Arial, system-ui, sans-serif;
+  --font-display: 'Archivo Variable', 'Archivo', 'Inter Tight Variable', 'Helvetica Neue', Arial, sans-serif; /* headings: heavy, width axis carries rank */
+  --font-serif: 'Newsreader Variable', Georgia, 'Times New Roman', serif; /* testimonial voice only (Reviews) */
+
+  --fs-display-peak: clamp(2.75rem, calc(2.75rem + 28 * (100vw - 390px) / 1050), 4.5rem);   /* 44 → 72 */
+  --fs-display:      clamp(2.625rem, calc(2.625rem + 22 * (100vw - 390px) / 1050), 4rem);   /* 42 → 64 */
+  --fs-display-peak-narrow: 2.375rem; /* 38 — display-peak at <=420px: "Timeless character." = 323px, holds one line with air even beside a 15px scrollbar */
+  --fs-h2:           clamp(2rem, calc(2rem + 12 * (100vw - 390px) / 1050), 2.75rem);        /* 32 → 44 */
+  --fs-h3:           clamp(1.625rem, calc(1.625rem + 6 * (100vw - 390px) / 1050), 2rem);    /* 26 → 32 */
+  --fs-title:        clamp(1.125rem, calc(1.125rem + 2 * (100vw - 390px) / 1050), 1.25rem); /* 18 → 20 */
+  --fs-lead:         clamp(1.0625rem, calc(1.0625rem + 2 * (100vw - 390px) / 1050), 1.1875rem); /* 17 → 19 */
+  --fs-body:         clamp(1rem, calc(1rem + 1 * (100vw - 390px) / 1050), 1.0625rem);       /* 16 → 17 */
+  --fs-price:        clamp(1rem, calc(1rem + 1 * (100vw - 390px) / 1050), 1.0625rem);       /* 16 → 17 */
+  --fs-small: 0.9375rem;   /* 15 */
+  --fs-eyebrow: 0.875rem;  /* 14 — the functional floor (typography I7) */
+  --fs-nav: 0.9375rem;     /* 15 */
+  --fs-button: 0.9375rem;  /* 15 */
+  --fs-wordmark: 1rem;     /* 16 */
+  --fs-menu: 1.5rem;       /* 24 — mobile sheet links (BRIEF §14.1) */
+
+  --lh-display: 1.02;
+  --lh-peak: 1;
+  --lh-h2: 1.06;
+  --lh-h3: 1.12;
+  --lh-title: 1.25;
+  --lh-lead: 1.5;
+  --lh-body: 1.6;
+  --lh-small: 1.5;
+  --lh-tight: 1.2;
+
+  --tr-display: -0.03em;
+  --tr-h2: -0.025em;
+  --tr-h3: -0.02em;
+  --tr-title: -0.01em;
+  --tr-eyebrow: 0.16em;
+  --tr-wordmark: 0.22em;
+
+  --measure-lead: 44ch;
+  --measure-body: 50ch;         /* Inter Tight's 0 is wide: 50ch ≈ 60–64 real characters at 16–17px (critique #16) */
+
+  /* ---------- spacing — 4px base, the only source of values ---------- */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+  --s-10: 128px;
+  --s-11: 160px;
+
+  /* relationships (BRIEF §13 table): desktop value, scaled down to the mobile value */
+  --gap-eyebrow: clamp(var(--s-3), calc(12px + 4 * (100vw - 390px) / 1050), var(--s-4));   /* 12 → 16 */
+  --gap-head-lead: clamp(var(--s-4), calc(16px + 8 * (100vw - 390px) / 1050), var(--s-5)); /* 16 → 24 */
+  --gap-lead-next: clamp(var(--s-5), calc(24px + 8 * (100vw - 390px) / 1050), var(--s-6)); /* 24 → 32 */
+  --gap-cta: clamp(var(--s-6), calc(32px + 16 * (100vw - 390px) / 1050), var(--s-7));      /* 32 → 48 */
+  --gap-buttons: var(--s-3);
+  --pad-card: clamp(var(--s-4), calc(16px + 8 * (100vw - 390px) / 1050), var(--s-5));      /* 16 → 24 */
+
+  --pad-chapter-top: clamp(var(--s-8), calc(64px + 32 * (100vw - 390px) / 1050), var(--s-9));     /* 64 → 96 */
+  --pad-chapter-bottom: clamp(var(--s-9), calc(96px + 32 * (100vw - 390px) / 1050), var(--s-10)); /* 96 → 128 */
+  --pad-panel: clamp(var(--s-5), calc(24px + 16 * (100vw - 390px) / 1050), 40px);          /* 24 → 40 review panels */
+  --pad-utility: clamp(var(--s-8), calc(64px + 32 * (100vw - 390px) / 1050), var(--s-9));         /* 64 → 96 */
+
+  /* ---------- layout ---------- */
+  --container-max: 1296px;
+  --gutter: clamp(20px, 5vw, 72px);
+  --column-gap: clamp(16px, calc(16px + 8 * (100vw - 390px) / 1050), 24px);
+  --header-h: 64px;
+
+  /* section heights at 1440 (BRIEF §12 "Section heights" — targets, used as min-heights) */
+  --h-hero: clamp(600px, 80svh, 760px);
+  --h-sell: 720px;
+  --h-service: 760px;
+  --h-finance: 560px;           /* Finance band: the bleed's height (critic #3) */
+  --h-classics-min: 640px;
+  --inset-caption: var(--s-5);
+
+  /* ---------- surface ---------- */
+  --radius: 2px;
+  --radius-tile: 12px;        /* Instagram tiles only (client, 2026-09-30) */
+  --hairline: 1px solid var(--c-line);
+  --focus-ring: 2px solid var(--c-ink);
+  --focus-offset: 2px;
+
+  /* ---------- micro-interaction timing (CSS hovers only; MOTION.md DUR/EASE) ---------- */
+  --dur-xs: 0.2s;
+  --dur-s: 0.35s;
+  --dur-m: 0.6s;
+  --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  /* ---------- stacking ---------- */
+  --z-header: 50;
+  --z-sheet: 60;
+
+  /* ---------- hover scale (one value on the page, BRIEF conflicts §9) ---------- */
+  --hover-scale: 1.025;
+  --arrow-nudge: 4px;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --header-h: 72px;
+  }
+}

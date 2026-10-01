@@ -1,0 +1,610 @@
+/* =============================================================================
+   The quiet tail — Reviews (§14.10), Instagram (§14.11), Footer (§14.12).
+   ============================================================================= */
+
+/* ---------- reviews: dark, one centred testimonial at a time ----------
+   Port of the shadcn TestimonialCarousel design (Embla). Graphite ground,
+   serif quote centred, name / role / initials below, dots under the carousel. */
+.reviews {
+  padding-block: var(--s-9);
+  background: var(--c-graphite);
+  color: var(--c-on-dark);
+}
+
+.reviews__head {
+  text-align: center;
+}
+
+.reviews__head .eyebrow {
+  color: var(--c-on-dark-2);
+}
+
+.reviews__head .h3 {
+  margin-top: var(--gap-eyebrow);
+  color: var(--c-on-dark);
+}
+
+.reviews__carousel {
+  margin-top: var(--s-8);
+  border-radius: var(--radius);
+}
+
+.reviews__carousel:focus-visible {
+  outline: 2px solid var(--c-on-dark);
+  outline-offset: 8px;
+}
+
+.reviews__viewport {
+  overflow: hidden;
+  cursor: grab;
+}
+
+.reviews__viewport:active {
+  cursor: grabbing;
+}
+
+.reviews__track {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+}
+
+.reviews__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-inline: var(--s-5);
+  text-align: center;
+}
+
+.reviews__quote {
+  max-width: 36rem;
+  font-family: var(--font-serif);
+  font-size: clamp(22px, calc(22px + 6 * (100vw - 390px) / 1050), 28px);
+  line-height: 1.4;
+  text-wrap: balance;
+  color: var(--c-on-dark);
+}
+
+.reviews__quote p::before {
+  content: '“';
+}
+
+.reviews__quote p::after {
+  content: '”';
+}
+
+.reviews__caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: var(--s-6);
+}
+
+.reviews__name {
+  font-weight: 600;
+  color: var(--c-on-dark);
+}
+
+.reviews__name a {
+  color: inherit;
+}
+
+.reviews__role {
+  margin-top: var(--s-3);
+}
+
+.reviews__avatar {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-top: var(--s-4);
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--c-graphite-2);
+  border: 1px solid var(--c-on-dark-hairline);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--c-on-dark-2);
+}
+
+.reviews__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.reviews__dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--s-1);
+  margin-top: var(--s-6);
+}
+
+/* 24px hit area, 6px visible dot */
+.reviews__dot {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.reviews__dot span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c-on-dark);
+  opacity: 0.35;
+  transition: opacity var(--dur-xs) var(--ease-out), transform var(--dur-xs) var(--ease-out);
+}
+
+.reviews__dot[aria-current] span {
+  opacity: 1;
+  transform: scale(1.35);
+}
+
+.reviews__dot:hover span,
+.reviews__dot:focus-visible span {
+  opacity: 0.8;
+}
+
+.reviews__dot:focus-visible {
+  outline: 2px solid var(--c-on-dark);
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+.reviews__more {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--s-6);
+}
+
+
+
+/* ---------- instagram ---------- */
+.instagram {
+  padding-block: var(--s-7) var(--pad-utility);
+  background: var(--c-white);
+}
+
+.instagram__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-6);
+}
+
+.instagram__copy {
+  margin-top: var(--gap-head-lead);
+}
+
+.instagram__handle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-2);
+  color: var(--c-ink-3);
+}
+
+/* CP7: the tiles are not this dealer's feed yet — said under them, like the
+   Classics caption (audit P2 #7). */
+.instagram__note {
+  margin-top: var(--s-3);
+  color: var(--c-ink-3);
+}
+
+.instagram__tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-3);
+}
+
+.tile__link,
+.tile__figure {
+  position: relative;
+  display: block;
+  text-decoration: none;
+}
+
+.tile__media {
+  aspect-ratio: 1;
+  border-radius: var(--radius-tile);
+}
+
+/* Instagram glyph on every tile: white on a small graphite disc, so it reads on
+   bright and dark photos alike (no shadow, no blur). */
+.tile__badge {
+  position: absolute;
+  top: var(--s-3);
+  right: var(--s-3);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgb(14 17 19 / 0.72);
+  color: var(--c-white);
+  pointer-events: none;
+}
+
+.tile__badge .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.tile__img {
+  position: absolute;
+  inset: 0;
+  transition: transform var(--dur-m) var(--ease-out);
+}
+
+.tile__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tile__arrow {
+  position: absolute;
+  right: var(--s-3);
+  bottom: var(--s-3);
+  width: 20px;
+  height: 20px;
+  padding: var(--s-1);
+  box-sizing: content-box;
+  border-radius: 50%;
+  background: var(--c-white);
+  color: var(--c-blue);
+  transition: transform var(--dur-s) var(--ease-out);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .tile__link:hover .tile__img {
+    transform: scale(var(--hover-scale));
+  }
+}
+
+.tile__link:hover .tile__arrow,
+.tile__link:focus-visible .tile__arrow {
+  transform: translateX(var(--arrow-nudge));
+}
+
+@media (min-width: 768px) {
+  .instagram__grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--column-gap);
+    align-items: center;
+  }
+
+  .instagram__text {
+    grid-column: 1 / span 4;
+  }
+
+  .instagram__tiles {
+    grid-column: 5 / -1;
+    gap: var(--column-gap);
+  }
+
+  .instagram__media {
+    grid-column: 5 / -1;
+  }
+
+  /* Beside a text column the note reads as the tiles' caption: right-set. */
+  .instagram__note {
+    text-align: right;
+  }
+}
+
+/* ---------- footer ---------- */
+.footer {
+  position: relative;
+  isolation: isolate;
+  margin-top: var(--s-8); /* set apart from the page above */
+  padding-block: clamp(var(--s-10), 22vw, 320px) var(--s-8);
+  background: var(--c-graphite);
+  color: var(--c-on-dark);
+  overflow: clip;
+}
+
+/* Background photograph + legibility scrim (graphite, deepening towards the links). */
+.footer__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.footer__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--focus-m, 50% 70%);
+}
+
+.footer__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgb(14 17 19 / 0.35) 0%,
+    rgb(14 17 19 / 0.78) 38%,
+    rgb(14 17 19 / 0.93) 62%,
+    rgb(14 17 19 / 0.97) 100%
+  );
+}
+
+@media (min-width: 768px) {
+  .footer__bg img {
+    object-position: var(--focus-d, var(--focus-m, 50% 62%));
+  }
+}
+
+.footer__inner {
+  position: relative;
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-7) var(--s-5);
+}
+
+.footer__brand,
+.footer__visit {
+  grid-column: 1 / -1;
+}
+
+.footer__wordmark {
+  font-size: var(--fs-wordmark);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: var(--tr-wordmark);
+  color: var(--c-on-dark);
+}
+
+.footer__descriptor {
+  max-width: 32ch;
+  margin-top: var(--s-4);
+  color: var(--c-on-dark-2);
+}
+
+.footer__heading {
+  margin-bottom: var(--s-3);
+  color: var(--c-on-dark-2);
+}
+
+.footer__links li + li {
+  margin-top: 0;
+}
+
+.footer {
+  --footer-row: 44px; /* touch target (WCAG 2.5.5) */
+}
+
+.footer__link {
+  display: inline-flex;
+  align-items: center;
+  min-width: 44px; /* short labels ("Sell") still get a 44px-wide target */
+  min-height: var(--footer-row);
+  font-size: var(--fs-small);
+  color: var(--c-on-dark);
+  text-decoration: none;
+  transition: color var(--dur-xs) var(--ease-out);
+}
+
+.footer__link:hover,
+.footer__link:focus-visible {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+
+.footer__topic {
+  margin-bottom: var(--s-4);
+  padding: var(--s-3) var(--s-4);
+  border-left: 2px solid var(--c-on-dark); /* blue is reserved for actions and links */
+  background: rgb(255 255 255 / 0.08);
+  color: var(--c-on-dark-2);
+}
+
+.footer__topic strong {
+  color: var(--c-on-dark);
+  font-weight: 600;
+}
+
+/* Contact rows keep the link rows' rhythm, so "Address" sits on the same
+   line as "Inventory" / "Service & Restoration" (no 7px near-miss). */
+.footer__contact-row {
+  display: flex;
+  align-items: center;
+  min-height: var(--footer-row);
+}
+
+.footer__contact dd {
+  color: var(--c-on-dark-2);
+}
+
+/* One placeholder statement for the whole block, not a boxed tag per row
+   (critique #10); the values themselves still read "… pending". */
+.footer__placeholder {
+  margin-top: var(--s-3);
+}
+
+.footer__legal {
+  /* The rule spans the container; only the text is held to the measure. */
+  padding-right: max(0px, 100% - var(--measure-body));
+  margin-top: var(--s-8);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--c-on-dark-hairline);
+  color: var(--c-on-dark-2);
+}
+
+@media (min-width: 1024px) {
+  .footer__grid {
+    grid-template-columns: 4fr 2fr 2fr 4fr;
+    gap: var(--column-gap);
+  }
+
+  .footer__brand,
+  .footer__visit {
+    grid-column: auto;
+  }
+
+  /* Pointer layout: WCAG 2.5.8 target >= 24px; 36px keeps the list a list. */
+  .footer {
+    --footer-row: 36px;
+  }
+}
+
+/* Placeholder tag on the dark footer */
+.footer .tag {
+  border-color: var(--c-on-dark-hairline);
+  color: var(--c-on-dark-2);
+}
+
+/* Phones: the photograph gets its own band above the text (240px), and the scrim
+   is already 90% graphite where the text begins — worst case (a street lamp
+   behind the grey descriptor) stays above 4.5:1. */
+@media (max-width: 767px) {
+  .footer {
+    padding-block-start: 240px;
+  }
+
+  .footer__bg::after {
+    background: linear-gradient(
+      to bottom,
+      rgb(14 17 19 / 0.3) 0px,
+      rgb(14 17 19 / 0.9) 230px,
+      rgb(14 17 19 / 0.96) 100%
+    );
+  }
+}
+
+/* ---------- Instagram hover (client, 2026-09-30) ----------
+   On every tile (link or not yet): the photo eases in slightly inside its
+   rounded frame, a light graphite veil settles over it, and the glyph flips
+   to white-on-ink. Colour/opacity only under reduced motion. */
+.tile__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--c-graphite);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-s) var(--ease-out);
+}
+
+.tile__badge {
+  transition:
+    background-color var(--dur-xs) var(--ease-out),
+    color var(--dur-xs) var(--ease-out),
+    transform var(--dur-s) var(--ease-out);
+}
+
+.tile:hover .tile__media::after,
+.tile:focus-within .tile__media::after {
+  opacity: 0.24;
+}
+
+.tile:hover .tile__badge,
+.tile:focus-within .tile__badge {
+  background: var(--c-white);
+  color: var(--c-ink);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .tile:hover .tile__img {
+    transform: scale(var(--hover-scale));
+  }
+
+  .tile:hover .tile__badge {
+    transform: scale(1.1);
+  }
+}
+
+
+/* ---------- reviews: dirty radial ground (client, 2026-09-30) ----------
+   Three irregular polygons in the page's own colours — the action blue, the
+   deep navy, and the cognac of the Finance interior — blurred into radial
+   pools over graphite, with a fine grain on top. Kept at ≤ 55% strength so the
+   secondary text still clears AA (≈ 5.7:1 at the brightest pool). */
+.reviews {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+
+.reviews__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.reviews__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.reviews__shape {
+  position: absolute;
+  filter: blur(56px);
+  opacity: 0.55;
+}
+
+.reviews__shape--blue {
+  top: -12%;
+  left: -6%;
+  width: 52%;
+  height: 78%;
+  background: radial-gradient(ellipse at 40% 45%, #2a6793 0%, rgb(42 103 147 / 0.5) 45%, transparent 72%);
+  clip-path: polygon(8% 14%, 62% 0%, 96% 22%, 84% 71%, 47% 100%, 3% 78%);
+}
+
+.reviews__shape--deep {
+  top: 18%;
+  left: 34%;
+  width: 46%;
+  height: 92%;
+  background: radial-gradient(ellipse at 55% 50%, #2b4a6b 0%, rgb(22 40 58 / 0.7) 50%, transparent 76%);
+  clip-path: polygon(18% 4%, 88% 12%, 100% 58%, 70% 96%, 12% 88%, 0% 40%);
+  opacity: 0.7;
+}
+
+.reviews__shape--cognac {
+  bottom: -18%;
+  right: -8%;
+  width: 44%;
+  height: 74%;
+  background: radial-gradient(ellipse at 50% 55%, #8a5a3c 0%, rgb(138 90 60 / 0.45) 42%, transparent 70%);
+  clip-path: polygon(22% 0%, 78% 8%, 100% 46%, 82% 100%, 26% 92%, 0% 52%);
+}
+
+/* the dirt: fine grain over the pools */
+.reviews__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.12;
+  mix-blend-mode: overlay;
+}
+
+/* Reviews as a full-screen chapter (client, 2026-09-30): at least one viewport
+   tall, the carousel block centred in it. */
+.reviews {
+  display: grid;
+  align-content: center;
+  min-block-size: max(640px, 100vh);
+  min-block-size: max(640px, 100svh);
+}

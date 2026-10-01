@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Title and description are injected from src/data/brand.js (vite.config.js, brand-meta). -->
+    <title>%BRAND_TITLE%</title>
+    <meta name="description" content="%BRAND_DESCRIPTION%" />
+    <meta property="og:title" content="%BRAND_TITLE%" />
+    <meta property="og:description" content="%BRAND_DESCRIPTION%" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="data:," />
+    <!-- MOTION.md §6.6: scopes hover-transform CSS and staged layouts only; never hides content. -->
+    <script>
+      document.documentElement.classList.add('js')
+    </script>
+    <!-- Slide 1 (Porsche + Lexus coast). imagesizes mirrors heroSizes() in src/data/hero.js. -->
+    <link
+      rel="preload"
+      as="image"
+      href="/assets/hero-porsche-lexus-coast-1600.webp"
+      imagesrcset="/assets/hero-porsche-lexus-coast-960.webp 960w, /assets/hero-porsche-lexus-coast-1600.webp 1600w, /assets/hero-porsche-lexus-coast-1920.webp 1920w"
+      imagesizes="(max-aspect-ratio: 1/1) 253vh, (max-aspect-ratio: 1920/1080) 178vh, 100vw"
+      fetchpriority="high"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

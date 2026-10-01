@@ -1,0 +1,329 @@
+/* =============================================================================
+   Chapters — Service (§14.7), Finance (§14.8), About (§14.9).
+   .chapter = a plate bleeding to one viewport edge + a text column opposite
+   (Service). Finance is an inset 7/12 plate in the grid; About a 6/12 plate.
+     --media-w   plate width as a share of the section
+     --text-max  max text-column width (5 of 12 columns at 1296 = 526px)
+   <768: image first (4:3), then text. 768+: side by side (BRIEF §12
+   "768–1023 keeps 50/50 splits for Service/Finance/About").
+   ============================================================================= */
+
+.chapter {
+  --media-w: 50%;
+  --text-max: 526px;
+  --media-pos: 50% 50%;
+  --media-pos-m: 50% 50%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--c-white);
+}
+
+.chapter--ground {
+  background: var(--c-ground);
+}
+
+.chapter__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--c-ground);
+}
+
+.chapter__layer {
+  position: absolute;
+  inset: 0;
+}
+
+/* Service parallax room: 112% tall, anchored top. */
+.chapter__layer--tall {
+  bottom: auto;
+  height: 112%;
+}
+
+/* Finance x-translation room: 32px beyond the left edge. */
+.chapter__layer--wide {
+  left: calc(-1 * var(--s-6));
+}
+
+.chapter__layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--focus-m, var(--media-pos-m));
+}
+
+.chapter__text {
+  padding: var(--pad-chapter-top) var(--gutter) var(--pad-chapter-bottom);
+}
+
+.chapter__text .actions {
+  margin-top: var(--gap-cta);
+}
+
+/* ---------- service ---------- */
+.service {
+  --media-w: 54%;
+  --media-pos: 20% 60%;
+  --media-pos-m: 35% 60%;
+}
+
+.service__list {
+  margin-top: var(--gap-lead-next);
+  border-bottom: var(--hairline);
+}
+
+.service__item {
+  display: grid;
+  grid-template-columns: var(--s-7) minmax(0, 1fr);
+  gap: var(--s-4);
+  padding-block: var(--s-4) calc(var(--s-4) + var(--s-1));
+  border-top: var(--hairline);
+}
+
+.service__num {
+  padding-top: var(--s-1);
+  color: var(--c-ink-3);
+}
+
+.service__text {
+  margin-top: var(--s-1);
+  text-wrap: balance; /* short 1–2 line descriptions: no stranded last word at 768 */
+  color: var(--c-ink-2);
+}
+
+.stack > .service__list + .actions {
+  margin-top: var(--gap-cta);
+}
+
+/* ---------- finance: a right-edge bleed at section height (critic #3) ----------
+   Grey ground, text left, the photograph bleeding to the viewport's right edge
+   across the full section height. 58% wide from 1024 (Sell's plate is 50% and
+   sticky; Service's is 54% on the left), so the three chapters keep distinct
+   proportions. .chapter__media stays the clip owner and .chapter__layer--wide
+   (32px spare on the left for the x settle) stays inside it. <768: stacked. */
+.finance {
+  --fin-w: 50vw;
+  --media-pos: 38% 58%;
+  --media-pos-m: 38% 58%;
+  padding-block: var(--pad-utility);
+}
+
+.finance__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-7);
+}
+
+.finance .chapter__media {
+  order: -1;
+  border-radius: var(--radius);
+}
+
+.finance .chapter__text {
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .chapter {
+    display: block;
+  }
+
+  .chapter__media {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: var(--media-w);
+    aspect-ratio: auto;
+  }
+
+  .chapter--media-left .chapter__media {
+    left: 0;
+  }
+
+  .chapter--media-right .chapter__media {
+    right: 0;
+  }
+
+  .chapter__layer img {
+    object-position: var(--focus-d, var(--media-pos));
+  }
+
+  .chapter__text {
+    position: relative;
+    width: min(var(--text-max), 100% - var(--media-w) - var(--edge) - var(--s-8));
+    box-sizing: content-box;
+    padding-inline: 0;
+  }
+
+  .chapter--media-left .chapter__text {
+    margin-left: calc(var(--media-w) + var(--s-8));
+  }
+
+  .chapter--media-right .chapter__text {
+    margin-left: var(--edge);
+  }
+
+  .service {
+    min-height: var(--h-service);
+  }
+
+  /* Finance: the text column is the space the bleed leaves, less 64px of air. */
+  .finance {
+    display: flex;
+    align-items: center;
+    min-height: var(--h-finance);
+  }
+
+  .finance__grid {
+    display: block;
+  }
+
+  .finance .chapter__text {
+    width: auto;
+    max-width: min(var(--text-max), 100vw - var(--fin-w) - var(--edge) - var(--s-8));
+    margin: 0;
+  }
+
+  .finance .chapter__media {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: var(--fin-w);
+    border-radius: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .finance {
+    --fin-w: 58vw;
+  }
+}
+
+/* ---------- about: full-screen photograph + one white panel ----------
+   Client, 2026-09-30: "make About a full screen section". The photograph owns
+   the whole viewport; the copy sits on a single solid white panel (never type on
+   the photo, so a replacement photo cannot break contrast).
+   ≥768: panel anchored bottom-RIGHT on the content grid — the current photo's
+   subject (road + car) sits lower-left, the calm sea on the right takes the panel.
+   <768: photo fills the upper screen, the panel overlaps its lower edge.
+   .about__media stays the clip owner, .about__layer the inner layer
+   (motion: data-reveal="down"). */
+.about {
+  position: relative;
+  background: var(--c-white);
+  padding-block-end: var(--pad-chapter-top);
+}
+
+.about__media {
+  position: relative;
+  block-size: max(420px, 72vh);
+  block-size: max(420px, 72svh);
+  overflow: clip;
+}
+
+.about__layer {
+  position: absolute;
+  inset: 0;
+}
+
+.about__layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--focus-m, 22% 50%);
+}
+
+.about__inner {
+  position: relative; /* above the photograph */
+  margin-block-start: calc(-1 * var(--s-8));
+}
+
+.about__panel {
+  max-inline-size: 36rem;
+  padding: var(--s-6) var(--s-5);
+  background: var(--c-white);
+  border-radius: var(--radius);
+}
+
+.about__panel .body {
+  max-inline-size: var(--measure-body);
+}
+
+@media (min-width: 768px) {
+  /* STATIC (tablet · reduced motion · no JS): one full screen, photo behind,
+     panel bottom-right. */
+  .about {
+    display: grid;
+    align-items: end;
+    min-block-size: max(640px, 100vh);
+    min-block-size: max(640px, 100svh);
+    padding-block-end: 0;
+  }
+
+  .about__media {
+    position: absolute;
+    inset: 0;
+    block-size: auto;
+  }
+
+  .about__inner {
+    display: flex;
+    justify-content: flex-end;
+    margin-block-start: 0;
+    padding-block: var(--s-9) var(--s-8);
+  }
+
+  .about__panel {
+    padding: var(--s-7);
+  }
+
+  .about__layer img {
+    object-position: var(--focus-d, var(--focus-m, 22% 50%));
+  }
+}
+
+/* STICKY (client, 2026-09-30: "make About sticky") — desktop motion branch only
+   (.is-staged, set by useAboutSticky). Photo and panel share one sticky stage:
+   the photo holds the screen under the header, the panel rises over it with the
+   scroll, holds, and both leave together at the end of the 190vh section. */
+@media (min-width: 1024px) {
+  .about.is-staged {
+    display: grid;
+    grid-template-rows: 100%; /* the grid area spans the whole section, so the stage can stick through it */
+    align-items: start;
+    block-size: 190vh;
+    block-size: 190svh;
+    min-block-size: 0;
+  }
+
+  .about.is-staged .about__media,
+  .about.is-staged .about__inner {
+    grid-area: 1 / 1;
+    position: sticky;
+    inset: auto; /* clear the static layout's inset:0 first … */
+    top: var(--header-h); /* … then stick under the header */
+    block-size: max(560px, 100vh - var(--header-h));
+    block-size: max(560px, 100svh - var(--header-h));
+  }
+
+  .about.is-staged .about__inner {
+    align-items: flex-end;
+    overflow: clip; /* the panel waits below the stage's foot */
+  }
+}
+
+@media (min-width: 1440px) {
+  .about__panel {
+    max-inline-size: 40rem;
+    padding: var(--s-8);
+  }
+}
+
+
+/* Mouse parallax wrapper (client, 2026-09-30): oversized past the travel
+   (±24px x, ±16px y) so the photograph never shows an edge. */
+.about__parallax {
+  position: absolute;
+  inset: -24px -32px;
+}

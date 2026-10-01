@@ -1,0 +1,212 @@
+/* =========================================================================
+   Service + Finance — one chapter that changes on scroll (ServiceFinance.jsx)
+   STATIC (default · <1024 · reduced motion): photo / text / photo / text, all
+     visible — the two stories stacked.
+   STAGED (.is-staged, desktop motion branch only): 200vh; a sticky stage —
+     photo plate bleeding to the LEFT edge (54%), text column right. The finance
+     photo wipes up over the workshop, the text ground turns from white to
+     warm sand (--c-finance), and one text group is active at a time.
+   ========================================================================= */
+
+.svcfin {
+  position: relative;
+  background: var(--c-white);
+}
+
+.svcfin__anchor {
+  display: block;
+  scroll-margin-top: var(--header-h);
+}
+
+.svcfin__stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* static order: service photo, service text, finance photo, finance text */
+.svcfin__frame[data-phase='0'] { grid-row: 1; }
+.svcfin__group[data-phase='0'] { grid-row: 2; }
+.svcfin__frame[data-phase='1'] { grid-row: 3; }
+.svcfin__group[data-phase='1'] { grid-row: 4; }
+
+.svcfin__frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--c-ground);
+}
+
+.svcfin__layer {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 112%; /* spare for the upward drift — the photo always covers its frame */
+}
+
+.svcfin__layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--focus-m, 35% 60%);
+}
+
+.svcfin__group {
+  padding: var(--pad-chapter-top) var(--gutter) var(--pad-chapter-bottom);
+  max-width: calc(560px + 2 * var(--gutter));
+}
+
+.svcfin__group[data-phase='1'] {
+  max-width: none; /* same white ground as Service (client, 2026-09-30) */
+}
+
+.svcfin__group .actions {
+  margin-top: var(--gap-cta);
+}
+
+.svcfin__index {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .svcfin__layer img {
+    object-position: var(--focus-d, var(--focus-m, 20% 60%));
+  }
+}
+
+/* ---------------------------------------------------------------- staged */
+@media (min-width: 1024px) {
+  .svcfin.is-staged {
+    height: 200vh;
+  }
+
+  .svcfin.is-staged .svcfin__anchor {
+    position: absolute;
+    top: 44%; /* lands at ~0.8 of the sticky travel (the finance phase) under the header */
+  }
+
+  .svcfin.is-staged .svcfin__stage {
+    position: sticky;
+    top: var(--header-h);
+    height: calc(100vh - var(--header-h));
+    height: calc(100svh - var(--header-h));
+    grid-template-columns: 54% minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    overflow: clip;
+  }
+
+  .svcfin.is-staged .svcfin__frame {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    aspect-ratio: auto;
+    height: 100%;
+  }
+
+  .svcfin.is-staged .svcfin__frame[data-phase='1'] {
+    z-index: 1; /* wipes over the workshop */
+  }
+
+  .svcfin.is-staged .svcfin__group {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    max-width: none;
+    padding: var(--s-7) var(--edge) var(--s-7) var(--s-9);
+    background: none;
+  }
+
+  .svcfin.is-staged .svcfin__group > * {
+    max-width: 526px;
+  }
+
+  /* only the active group takes pointer input (set by the motion layer) */
+  .svcfin.is-staged .svcfin__group:not([data-active]) {
+    pointer-events: none;
+  }
+
+  .svcfin.is-staged .svcfin__index {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: var(--s-2);
+    row-gap: var(--s-3);
+    grid-column: 2;
+    grid-row: 2;
+    padding: 0 var(--edge) var(--s-7) var(--s-9);
+  }
+
+}
+
+.svcfin__index-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+  color: var(--c-ink-2);
+  cursor: pointer;
+  transition: color var(--dur-xs) var(--ease-out);
+}
+
+.svcfin__index-btn .tabular {
+  color: var(--c-ink-2); /* AA on white and on the warm Finance ground */
+}
+
+.svcfin__index-btn[aria-current='step'],
+.svcfin__index-btn[aria-current='step'] .tabular {
+  color: var(--c-blue);
+}
+
+.svcfin__index-btn:hover {
+  color: var(--c-ink);
+}
+
+.svcfin__track {
+  position: relative;
+  flex-basis: 100%;
+  max-width: 240px;
+  height: 2px;
+  margin-top: var(--s-1);
+}
+
+.svcfin__track::before {
+  content: '';
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 1px;
+  background: var(--c-line);
+}
+
+.svcfin__fill {
+  position: absolute;
+  inset: 0;
+  background: var(--c-blue);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+
+/* Index steps as pills (client, 2026-09-30): the active step fills deep navy. */
+.svcfin__index-btn {
+  min-height: 36px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--c-line-strong);
+  border-radius: 999px;
+}
+
+.svcfin__index-btn[aria-current='step'] {
+  border-color: var(--c-deep);
+  background: var(--c-deep);
+  color: var(--c-white);
+}
+
+.svcfin__index-btn[aria-current='step'] .tabular,
+.svcfin__index-btn[aria-current='step'] .sell__index-num {
+  color: var(--c-white);
+}
+
+
+

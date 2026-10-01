@@ -1,0 +1,102 @@
+/* =============================================================================
+   motion.css — motion-only CSS, owned by the motion layer (src/motion/**).
+   Nothing here hides content: every from-state is set by GSAP inside a
+   gsap.matchMedia branch, so no-JS / reduced motion / failed JS = the static page.
+   ============================================================================= */
+
+/* Classics desktop approach: outside the framed plate the page is still the
+   white page (the section ground is graphite, which would make the frame
+   invisible). The class exists only while the desktop branch does. */
+.classics.is-framed {
+  background-color: var(--c-white);
+}
+
+/* Line masks. SplitText masks carry an inline overflow:clip; the AUTHORED
+   Classics masks need the same clip here, or a line at yPercent 100 is simply
+   visible one line lower. base.css pads the mask for descenders; clip (not
+   hidden) creates no scroll container. Mask and line are block so yPercent
+   moves exactly one line box. */
+.line-mask {
+  display: block;
+  overflow: clip;
+}
+
+.line-mask > .line {
+  display: block;
+}
+
+/* Scrubbed transforms keep a stable origin (the photograph moves as one layer). */
+.sell__frame,
+.classics__layer {
+  transform-origin: 50% 50%;
+}
+
+/* Anchor landing on the desktop stage: the room is composed WITH the header
+   over it (copy sits below the header's footprint), and the pin starts at
+   "top top". The global scroll-margin (= header height) landed 72px short of
+   the pin — approach at 0.92, header still light over the dark stage. */
+@media (min-width: 1024px) {
+  .classics[id] {
+    scroll-margin-top: 0;
+  }
+}
+
+/* Hero swipe (QA P2-1): the plate keeps vertical page panning but hands the
+   horizontal gesture to the Observer — with touch-action:auto Chrome claimed
+   it and cancelled the pointer stream after one move. */
+.hero__plate {
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Hero wipe — every slide is its own stacking context. The header-band scrim
+   (.slide__media[data-scrim-top]::before, z-index 1) otherwise joins the
+   plate's stacking context and, for a slide LATER in the DOM, paints over the
+   incoming (z-index 1) slide: measured on 3 → 2, a dark band sat over the pale
+   fog frame under a charcoal nav until the wipe ended. */
+.slide__media {
+  isolation: isolate;
+}
+
+/* Hero wipe — header items follow the wipe front. useHeroMotion sets
+   data-zone-tone on each wordmark / link / menu button, holding it on the
+   outgoing tone until the front passes its centre, and removes it when the wipe
+   ends. Only while the header is transparent over the hero. */
+.header[data-header='top'] [data-zone-tone='light'] {
+  --h-fg: var(--c-white);
+  --h-fg-2: var(--c-white);
+}
+
+.header[data-header='top'] [data-zone-tone='dark'] {
+  --h-fg: var(--c-ink);
+  --h-fg-2: var(--c-ink);
+}
+
+/* Hero → page: the header band is a no-text zone. useHeroMotion sets --hero-cut
+   to (header height + scroll into the hero); the field's content fades out over
+   the 20px above the header's bottom edge instead of sliding under the
+   transparent bar's type. At rest the cut sits at the header's bottom edge,
+   above the first line of copy (hero-top padding ≥ 32px), so nothing is masked. */
+.hero.is-cut .hero__field {
+  --hero-fade: 20px; /* fully clear above the lower third of the bar, where its type sits */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent calc(var(--hero-cut, 0px) - var(--hero-fade)),
+    #000 var(--hero-cut, 0px)
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent calc(var(--hero-cut, 0px) - var(--hero-fade)),
+    #000 var(--hero-cut, 0px)
+  );
+}
+
+/* Classics heading is set at line-height 1.0: with base.css's 0.12em pad an
+   accented capital (Å, É) measured 0.0px of clearance at 1440 and 0.2px at 390.
+   A deeper pad (layout-neutral: the negative margin matches) gives accents room;
+   the line's 118% hidden travel still clears the lower pad (1.18em > 1.16em). */
+.classics__heading .line-mask {
+  padding-block: 0.16em;
+  margin-block: -0.16em;
+}
