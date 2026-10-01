@@ -15,6 +15,8 @@
  * A missing key falls back to the stylesheet's own value.
  */
 
+import { asset } from './asset.js'
+
 export const photos = {
   sell: {
     file: 'sell-porsche-992-rear',
@@ -84,7 +86,7 @@ export const photos = {
 }
 
 const url = (p, w) =>
-  w === p.variants[p.variants.length - 1] && !p.suffixLargest ? `/assets/${p.file}.webp` : `/assets/${p.file}-${w}.webp`
+  w === p.variants[p.variants.length - 1] && !p.suffixLargest ? asset(`assets/${p.file}.webp`) : asset(`assets/${p.file}-${w}.webp`)
 
 /** Props for an <img>: src, srcSet, sizes, width, height, alt, and focus vars. */
 export const photoProps = (p) => ({

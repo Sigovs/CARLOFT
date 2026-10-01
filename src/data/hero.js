@@ -33,13 +33,15 @@
  * Photographs are temporary (docs/ASSETS.md): replace with the dealer's own.
  */
 
+import { asset } from './asset.js'
+
 export const heroSlides = [
   {
     // Client-supplied hero frame (reference/new hero d.jpg, 2026-09-30):
     // silver Porsche 911 + white Lexus ES on a coastal overlook, clear blue sky.
     // Charcoal type over the sky: headline 6.9:1, lead 10.8:1 (measured on the source).
     id: 'porsche-lexus-coast',
-    image: '/assets/hero-porsche-lexus-coast',
+    image: asset('assets/hero-porsche-lexus-coast'),
     widths: [960, 1600, 1920], // source is 1920 wide — never upscaled
     width: 1920,
     height: 1080,
@@ -63,7 +65,7 @@ export const heroSlides = [
   },
   {
     id: 'gt2rs',
-    image: '/assets/hero-porsche-gt2rs',
+    image: asset('assets/hero-porsche-gt2rs'),
     width: 2560,
     height: 1420,
     alt: 'A silver Porsche 911 GT2 RS parked in front of a dark charcoal brick wall.',
@@ -87,7 +89,7 @@ export const heroSlides = [
   },
   {
     id: 'aston-vantage',
-    image: '/assets/hero-aston-vantage',
+    image: asset('assets/hero-aston-vantage'),
     width: 2560,
     height: 1440,
     alt: 'A grey Aston Martin Vantage on a tree-lined private drive.',

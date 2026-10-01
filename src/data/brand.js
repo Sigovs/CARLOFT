@@ -30,7 +30,7 @@ export const brand = {
 
   /** Full inventory page — "View All Inventory" CTA. The page itself is not built
    *  yet; point this at the dealer's inventory URL when it exists. */
-  inventoryUrl: '/inventory',
+  inventoryUrl: './inventory', // relative: resolves under the site's base path
 
   /** "See all reviews" — the business on Google Maps (its reviews live there).
    *  Swap for a direct reviews URL (Google, Yelp…) when available. */

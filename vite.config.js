@@ -25,6 +25,8 @@ function brandMeta() {
   }
 }
 
-export default defineConfig({
+// `vite build --mode pages` → GitHub Pages project site (https://sigovs.github.io/CARLOFT/).
+export default defineConfig(({ mode }) => ({
+  base: mode === 'pages' ? '/CARLOFT/' : '/',
   plugins: [brandMeta(), react()],
-})
+}))

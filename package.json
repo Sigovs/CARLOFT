@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite --port 5190 --strictPort",
     "build": "vite build",
-    "preview": "vite preview --port 5191 --strictPort"
+    "preview": "vite preview --port 5191 --strictPort",
+    "build:pages": "vite build --mode pages",
+    "deploy": "npm run build:pages && node scripts/deploy-pages.mjs"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.1.1",

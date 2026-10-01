@@ -13,7 +13,9 @@
  * appends cards and never reorders the three already on screen.
  */
 
-const img = (file) => `/assets/${file}.webp`
+import { asset } from './asset.js'
+
+const img = (file) => asset(`assets/${file}.webp`)
 
 export const vehicles = [
   {
