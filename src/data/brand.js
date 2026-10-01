@@ -51,6 +51,7 @@ export const brand = {
       'Independent dealership: used cars across price ranges, classic American muscle, consignment, service and restoration.',
   },
 
+  poweredBy: 'All Auto Network',
   legal:
     'Listings, prices, reviews and some photographs on this page are illustrative placeholders.',
 }

@@ -57,6 +57,24 @@ export default function Header({ ref }) {
     return () => io.disconnect()
   }, [])
 
+  // WORDMARK TAB: compact once the page is scrolled at all (the tab's hanging
+  // part retracts). A plain passive scroll listener — Lenis scrolls the window.
+  useEffect(() => {
+    const header = headerRef.current
+    if (!header) return
+    let compact = null
+    const update = () => {
+      const next = window.scrollY > 8
+      if (next === compact) return
+      compact = next
+      if (next) header.setAttribute('data-compact', '')
+      else header.removeAttribute('data-compact')
+    }
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    return () => window.removeEventListener('scroll', update)
+  }, [])
+
   // Mobile sheet: Escape closes, focus moves in and returns, page scroll locked.
   useEffect(() => {
     if (!open) return

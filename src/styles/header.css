@@ -267,24 +267,49 @@
 }
 
 /* Wordmark tab (client, 2026-09-30): CAR LOFT sits in a solid deep-navy box
-   that bleeds off the top edge of the screen and hangs a little below the bar,
-   so the name reads as the brand mark on every hero frame, on the white bar
-   and over the dark Classics stage alike. The tracking is pulled back inside
-   the padding so the letters sit optically centred. */
+   that bleeds off the top edge of the screen. At the top of the page the tab
+   hangs 24px below the bar; on the first scroll down that hanging part retracts
+   (transform only — no layout change) and the tab is exactly the bar's height. */
 .header__bar {
   position: relative;
 }
 
 .header__wordmark {
-  align-self: start;
+  position: relative;
+  align-self: stretch;
   justify-content: center;
-  height: calc(var(--header-h) + var(--s-5)); /* 24px below the bar */
+  height: var(--header-h);
   margin-right: 0;
   padding: 0 calc(var(--s-5) - var(--tr-wordmark)) 0 var(--s-5);
-  padding-top: var(--s-2); /* the visible face sits a touch low, like a hanging tab */
   background: var(--c-deep);
   color: var(--c-white);
+  transition: background-color var(--dur-xs) var(--ease-out);
+}
+
+/* the hanging part */
+.header__wordmark::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: var(--s-5);
+  background: inherit;
   border-radius: 0 0 var(--radius) var(--radius);
+  transform-origin: top center;
+  transition:
+    transform var(--dur-s) var(--ease-out),
+    background-color var(--dur-xs) var(--ease-out);
+}
+
+.header[data-compact] .header__wordmark::after {
+  transform: scaleY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header__wordmark::after {
+    transition: none;
+  }
 }
 
 .header__wordmark:hover,

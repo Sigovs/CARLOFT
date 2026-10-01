@@ -73,16 +73,19 @@ export const photos = {
     focus: { mobile: '28% 70%', desktop: '30% 60%' },
   },
   footer: {
+    // Client-supplied (reference/footer.png, 2026-09-30): mountains at dusk, a road
+    // winding through the valley — the evening after About's golden-hour road.
     // Decorative background behind the dark footer (alt stays empty).
-    file: 'footer-night-street',
-    variants: [1200, 2400],
-    suffixLargest: true, // files: footer-night-street-1200 / -2400
-    width: 2400,
-    height: 1600,
+    file: 'footer-dusk-mountains',
+    variants: [1200, 1990],
+    suffixLargest: true, // files: footer-dusk-mountains-1200 / -1990
+    width: 1990,
+    height: 1042,
     alt: '',
     sizes: '100vw',
-    focus: { mobile: '50% 70%', desktop: '50% 62%' },
+    focus: { mobile: '70% 40%', desktop: '50% 35%' },
   },
+
 }
 
 const url = (p, w) =>

@@ -333,12 +333,14 @@
   content: '';
   position: absolute;
   inset: 0;
+  /* The dusk frame is dark already: a lighter scrim lets the ridgeline and
+     the sky read, and still holds the links (measured). */
   background: linear-gradient(
     to bottom,
-    rgb(14 17 19 / 0.35) 0%,
-    rgb(14 17 19 / 0.78) 38%,
-    rgb(14 17 19 / 0.93) 62%,
-    rgb(14 17 19 / 0.97) 100%
+    rgb(14 17 19 / 0.1) 0%,
+    rgb(14 17 19 / 0.55) 38%,
+    rgb(14 17 19 / 0.82) 62%,
+    rgb(14 17 19 / 0.9) 100%
   );
 }
 
@@ -440,13 +442,26 @@
   margin-top: var(--s-3);
 }
 
-.footer__legal {
-  /* The rule spans the container; only the text is held to the measure. */
-  padding-right: max(0px, 100% - var(--measure-body));
+/* Base row: legal left, "Powered by" right; stacks on narrow screens. */
+.footer__base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--s-3) var(--s-6);
   margin-top: var(--s-8);
   padding-top: var(--s-5);
   border-top: 1px solid var(--c-on-dark-hairline);
   color: var(--c-on-dark-2);
+}
+
+.footer__legal {
+  max-width: var(--measure-body);
+}
+
+.footer__powered span {
+  color: var(--c-on-dark);
+  font-weight: 600;
 }
 
 @media (min-width: 1024px) {
