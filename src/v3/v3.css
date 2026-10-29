@@ -16,10 +16,13 @@
   --v3-ink: #f4f4f2;                /* 18.6:1 on --v3-bg */
   --v3-ink-2: #c2c2be;              /* 11.3:1 */
   --v3-ink-3: #9a9a96;              /* 7.0:1 */
-  /* The one action colour. Monochrome by decision (blue and brown rejected). */
-  --v3-accent: #f4f4f2;
+  /* The one accent (Alex, 2026-10-29: "not blue, not green, not brown"): a
+     saturated signal orange — the Camaro's family, never cognac. Actions only:
+     primary buttons, the active filter, the card arrow on hover, section numbers.
+     #0b0b0c on it: 6.3:1; it as text on --v3-bg-alt: 6.0:1 (AA). */
+  --v3-accent: #ff5a1f;
   --v3-accent-ink: #0b0b0c;
-  --v3-accent-hover: #ffffff;
+  --v3-accent-hover: #ff7340;
 
   --v3-font: 'Inter Tight Variable', 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
   --v3-display: 'Archivo Variable', 'Archivo', 'Helvetica Neue', Arial, sans-serif;
@@ -173,7 +176,7 @@ select {
 }
 
 .v3-label__n {
-  color: var(--v3-ink-3);
+  color: var(--v3-accent);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.06em;
 }
