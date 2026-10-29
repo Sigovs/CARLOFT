@@ -871,11 +871,19 @@ select {
   position: absolute;
   inset: 0;
   display: grid;
-  align-items: center;
+  align-items: start;
+  /* the car's roof sits at ~37 % of the frame height (= 17.3 % of the width):
+     the label and the two-line heading stay on the empty wall above it */
+  padding-top: max(32px, 17.3vw - 200px);
 }
 
-/* the wall left of the car: 38 % of the width minus the content edge */
-.v3-band-photo__copy {
+/* the heading: two lines, decided (Alex), on the wall above the car */
+.v3-band-photo__copy .v3-h2 {
+  white-space: nowrap;
+}
+
+/* text below the heading: the wall left of the car — 38 % of the width minus the content edge */
+.v3-band-photo__copy > :not(.v3-label, .v3-h2) {
   max-width: min(440px, calc(38vw - max(var(--v3-gutter), (100vw - var(--v3-wrap)) / 2) - 24px));
 }
 
@@ -884,8 +892,6 @@ select {
 }
 
 .v3-band-photo__copy .v3-actions {
-  align-items: center;
-  gap: 16px 28px;
   margin-top: 32px;
 }
 
@@ -1052,10 +1058,15 @@ select {
 
 .v3-closing__img {
   order: 2;
-  width: min(1680px, 100%);
-  margin: clamp(24px, 3vw, 40px) auto 0;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 80%, transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 80%, transparent 100%);
+  width: 100%; /* full-bleed at every width: no side edges ever show (Alex) */
+  margin-top: clamp(24px, 3vw, 40px);
+  /* all four edges dissolve into the ground: long eased fades top/bottom, soft sides */
+  --fade-y: linear-gradient(to bottom, transparent 0%, rgb(0 0 0 / 0.5) 10%, #000 24%, #000 72%, rgb(0 0 0 / 0.5) 88%, transparent 100%);
+  --fade-x: linear-gradient(to right, transparent 0%, rgb(0 0 0 / 0.6) 5%, #000 12%, #000 88%, rgb(0 0 0 / 0.6) 95%, transparent 100%);
+  -webkit-mask-image: var(--fade-y), var(--fade-x);
+  mask-image: var(--fade-y), var(--fade-x);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 
 /* ---------- footer ---------- */
@@ -1175,6 +1186,7 @@ select {
 
   .v3-band-photo__inner {
     position: static;
+    padding-top: 0;
   }
 
   .v3-band-photo__copy {
@@ -1279,6 +1291,10 @@ select {
 
   .v3-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .v3-band-photo__copy .v3-h2 {
+    font-size: min(2rem, 7.6vw); /* "Timeless character." on one line at 360–640 */
   }
 
   .v3-actions .v3-btn {

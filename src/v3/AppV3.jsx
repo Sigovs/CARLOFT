@@ -353,9 +353,9 @@ function Classics() {
           <p className="v3-lead" data-motion="support">We buy, sell, consign and restore classic American muscle — from honest drivers to full restorations.</p>
           <div className="v3-actions" data-motion="cta">
             <Btn href="#contact?topic=classics">Ask about classics</Btn>
-            <a className="v3-link" href="#service">
-              Restoration services <Icon d={I.arrow} size={16} />
-            </a>
+            <Btn href="#service" kind="ghost" icon={false}>
+              Restoration services
+            </Btn>
           </div>
         </div>
       </div>
