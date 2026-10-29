@@ -122,3 +122,7 @@ handing over a key, white Porsche Cayenne behind (02 Sell); sell-gen-consign-sho
 on a turntable, camera + softboxes (03 Consign). 01 Overview keeps sell-gen-supra. 2 images × $0.15.
 V2 footer no longer prints the "illustrative placeholders" line (Alex); placeholders stay marked by
 "Sample price" on cards and "(generated placeholder image)" in every generated image's alt text.
+Round 7: Service + Finance in the same graphite studio world (AI-GENERATED, 2 × $0.15): service-gen-lift-dark (-1000)
+— silver Mercedes E-Class on a graphite lift, dark minimal workshop (saturation −30%); finance-gen-cockpit (-1000) —
+black leather cockpit through the open door (saturation −20%; replaces V1's cream interior on V2).
+Retired: service-gen-workshop* (removed).

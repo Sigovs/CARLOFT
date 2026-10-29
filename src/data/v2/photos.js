@@ -51,26 +51,26 @@ export const photosV2 = {
     focus: { mobile: '62% 60%', desktop: '50% 50%' },
   },
   service: {
-    // V2 round 4 — AI-GENERATED placeholder (fal-ai/nano-banana-pro, 2026-10-29), composed for this frame:
-    // silver Mercedes-Benz E-Class on a two-post lift in a bright white workshop bay.
-    file: 'service-gen-workshop',
+    // V2 round 7 — AI-GENERATED placeholder (fal-ai/nano-banana-pro, 2026-10-29), same graphite studio as Sell:
+    // silver Mercedes-Benz E-Class on a graphite two-post lift, dark minimal workshop.
+    file: 'service-gen-lift-dark',
     variants: [1000, 2048],
     width: 2048,
     height: 2048,
-    alt: 'A silver Mercedes-Benz sedan on a lift in a bright white workshop (generated placeholder image).',
+    alt: 'A silver Mercedes-Benz sedan on a lift in a dark, minimal workshop (generated placeholder image).',
     sizes: '(min-width: 768px) 54vw, 100vw',
-    focus: { mobile: '50% 55%', desktop: '50% 55%' },
+    focus: { mobile: '45% 55%', desktop: '45% 55%' },
   },
   finance: {
-    // Client-supplied (reference/finance.png, 2026-09-30): Mercedes E-Class cabin,
-    // cream leather, sea view through the windscreen. 1448×1086 (4:3).
-    file: 'finance-mercedes-interior',
-    variants: [960, 1448],
-    width: 1448,
-    height: 1086,
-    alt: 'The cream leather interior and steering wheel of a Mercedes-Benz, with a coastal view through the windscreen.',
+    // V2 round 7 — AI-GENERATED placeholder (fal-ai/nano-banana-pro, 2026-10-29), same graphite studio as Sell:
+    // black leather cockpit seen from the open door, neutral softbox light (no tan / cream).
+    file: 'finance-gen-cockpit',
+    variants: [1000, 2048],
+    width: 2048,
+    height: 2048,
+    alt: 'The black leather cockpit of a sports car seen through the open door (generated placeholder image).',
     sizes: '(min-width: 768px) 54vw, 100vw', // same plate as Service (merged chapter)
-    focus: { mobile: '45% 50%', desktop: '40% 45%' },
+    focus: { mobile: '58% 55%', desktop: '58% 55%' },
   },
   about: {
     // V2 round 4 — AI-GENERATED placeholder (fal-ai/nano-banana-pro, 2026-10-29), composed for this frame:
