@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { brand, navLinks, footerColumns } from '../data/brand.js'
 import { vehiclesV2 } from '../data/v2/inventory.js'
 import { formatPrice, formatMiles } from '../data/inventory.js'
@@ -8,25 +8,25 @@ import { asset } from '../data/asset.js'
 import { initScroll, scrollToEl } from '../motion/scroll.js'
 
 /**
- * AppV3 — CAR LOFT homepage on the Clutch layout (clutchmotorsco.com, client
- * reference): dark site, two alternating near-blacks, wide heavy display type,
- * 10px buttons, 12px cards with a hairline border.
+ * AppV3 — CAR LOFT homepage, V3 (Kirsten, 2026-10-29: the client wants the
+ * Clutch approach; Alex: "not one-to-one").
  *
- *   header (dark, logo · nav · phone · primary CTA)
- *   hero (full-bleed lit showroom, eyebrow, headline, lead, 2 CTAs, 3 points)
- *   brand marquee
- *   In stock now — card row + arrows + View all
- *   split: Sell & consign (photo left)   · alt ground
- *   split: Classics (photo right)
- *   split: Service & financing (photo left) · alt ground
- *   Why CAR LOFT — 4 feature cards
- *   Reviews — 3 cards
- *   closing CTA band
+ * What is taken from the reference is its LOGIC, not its look: a dark site
+ * where lit cars carry the colour, inventory straight after the hero, two clear
+ * paths (sell / buy), proof, one closing ask. The expression is CAR LOFT's own:
+ *
+ *   header      clean over the hero (no bar), the logo large; a dark bar from the first scroll
+ *   hero        lit showroom; a serif italic accent in the headline; a search bar IN the hero
+ *   01 inventory  three-up grid filtered by the hero search and by make chips
+ *   02 sell / consign  two paths side by side, one photograph each
+ *   03 classics full-bleed band, copy over the dark wall
+ *   04 service & finance  numbered rows beside the workshop photograph
+ *   05 about    full-bleed photograph with a dark panel
+ *   06 reviews  one editorial quote at a time
+ *   closing     the showroom row, one ask
  *   footer · sticky mobile action bar
  *
- * Only the LAYOUT follows the reference. Copy, photography, colour and brand
- * are CAR LOFT's own; no figures or claims are invented (the reference's
- * numbers and ratings are not carried over). Prices are sample prices.
+ * No figures, ratings or claims are invented; prices are sample prices.
  */
 
 const img = (file, w) => asset(`assets/${file}${w ? `-${w}` : ''}.webp`)
@@ -40,25 +40,23 @@ const I = {
   arrow: <><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></>,
   left: <path d="m15 18-6-6 6-6" />,
   right: <path d="m9 18 6-6-6-6" />,
-  check: <path d="m5 12.5 4.5 4.5L19 7.5" />,
+  down: <path d="m6 9 6 6 6-6" />,
   phone: <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />,
-  car: <><path d="M5 17h14" /><path d="M3 17v-4l2.2-4.4A2 2 0 0 1 7 7.5h10a2 2 0 0 1 1.8 1.1L21 13v4" /><circle cx="7.5" cy="17" r="1.8" /><circle cx="16.5" cy="17" r="1.8" /><path d="M3 13h18" /></>,
-  key: <><circle cx="8" cy="15" r="4" /><path d="m10.8 12.2 8.7-8.7" /><path d="m17 6 2.5 2.5" /><path d="m14.5 8.5 2 2" /></>,
-  wrench: <path d="M14.7 6.3a4 4 0 0 0-5.4 5.1L3.5 17.2a1.8 1.8 0 0 0 2.5 2.5l5.8-5.8a4 4 0 0 0 5.1-5.4l-2.4 2.4-2.3-.4-.4-2.3 2.4-2.4z" />,
-  doc: <><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5" /><path d="M9 13h6" /><path d="M9 17h4" /></>,
+  search: <><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></>,
   menu: <><path d="M4 7h16" /><path d="M4 12h16" /><path d="M4 17h16" /></>,
   close: <><path d="M18 6 6 18" /><path d="m6 6 12 12" /></>,
 }
 
-const Eyebrow = ({ children }) => (
-  <p className="v3-eyebrow">
-    <span className="v3-eyebrow__rule" aria-hidden="true" />
-    {children}
+/** Section label: an index number and a name — CAR LOFT's own wayfinding. */
+const Label = ({ n, children }) => (
+  <p className="v3-label">
+    <span className="v3-label__n">{n}</span>
+    <span className="v3-label__t">{children}</span>
   </p>
 )
 
-const Btn = ({ href, children, kind = 'primary', icon = true, ...rest }) => (
-  <a className={`v3-btn v3-btn--${kind}`} href={href} {...rest}>
+const Btn = ({ href, children, kind = 'primary', icon = true, size, ...rest }) => (
+  <a className={`v3-btn v3-btn--${kind}${size ? ` v3-btn--${size}` : ''}`} href={href} {...rest}>
     {children}
     {icon ? <Icon d={I.arrow} size={18} /> : null}
   </a>
@@ -75,7 +73,7 @@ function Header() {
     return () => window.removeEventListener('scroll', on)
   }, [])
   return (
-    <header className={`v3-header${scrolled ? ' is-scrolled' : ''}`}>
+    <header className={`v3-header${scrolled || open ? ' is-scrolled' : ''}`}>
       <div className="v3-header__bar">
         <a className="v3-header__logo" href="#top" aria-label={`${brand.wordmark} — back to top`}>
           <img src={logoLight.src} width={logoLight.width} height={logoLight.height} alt="" />
@@ -89,11 +87,9 @@ function Header() {
         </nav>
         <div className="v3-header__end">
           <a className="v3-header__phone" href={brand.contact.phone.href}>
+            <Icon d={I.phone} size={16} />
             {brand.contact.phone.value}
           </a>
-          <Btn href="#sell" icon={false} className="v3-btn v3-btn--primary v3-btn--sm">
-            Get an offer
-          </Btn>
           <button type="button" className="v3-header__menu" aria-expanded={open} aria-controls="v3-menu" onClick={() => setOpen((o) => !o)}>
             <span className="visually-hidden">{open ? 'Close menu' : 'Menu'}</span>
             <Icon d={open ? I.close : I.menu} size={22} />
@@ -116,8 +112,32 @@ function Header() {
   )
 }
 
-/* ---------------------------------------------------------------- hero */
-function Hero() {
+/* ---------------------------------------------------------------- hero (with search) */
+const MAKES = [...new Set(vehiclesV2.map((v) => v.make))].sort()
+const BODIES = [...new Set(vehiclesV2.map((v) => v.body))].sort()
+const PRICES = [25000, 75000, 150000]
+
+function Select({ label, value, onChange, children }) {
+  return (
+    <label className="v3-field">
+      <span className="v3-field__label">{label}</span>
+      <span className="v3-field__control">
+        <select value={value} onChange={(e) => onChange(e.target.value)}>
+          {children}
+        </select>
+        <Icon d={I.down} size={16} />
+      </span>
+    </label>
+  )
+}
+
+function Hero({ filters, setFilters }) {
+  const set = (k) => (v) => setFilters((f) => ({ ...f, [k]: v }))
+  const submit = (e) => {
+    e.preventDefault()
+    const el = document.getElementById('inventory')
+    if (el) scrollToEl(el)
+  }
   return (
     <section id="top" className="v3-hero" aria-labelledby="v3-hero-title">
       <img
@@ -131,275 +151,360 @@ function Hero() {
         fetchPriority="high"
       />
       <div className="v3-hero__shade" aria-hidden="true" />
-      <div className="v3-wrap v3-hero__inner">
-        <Eyebrow>Newbury Park, California</Eyebrow>
+      <div className="v3-wrap v3-hero__copy">
         <h1 id="v3-hero-title" className="v3-display">
           Good cars.
           <br />
-          Real people.
+          <em>Real people.</em>
         </h1>
         <p className="v3-lead v3-hero__lead">
-          Used cars across every price range, classic American muscle and our own repair shop. Buying, selling or
-          consigning, it starts with a straightforward conversation.
+          An independent dealer in Newbury Park — used cars across every price range, classic American muscle and our
+          own repair shop.
         </p>
-        <div className="v3-actions">
-          <Btn href="#sell">Sell your car</Btn>
-          <Btn href="#inventory" kind="ghost" icon={false}>
-            Shop inventory
+      </div>
+      <div className="v3-wrap v3-hero__dock">
+        <form className="v3-search" onSubmit={submit} aria-label="Find a car">
+          <Select label="Make" value={filters.make} onChange={set('make')}>
+            <option value="">Any make</option>
+            {MAKES.map((m) => (
+              <option key={m}>{m}</option>
+            ))}
+          </Select>
+          <Select label="Body" value={filters.body} onChange={set('body')}>
+            <option value="">Any body</option>
+            {BODIES.map((b) => (
+              <option key={b}>{b}</option>
+            ))}
+          </Select>
+          <Select label="Price" value={filters.price} onChange={set('price')}>
+            <option value="">Any price</option>
+            {PRICES.map((p) => (
+              <option key={p} value={p}>
+                Up to {formatPrice(p)}
+              </option>
+            ))}
+          </Select>
+          <button type="submit" className="v3-btn v3-btn--primary v3-search__go">
+            <Icon d={I.search} size={18} />
+            Find a car
+          </button>
+        </form>
+        <p className="v3-hero__alt">
+          Selling instead?{' '}
+          <a href="#sell">
+            Get an offer <Icon d={I.arrow} size={14} />
+          </a>
+        </p>
+      </div>
+    </section>
+  )
+}
+
+/* ---------------------------------------------------------------- 01 inventory */
+function Inventory({ filters, setFilters }) {
+  const list = useMemo(
+    () =>
+      vehiclesV2.filter(
+        (v) =>
+          (!filters.make || v.make === filters.make) &&
+          (!filters.body || v.body === filters.body) &&
+          (!filters.price || v.price <= Number(filters.price)),
+      ),
+    [filters],
+  )
+  const shown = list.slice(0, 6)
+  const anyFilter = filters.make || filters.body || filters.price
+  return (
+    <section id="inventory" className="v3-sec" aria-labelledby="v3-inv-title">
+      <div className="v3-wrap">
+        <div className="v3-head">
+          <Label n="01">Inventory</Label>
+          <h2 id="v3-inv-title" className="v3-h2">
+            Handpicked, <em>across price ranges.</em>
+          </h2>
+        </div>
+        <div className="v3-chips" role="group" aria-label="Filter by make">
+          <button type="button" aria-pressed={!filters.make} onClick={() => setFilters((f) => ({ ...f, make: '' }))}>
+            All
+          </button>
+          {MAKES.map((m) => (
+            <button key={m} type="button" aria-pressed={filters.make === m} onClick={() => setFilters((f) => ({ ...f, make: f.make === m ? '' : m }))}>
+              {m}
+            </button>
+          ))}
+        </div>
+        <p className="v3-count" aria-live="polite">
+          {shown.length < list.length ? `${shown.length} of ${list.length} cars` : `${list.length} ${list.length === 1 ? 'car' : 'cars'}`}
+          {anyFilter ? (
+            <button type="button" onClick={() => setFilters({ make: '', body: '', price: '' })}>
+              Clear filters
+            </button>
+          ) : null}
+        </p>
+        {shown.length ? (
+          <ul className="v3-grid">
+            {shown.map((v) => (
+              <li key={v.id}>
+                <a className="v3-card" href={`#contact?topic=car&id=${v.id}`}>
+                  <span className="v3-card__media">
+                    <img src={v.image} width={v.width} height={v.height} alt={`${v.year} ${v.make} ${v.model}${v.trim ? ` ${v.trim}` : ''}`} loading="lazy" decoding="async" />
+                    <span className="v3-card__tag">{v.body}</span>
+                  </span>
+                  <span className="v3-card__body">
+                    <span className="v3-card__title">
+                      {v.make} {v.model}
+                      {v.trim ? ` ${v.trim}` : ''}
+                    </span>
+                    <span className="v3-card__meta">
+                      {v.year} · {formatMiles(v.mileage)} · {v.transmission}
+                    </span>
+                    <span className="v3-card__foot">
+                      <span className="v3-card__price">
+                        <small>Sample price</small>
+                        {formatPrice(v.price)}
+                      </span>
+                      <span className="v3-card__go" aria-hidden="true">
+                        <Icon d={I.arrow} size={18} />
+                      </span>
+                    </span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="v3-empty">No cars match those filters right now — clear a filter, or tell us what you are looking for.</p>
+        )}
+        <div className="v3-more">
+          <Btn href={brand.inventoryUrl} kind="ghost">
+            View all inventory
           </Btn>
         </div>
-        <ul className="v3-points" aria-label="What we do">
-          <li>Buy · sell · consign</li>
-          <li>In-house service &amp; restoration</li>
-          <li>Classic American muscle</li>
+      </div>
+    </section>
+  )
+}
+
+/* ---------------------------------------------------------------- 02 sell / consign */
+function SellConsign() {
+  const paths = [
+    {
+      key: 'sell',
+      title: 'Sell it to us',
+      text: 'Tell us about your car and we come back with an offer. A straight answer, before anything else.',
+      cta: { label: 'Get an offer', href: '#contact?topic=sell' },
+      photo: { file: 'sell-gen-key-cayenne', alt: 'A hand holding out a car key in front of a white Porsche Cayenne (generated placeholder image).', pos: '55% 60%' },
+    },
+    {
+      key: 'consign',
+      title: 'Let us consign it',
+      text: 'For special and collector cars: we photograph, present and market the car for you, and handle the sale.',
+      cta: { label: 'About consignment', href: '#contact?topic=consign' },
+      photo: { file: 'sell-gen-consign-shoot', alt: 'A red Mercedes-AMG GT on a turntable being photographed in a dark studio (generated placeholder image).', pos: '62% 60%' },
+    },
+  ]
+  return (
+    <section id="sell" className="v3-sec v3-sec--alt" aria-labelledby="v3-sell-title">
+      <div className="v3-wrap">
+        <div className="v3-head v3-head--split">
+          <div>
+            <Label n="02">Sell or consign</Label>
+            <h2 id="v3-sell-title" className="v3-h2">
+              Make room <em>for what’s next.</em>
+            </h2>
+          </div>
+          <p className="v3-lead">Two ways to move on from your car. Either way, it starts with a straightforward conversation.</p>
+        </div>
+        <ul className="v3-paths">
+          {paths.map((p) => (
+            <li key={p.key} className="v3-path">
+              <span className="v3-path__media">
+                <img src={img(p.photo.file, 1000)} srcSet={`${img(p.photo.file, 1000)} 1000w, ${img(p.photo.file)} 2048w`} sizes="(min-width: 900px) 46vw, 100vw" width="2048" height="2048" alt={p.photo.alt} loading="lazy" decoding="async" style={{ objectPosition: p.photo.pos }} />
+              </span>
+              <span className="v3-path__body">
+                <h3>{p.title}</h3>
+                <p>{p.text}</p>
+                <Btn href={p.cta.href} kind="primary" size="sm">
+                  {p.cta.label}
+                </Btn>
+              </span>
+            </li>
+          ))}
         </ul>
       </div>
     </section>
   )
 }
 
-/* ---------------------------------------------------------------- brands */
-const MAKES = ['Porsche', 'Mercedes-Benz', 'Lexus', 'Toyota', 'Honda', 'Chevrolet', 'Ford', 'Land Rover', 'Mazda']
-function Brands() {
-  const row = MAKES.map((m) => <li key={m}>{m}</li>)
+/* ---------------------------------------------------------------- 03 classics */
+function Classics() {
   return (
-    <section className="v3-brands" aria-label="Makes we sell">
-      <div className="v3-brands__track">
-        <ul>{row}</ul>
-        <ul aria-hidden="true">{row}</ul>
+    <section id="classics" className="v3-band-photo" aria-labelledby="v3-cl-title">
+      <img className="v3-band-photo__img" src={img('classics-gen-camaro', 1600)} srcSet={`${img('classics-gen-camaro', 960)} 960w, ${img('classics-gen-camaro', 1600)} 1600w, ${img('classics-gen-camaro')} 2752w`} sizes="100vw" width="2752" height="1290" alt="An orange 1969 Chevrolet Camaro SS in a minimal concrete garage (generated placeholder image)." loading="lazy" decoding="async" />
+      <div className="v3-band-photo__shade" aria-hidden="true" />
+      <div className="v3-wrap v3-band-photo__inner">
+        <div>
+          <Label n="03">Classic cars</Label>
+          <h2 id="v3-cl-title" className="v3-h2">
+            American muscle.
+            <br />
+            <em>Timeless character.</em>
+          </h2>
+        </div>
+        <div>
+          <p className="v3-lead">We buy, sell, consign and restore classic American muscle — from honest drivers to full restorations.</p>
+          <div className="v3-actions">
+            <Btn href="#contact?topic=classics">Ask about classics</Btn>
+            <Btn href="#service" kind="ghost" icon={false}>
+              Restoration services
+            </Btn>
+          </div>
+        </div>
       </div>
     </section>
   )
 }
 
-/* ---------------------------------------------------------------- inventory */
-function Inventory() {
-  const rail = useRef(null)
-  const step = (dir) => {
-    const el = rail.current
-    if (!el) return
-    const card = el.querySelector('.v3-card')
-    el.scrollBy({ left: dir * ((card?.offsetWidth || 300) + 20), behavior: 'smooth' })
-  }
+/* ---------------------------------------------------------------- 04 service & finance */
+const SERVICES = [
+  { n: '01', t: 'Repairs', d: 'Diagnostics, maintenance and mechanical repair.' },
+  { n: '02', t: 'Paint & body', d: 'Collision repair, paintwork and refinishing.' },
+  { n: '03', t: 'Restoration', d: 'Partial and complete restorations.' },
+  { n: '04', t: 'Financing', d: 'Ask us about financing options when you find the right car.', id: 'finance' },
+]
+function Service() {
   return (
-    <section id="inventory" className="v3-sec" aria-labelledby="v3-inv-title">
+    <section id="service" className="v3-sec" aria-labelledby="v3-svc-title">
+      <div className="v3-wrap v3-service">
+        <figure className="v3-service__media">
+          <img src={img('service-gen-lift-dark', 1000)} srcSet={`${img('service-gen-lift-dark', 1000)} 1000w, ${img('service-gen-lift-dark')} 2048w`} sizes="(min-width: 900px) 46vw, 100vw" width="2048" height="2048" alt="A silver Mercedes-Benz sedan on a lift in a dark, minimal workshop (generated placeholder image)." loading="lazy" decoding="async" />
+        </figure>
+        <div className="v3-service__copy">
+          <Label n="04">Service &amp; finance</Label>
+          <h2 id="v3-svc-title" className="v3-h2">
+            Keep it running. <em>Bring it back.</em>
+          </h2>
+          <ol className="v3-rows">
+            {SERVICES.map((s) => (
+              <li key={s.n} id={s.id}>
+                <span className="v3-rows__n">{s.n}</span>
+                <span>
+                  <strong>{s.t}</strong>
+                  <span>{s.d}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+          <div className="v3-actions">
+            <Btn href="#contact?topic=service">Contact our repair shop</Btn>
+            <Btn href="#contact?topic=finance" kind="ghost" icon={false}>
+              Ask about financing
+            </Btn>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ---------------------------------------------------------------- 05 about */
+function About() {
+  return (
+    <section id="about" className="v3-sec v3-sec--alt" aria-labelledby="v3-about-title">
+      <div className="v3-wrap v3-service v3-service--flip">
+        <figure className="v3-service__media">
+          <img src={img('sell-gen-supra', 1000)} srcSet={`${img('sell-gen-supra', 1000)} 1000w, ${img('sell-gen-supra')} 2048w`} sizes="(min-width: 900px) 46vw, 100vw" width="2048" height="2048" alt="A yellow Toyota Supra under a softbox in a dark studio (generated placeholder image)." loading="lazy" decoding="async" />
+        </figure>
+        <div className="v3-service__copy">
+          <Label n="05">About</Label>
+          <h2 id="v3-about-title" className="v3-h2">
+            A personal approach <em>to buying cars.</em>
+          </h2>
+          <p className="v3-lead v3-about__lead">
+            We’re an independent dealership for people who like good cars — from modern performance to classic
+            American muscle. Sales, consignment and restoration, handled by people you can talk to.
+          </p>
+          <ul className="v3-pills">
+            <li>Independent dealer</li>
+            <li>Newbury Park, CA</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ---------------------------------------------------------------- 06 reviews */
+const pad = (n) => String(n).padStart(2, '0')
+function Reviews() {
+  const [i, setI] = useState(0)
+  const go = (d) => setI((x) => (x + d + reviews.length) % reviews.length)
+  return (
+    <section id="reviews" className="v3-sec" aria-labelledby="v3-rev-title">
       <div className="v3-wrap">
-        <div className="v3-sec__head v3-sec__head--row">
+        <div className="v3-head v3-head--split">
           <div>
-            <Eyebrow>In stock now</Eyebrow>
-            <h2 id="v3-inv-title" className="v3-h2">
-              Handpicked inventory
+            <Label n="06">Reviews</Label>
+            <h2 id="v3-rev-title" className="v3-h2">
+              What our <em>customers say.</em>
             </h2>
           </div>
-          <div className="v3-sec__tools">
-            <Btn href={brand.inventoryUrl} kind="ghost" icon={false} className="v3-btn v3-btn--ghost v3-btn--sm">
-              View all inventory
-            </Btn>
-            <button type="button" className="v3-round" aria-label="Previous cars" onClick={() => step(-1)}>
+          <a className="v3-link" href={brand.reviewsUrl} target="_blank" rel="noopener">
+            See all reviews <Icon d={I.arrow} size={16} />
+            <span className="visually-hidden"> (opens Google Maps in a new tab)</span>
+          </a>
+        </div>
+        <div className="v3-quote" role="region" aria-roledescription="carousel" aria-label="Customer reviews (samples)">
+          <div className="v3-quote__stack">
+            {reviews.map((r, k) => (
+              <figure key={r.id} className={`v3-quote__item${k === i ? ' is-active' : ''}`} aria-hidden={k !== i} inert={k !== i}>
+                <blockquote>
+                  <p>{r.text}</p>
+                </blockquote>
+                <figcaption>
+                  <strong>{r.name}</strong> · {r.role}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <div className="v3-quote__nav">
+            <span className="v3-quote__count" aria-hidden="true">
+              {pad(i + 1)} / {pad(reviews.length)}
+            </span>
+            <button type="button" className="v3-round" aria-label="Previous review" onClick={() => go(-1)}>
               <Icon d={I.left} />
             </button>
-            <button type="button" className="v3-round" aria-label="Next cars" onClick={() => step(1)}>
+            <button type="button" className="v3-round" aria-label="Next review" onClick={() => go(1)}>
               <Icon d={I.right} />
             </button>
           </div>
         </div>
-      </div>
-      <div className="v3-rail" ref={rail} tabIndex={0} aria-label="Cars in stock (sample listings)" data-lenis-prevent-horizontal>
-        {vehiclesV2.map((v) => (
-          <a key={v.id} className="v3-card" href={`#contact?topic=car&id=${v.id}`}>
-            <span className="v3-card__media">
-              <img src={v.image} width={v.width} height={v.height} alt={`${v.year} ${v.make} ${v.model}${v.trim ? ` ${v.trim}` : ''}`} loading="lazy" decoding="async" />
-            </span>
-            <span className="v3-card__body">
-              <span className="v3-card__kicker">
-                {v.year} {v.make}
-              </span>
-              <span className="v3-card__title">
-                {v.model}
-                {v.trim ? ` ${v.trim}` : ''}
-              </span>
-              <span className="v3-card__foot">
-                <span className="v3-card__price">
-                  {formatPrice(v.price)}
-                  <small>Sample price</small>
-                </span>
-                <span className="v3-card__miles">{formatMiles(v.mileage)}</span>
-              </span>
-            </span>
-          </a>
-        ))}
-      </div>
-    </section>
-  )
-}
-
-/* ---------------------------------------------------------------- splits */
-function Split({ id, alt, flip, photo, chip, eyebrow, title, text, list, tags, actions }) {
-  return (
-    <section id={id} className={`v3-sec${alt ? ' v3-sec--alt' : ''}`} aria-labelledby={`${id}-title`}>
-      <div className={`v3-wrap v3-split${flip ? ' v3-split--flip' : ''}`}>
-        <figure className="v3-split__media">
-          <img src={photo.src} srcSet={photo.srcSet} sizes="(min-width: 1024px) 560px, 100vw" width={photo.w} height={photo.h} alt={photo.alt} loading="lazy" decoding="async" style={photo.pos ? { objectPosition: photo.pos } : undefined} />
-          {chip ? <figcaption className="v3-chip">{chip}</figcaption> : null}
-        </figure>
-        <div className="v3-split__copy">
-          <Eyebrow>{eyebrow}</Eyebrow>
-          <h2 id={`${id}-title`} className="v3-h2">
-            {title}
-          </h2>
-          <p className="v3-lead">{text}</p>
-          {list ? (
-            <ul className="v3-checks">
-              {list.map((x) => (
-                <li key={x.t}>
-                  <span className="v3-checks__ico" aria-hidden="true">
-                    <Icon d={I.check} size={14} />
-                  </span>
-                  <span>
-                    <strong>{x.t}</strong>
-                    {x.d ? <span> — {x.d}</span> : null}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-          {tags ? (
-            <ul className="v3-tags" aria-label="What we do">
-              {tags.map((t) => (
-                <li key={t}>{t}</li>
-              ))}
-            </ul>
-          ) : null}
-          <div className="v3-actions">
-            {actions.map((a, i) => (
-              <Btn key={a.label} href={a.href} kind={i === 0 ? 'primary' : 'ghost'} icon={i === 0}>
-                {a.label}
-              </Btn>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-const pic = (file, w, h, alt, mid = 1000, pos) => ({
-  pos,
-  src: img(file, mid),
-  srcSet: `${img(file, mid)} ${mid}w, ${img(file)} ${w}w`,
-  w,
-  h,
-  alt,
-})
-
-/* ---------------------------------------------------------------- why */
-const WHY = [
-  { ico: I.car, t: 'Every price range', d: 'Daily drivers to performance cars and classics, each one handpicked.' },
-  { ico: I.key, t: 'Sell or consign', d: 'We buy outright, or present and market your car for you.' },
-  { ico: I.wrench, t: 'Our own repair shop', d: 'Repairs, paint and body work, and full restorations in-house.' },
-  { ico: I.doc, t: 'Financing options', d: 'Ask us about financing when you find the right car.' },
-]
-function Why() {
-  return (
-    <section id="about" className="v3-sec v3-sec--alt" aria-labelledby="v3-why-title">
-      <div className="v3-wrap">
-        <div className="v3-sec__head">
-          <Eyebrow>Why CAR LOFT</Eyebrow>
-          <h2 id="v3-why-title" className="v3-h2">
-            A personal approach
-            <br />
-            to buying cars
-          </h2>
-        </div>
-        <ul className="v3-why">
-          {WHY.map((w) => (
-            <li key={w.t} className="v3-why__card">
-              <span className="v3-why__ico">
-                <Icon d={w.ico} />
-              </span>
-              <h3>{w.t}</h3>
-              <p>{w.d}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  )
-}
-
-/* ---------------------------------------------------------------- reviews */
-const initials = (n) =>
-  n
-    .split(/\s+/)
-    .map((w) => w[0])
-    .join('')
-    .slice(0, 2)
-    .toUpperCase()
-function Reviews() {
-  return (
-    <section id="reviews" className="v3-sec" aria-labelledby="v3-rev-title">
-      <div className="v3-wrap">
-        <div className="v3-sec__head v3-sec__head--row">
-          <div>
-            <Eyebrow>Reviews</Eyebrow>
-            <h2 id="v3-rev-title" className="v3-h2">
-              What our customers say
-            </h2>
-          </div>
-          <a className="v3-link" href={brand.reviewsUrl} target="_blank" rel="noopener">
-            See all reviews
-            <Icon d={I.arrow} size={16} />
-            <span className="visually-hidden"> (opens Google Maps in a new tab)</span>
-          </a>
-        </div>
-        <ul className="v3-reviews">
-          {reviews.slice(0, 3).map((r) => (
-            <li key={r.id} className="v3-review">
-              <div className="v3-review__who">
-                <span className="v3-review__avatar" aria-hidden="true">
-                  {initials(r.name)}
-                </span>
-                <span>
-                  <strong>{r.name}</strong>
-                  <span>{r.role}</span>
-                </span>
-              </div>
-              <blockquote>
-                <p>{r.text}</p>
-              </blockquote>
-            </li>
-          ))}
-        </ul>
         <p className="v3-note">Sample reviews for the mockup.</p>
       </div>
     </section>
   )
 }
 
-/* ---------------------------------------------------------------- closing CTA */
+/* ---------------------------------------------------------------- closing + footer */
 function Closing() {
   return (
-    <section className="v3-sec v3-sec--tight" aria-labelledby="v3-cta-title">
-      <div className="v3-wrap">
-        <div className="v3-band">
-          <Eyebrow>Talk to us</Eyebrow>
-          <h2 id="v3-cta-title" className="v3-h2">
-            Selling or buying?
-          </h2>
-          <p className="v3-lead">Tell us about your car, or what you are looking for. We come back with a straight answer.</p>
-          <div className="v3-actions v3-actions--center">
-            <Btn href="#contact?topic=sell">Get an offer</Btn>
-            <Btn href={brand.contact.phone.href} kind="ghost" icon={false}>
-              Call {brand.contact.phone.value}
-            </Btn>
-          </div>
+    <section className="v3-closing" aria-labelledby="v3-cta-title">
+      <img className="v3-closing__img" src={img('footer-gen-showroom', 3168)} srcSet={`${img('footer-gen-showroom', 1200)} 1200w, ${img('footer-gen-showroom', 3168)} 3168w`} sizes="100vw" width="3168" height="1050" alt="" loading="lazy" decoding="async" />
+      <div className="v3-wrap v3-closing__inner">
+        <h2 id="v3-cta-title" className="v3-h2">
+          Your next car <em>is a conversation away.</em>
+        </h2>
+        <div className="v3-actions v3-actions--center">
+          <Btn href="#contact?topic=sell">Get an offer</Btn>
+          <Btn href={brand.contact.phone.href} kind="ghost" icon={false}>
+            Call {brand.contact.phone.value}
+          </Btn>
         </div>
       </div>
     </section>
   )
 }
 
-/* ---------------------------------------------------------------- footer */
 function Footer() {
   const c = brand.contact
   return (
@@ -421,7 +526,7 @@ function Footer() {
             ))}
           </nav>
         ))}
-        <div>
+        <div className="v3-footer__visit">
           <h3>Visit</h3>
           <a href={c.address.href} target="_blank" rel="noopener">
             {c.address.value}
@@ -442,12 +547,11 @@ function Footer() {
   )
 }
 
-/* ---------------------------------------------------------------- sticky bar (phones) */
 function StickyBar() {
   return (
     <div className="v3-sticky" role="region" aria-label="Quick actions">
       <a className="v3-btn v3-btn--primary" href="#sell">
-        Sell your car
+        Get an offer
       </a>
       <a className="v3-btn v3-btn--ghost" href={brand.contact.phone.href} aria-label={`Call ${brand.contact.phone.value}`}>
         <Icon d={I.phone} size={18} />
@@ -458,6 +562,7 @@ function StickyBar() {
 }
 
 export default function AppV3() {
+  const [filters, setFilters] = useState({ make: '', body: '', price: '' })
   useEffect(() => initScroll(), [])
   // In-page anchors go through the Lenis-aware scroller (anchors are off in Lenis).
   useEffect(() => {
@@ -481,79 +586,12 @@ export default function AppV3() {
       </a>
       <Header />
       <main id="main">
-        <Hero />
-        <Brands />
-        <Inventory />
-        <Split
-          id="sell"
-          alt
-          photo={pic('sell-gen-key-cayenne', 2048, 2048, 'A hand holding out a car key in front of a white Porsche Cayenne (generated placeholder image).')}
-          chip="Sell"
-          eyebrow="Sell or consign"
-          title={
-            <>
-              Make room
-              <br />
-              for what’s next
-            </>
-          }
-          text="Selling your car? We can buy it outright, or consign it and handle the sale for you."
-          list={[
-            { t: 'Sell', d: 'tell us about your car and we come back with an offer' },
-            { t: 'Consign', d: 'for special and collector cars, we present and market it for you' },
-            { t: 'One conversation', d: 'a straight answer before anything else' },
-          ]}
-          actions={[
-            { label: 'Get an offer', href: '#contact?topic=sell' },
-            { label: 'About consignment', href: '#contact?topic=consign' },
-          ]}
-        />
-        <Split
-          id="classics"
-          flip
-          photo={pic('classics-gen-camaro', 2752, 1290, 'An orange 1969 Chevrolet Camaro SS in a minimal concrete garage (generated placeholder image).', 1600, '74% 60%')}
-          chip="Classics"
-          eyebrow="Classic cars"
-          title={
-            <>
-              American muscle.
-              <br />
-              Timeless character.
-            </>
-          }
-          text="We buy, sell, consign and restore classic American muscle — from honest drivers to full restorations."
-          tags={['Buy', 'Sell', 'Consign', 'Restore']}
-          actions={[
-            { label: 'Ask about classics', href: '#contact?topic=classics' },
-            { label: 'Restoration services', href: '#service' },
-          ]}
-        />
-        <span id="finance" className="v3-anchor" aria-hidden="true" />
-        <Split
-          id="service"
-          alt
-          photo={pic('service-gen-lift-dark', 2048, 2048, 'A silver Mercedes-Benz sedan on a lift in a dark, minimal workshop (generated placeholder image).')}
-          chip="Service"
-          eyebrow="Service & financing"
-          title={
-            <>
-              Keep it running.
-              <br />
-              Bring it back.
-            </>
-          }
-          text="Repairs, paint, body work and restoration for daily drivers, modern performance cars and classics — and financing options when you find the right car."
-          list={[
-            { t: 'Repairs', d: 'diagnostics, maintenance and mechanical repair' },
-            { t: 'Paint & body', d: 'collision repair, paintwork and refinishing' },
-            { t: 'Restoration', d: 'partial and complete restorations' },
-          ]}
-          actions={[
-            { label: 'Contact our repair shop', href: '#contact?topic=service' },
-            { label: 'Ask about financing', href: '#contact?topic=finance' },
-          ]}
-        />
-        <Why />
+        <Hero filters={filters} setFilters={setFilters} />
+        <Inventory filters={filters} setFilters={setFilters} />
+        <SellConsign />
+        <Classics />
+        <Service />
+        <About />
         <Reviews />
         <Closing />
       </main>
