@@ -15,6 +15,29 @@ export const photosV2 = {
     sizes: '(min-width: 1024px) calc(50vw + 64px), (min-width: 768px) calc(100vw + 64px), 100vw',
     focus: { mobile: '42% 55%', tablet: '42% 55%', desktop: '42% 55%' },
   },
+  // Sell & Consign, one photograph per step — they swap with the scroll phase
+  // (01 Overview = `sell` above · 02 Sell · 03 Consign). AI-GENERATED placeholder (fal-ai/nano-banana-pro, 2026-10-29), same graphite studio.
+  sellPhases: [
+    null, // phase 0 uses `sell`
+    {
+      file: 'sell-gen-key-cayenne',
+      variants: [1000, 2048],
+      width: 2048,
+      height: 2048,
+      alt: 'A hand holding out a car key in front of a white Porsche Cayenne in a dark studio (generated placeholder image).',
+      sizes: '(min-width: 1024px) calc(50vw + 64px), (min-width: 768px) calc(100vw + 64px), 100vw',
+      focus: { mobile: '50% 55%', tablet: '50% 55%', desktop: '50% 55%' },
+    },
+    {
+      file: 'sell-gen-consign-shoot',
+      variants: [1000, 2048],
+      width: 2048,
+      height: 2048,
+      alt: 'A red Mercedes-AMG GT on a turntable being photographed in a dark studio (generated placeholder image).',
+      sizes: '(min-width: 1024px) calc(50vw + 64px), (min-width: 768px) calc(100vw + 64px), 100vw',
+      focus: { mobile: '58% 55%', tablet: '58% 55%', desktop: '58% 55%' },
+    },
+  ],
   classics: {
     // V2 round 4 — AI-GENERATED placeholder (fal-ai/nano-banana-pro, 2026-10-29), composed for this frame:
     // 1969 Camaro SS, whole and front-lit, right of centre; calm wall above (heading),

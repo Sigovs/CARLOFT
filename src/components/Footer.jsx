@@ -90,7 +90,7 @@ export default function Footer({ route }) {
 
         <div className="footer__base">
           <p className="footer__legal small">
-            © {year} {brand.wordmark}. {brand.legal}
+            © {year} {brand.wordmark}.{V2 ? null : ` ${brand.legal}`}
           </p>
           <p className="footer__powered small">
             Powered by <span>{brand.poweredBy}</span>

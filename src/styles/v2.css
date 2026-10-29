@@ -691,3 +691,35 @@
     padding-top: var(--s-7);
   }
 }
+
+/* Sell & Consign: one photograph per step (Alex, 2026-10-29: "images on the scroll,
+   otherwise it's unclear"). All three share the frame; the one whose text group is
+   [data-active] (set by useSellSequence) crossfades in with a slow settle. With no
+   active group (static layout, phones) the Overview photograph shows. */
+[data-version='v2'] .sell__frame img[data-phase] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.04);
+  transition:
+    opacity var(--dur-m) var(--ease-out),
+    transform 1.2s var(--ease-out);
+}
+
+[data-version='v2'] .sell__frame img[data-phase='0'],
+[data-version='v2'] .sell:has(.sell__group[data-phase='1'][data-active]) .sell__frame img[data-phase='1'],
+[data-version='v2'] .sell:has(.sell__group[data-phase='2'][data-active]) .sell__frame img[data-phase='2'] {
+  opacity: 1;
+  transform: none;
+}
+
+[data-version='v2'] .sell:has(.sell__group:is([data-phase='1'], [data-phase='2'])[data-active]) .sell__frame img[data-phase='0'] {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-version='v2'] .sell__frame img[data-phase] {
+    transform: none;
+    transition: opacity 0.01s;
+  }
+}

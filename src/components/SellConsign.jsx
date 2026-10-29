@@ -70,11 +70,25 @@ export default function SellConsign() {
       <div className="sell__stage">
         <div className="sell__media" data-motion="image" data-reveal="right">
           <div className="sell__frame">
-            <img
-              {...photoProps(photos.sell)}
-              loading="lazy"
-              decoding="async"
-            />
+            {photos.sellPhases ? (
+              // V2: one photograph per step; v2.css shows the one whose group is [data-active].
+              [photos.sell, ...photos.sellPhases.slice(1)].map((p, i) => (
+                <img
+                  key={p.file}
+                  {...photoProps(p)}
+                  alt={i === 0 ? p.alt : ''}
+                  data-phase={i}
+                  loading="lazy"
+                  decoding="async"
+                />
+              ))
+            ) : (
+              <img
+                {...photoProps(photos.sell)}
+                loading="lazy"
+                decoding="async"
+              />
+            )}
           </div>
         </div>
 

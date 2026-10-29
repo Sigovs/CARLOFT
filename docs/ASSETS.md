@@ -117,3 +117,8 @@ interior remain the earlier real photos. Retired: hero-gw-*, sell-gw-*, service-
 about-turnpike-*, footer-bhcc-* (removed).
 Round 5: classics-gen-camaro — top 16% (ceiling light strip) cropped, 2752×1290; footer-gen-showroom — dark
 wall/floor continued 14% each side, 3168×1050 (shown whole, faded on all sides).
+Round 6: per-step Sell photographs (AI-GENERATED, same graphite studio): sell-gen-key-cayenne (-1000) — a hand
+handing over a key, white Porsche Cayenne behind (02 Sell); sell-gen-consign-shoot (-1000) — red Mercedes-AMG GT
+on a turntable, camera + softboxes (03 Consign). 01 Overview keeps sell-gen-supra. 2 images × $0.15.
+V2 footer no longer prints the "illustrative placeholders" line (Alex); placeholders stay marked by
+"Sample price" on cards and "(generated placeholder image)" in every generated image's alt text.
