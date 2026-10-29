@@ -17,13 +17,14 @@ import { useV3Motion } from './useV3Motion.js'
  * paths (sell / buy), proof, one closing ask. The expression is CAR LOFT's own:
  *
  *   header      clean over the hero (no bar), the logo large; a dark bar from the first scroll
- *   hero        lit showroom; the V2 heading voice; a search bar IN the hero
+ *   hero        two slides (buy / sell), the V2 heading voice; a search bar IN the hero
  *   01 inventory  three-up grid filtered by the hero search and by make chips
  *   02 sell / consign  two paths side by side, one photograph each
  *   03 classics full-bleed band, copy over the dark wall
  *   04 service & finance  numbered rows beside the workshop photograph
  *   05 about    full-bleed photograph with a dark panel
  *   06 reviews  one editorial quote at a time
+ *   07 instagram  three square tiles (placeholder feed)
  *   closing     the showroom row, one ask
  *   footer · sticky mobile action bar
  *
@@ -43,6 +44,7 @@ const I = {
   right: <path d="m9 18 6-6-6-6" />,
   down: <path d="m6 9 6 6 6-6" />,
   phone: <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />,
+  instagram: <><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" /></>,
   search: <><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></>,
   menu: <><path d="M4 7h16" /><path d="M4 12h16" /><path d="M4 17h16" /></>,
   close: <><path d="M18 6 6 18" /><path d="m6 6 12 12" /></>,
@@ -113,6 +115,8 @@ function Header() {
   )
 }
 
+const pad = (n) => String(n).padStart(2, '0')
+
 /* ---------------------------------------------------------------- hero (with search) */
 const MAKES = [...new Set(vehiclesV2.map((v) => v.make))].sort()
 const BODIES = [...new Set(vehiclesV2.map((v) => v.body))].sort()
@@ -132,6 +136,40 @@ function Select({ label, value, onChange, children }) {
   )
 }
 
+/* Two slides (Alex: "one more, with other text"): the showroom (buy) and the
+   white 911 (sell). Photographs crossfade; the copy swaps in one grid cell so
+   nothing below moves. It advances every 7 s until the visitor takes the
+   controls (then never again); pausable; never automatic under reduced motion. */
+const SLIDES = [
+  {
+    id: 'buy',
+    file: 'v3-hero-showroom',
+    widths: [960, 1600, 2752],
+    w: 2752,
+    h: 1548,
+    pos: '100% 40%',
+    band: '92% 62%',
+    alt: 'A dark showroom with a white Porsche 911, a black Mercedes G-Class, an orange classic Camaro and a silver Lexus (generated placeholder image).',
+    title: ['Good cars.', 'Real people.'],
+    lead: 'An independent dealer in Newbury Park — used cars across every price range, classic American muscle and our own repair shop.',
+    link: { pre: 'Selling instead?', label: 'Get an offer', href: '#sell' },
+  },
+  {
+    id: 'sell',
+    file: 'hero-gen-911-white',
+    widths: [960, 1600, 2560],
+    w: 2560,
+    h: 1440,
+    pos: '40% 45%', /* the 911 right of the copy with air both sides */
+    band: '100% 45%',
+    alt: 'A white Porsche 911 under a softbox in a dark studio (generated placeholder image).',
+    title: ['Selling your car?', 'Get an offer.'],
+    lead: 'Tell us about your car and we come back with a straight offer — or let us consign it and handle the sale for you.',
+    link: { pre: 'Special car?', label: 'About consignment', href: '#sell' },
+  },
+]
+const AUTO_MS = 7000
+
 function Hero({ filters, setFilters }) {
   const set = (k) => (v) => setFilters((f) => ({ ...f, [k]: v }))
   const submit = (e) => {
@@ -139,29 +177,85 @@ function Hero({ filters, setFilters }) {
     const el = document.getElementById('inventory')
     if (el) scrollToEl(el)
   }
+  const [cur, setCur] = useState(0)
+  const [auto, setAuto] = useState(true) // false once the visitor takes the controls or pauses
+  const [hold, setHold] = useState(false) // hover / focus inside the hero
+  useEffect(() => {
+    if (!auto || hold || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const t = setTimeout(() => setCur((c) => (c + 1) % SLIDES.length), AUTO_MS)
+    return () => clearTimeout(t)
+  }, [cur, auto, hold])
+  const go = (d) => {
+    setAuto(false)
+    setCur((c) => (c + d + SLIDES.length) % SLIDES.length)
+  }
   return (
-    <section id="top" className="v3-hero" data-motion-root="hero" aria-labelledby="v3-hero-title">
-      <img
-        className="v3-hero__img"
-        src={img('v3-hero-showroom', 1600)}
-        srcSet={`${img('v3-hero-showroom', 960)} 960w, ${img('v3-hero-showroom', 1600)} 1600w, ${img('v3-hero-showroom', 2752)} 2752w`}
-        sizes="100vw"
-        width="2752"
-        height="1548"
-        alt="A dark showroom with a white Porsche 911, a black Mercedes G-Class, an orange classic Camaro and a silver Lexus (generated placeholder image)."
-        fetchPriority="high"
-      />
+    <section
+      id="top"
+      className="v3-hero"
+      data-motion-root="hero"
+      aria-labelledby="v3-hero-title"
+      aria-roledescription="carousel"
+      onPointerEnter={() => setHold(true)}
+      onPointerLeave={() => setHold(false)}
+      onFocus={() => setHold(true)}
+      onBlur={() => setHold(false)}
+    >
+      {SLIDES.map((sl, k) => (
+        <img
+          key={sl.id}
+          className={`v3-hero__img${k === cur ? ' is-active' : ''}`}
+          src={img(sl.file, 1600)}
+          srcSet={sl.widths.map((w) => `${img(sl.file, w)} ${w}w`).join(', ')}
+          sizes="100vw"
+          width={sl.w}
+          height={sl.h}
+          alt={k === cur ? sl.alt : ''}
+          aria-hidden={k !== cur}
+          fetchPriority={k === 0 ? 'high' : undefined}
+          loading={k === 0 ? undefined : 'lazy'}
+          style={{ '--pos': sl.pos, '--pos-band': sl.band }}
+        />
+      ))}
       <div className="v3-hero__shade" aria-hidden="true" />
       <div className="v3-wrap v3-hero__copy">
-        <h1 id="v3-hero-title" className="v3-display">
-          Good cars.
-          <br />
-          Real people.
-        </h1>
-        <p className="v3-lead v3-hero__lead">
-          An independent dealer in Newbury Park — used cars across every price range, classic American muscle and our
-          own repair shop.
-        </p>
+        <div className="v3-hero__slides" aria-live={auto ? 'off' : 'polite'}>
+          {SLIDES.map((sl, k) => {
+            const H = k === 0 ? 'h1' : 'h2'
+            return (
+              <div key={sl.id} className={`v3-hero__slide${k === cur ? ' is-active' : ''}`} aria-hidden={k !== cur} inert={k !== cur} role="group" aria-roledescription="slide" aria-label={`${k + 1} of ${SLIDES.length}`}>
+                <H id={k === 0 ? 'v3-hero-title' : undefined} className="v3-display">
+                  {sl.title[0]}
+                  <br />
+                  {sl.title[1]}
+                </H>
+                <p className="v3-lead v3-hero__lead">{sl.lead}</p>
+                <p className="v3-hero__alt">
+                  {sl.link.pre}{' '}
+                  <a href={sl.link.href}>
+                    {sl.link.label} <Icon d={I.arrow} size={14} />
+                  </a>
+                </p>
+              </div>
+            )
+          })}
+        </div>
+        <div className="v3-hero__ctrl">
+          <span className="v3-hero__count" aria-hidden="true">
+            {pad(cur + 1)} / {pad(SLIDES.length)}
+          </span>
+          <button type="button" className="v3-round v3-round--sm" aria-label="Previous slide" onClick={() => go(-1)}>
+            <Icon d={I.left} size={18} />
+          </button>
+          <button type="button" className="v3-round v3-round--sm" aria-label="Next slide" onClick={() => go(1)}>
+            <Icon d={I.right} size={18} />
+          </button>
+          {auto ? (
+            <button type="button" className="v3-hero__pause" onClick={() => setAuto(false)}>
+              Pause
+            </button>
+          ) : null}
+        </div>
       </div>
       <div className="v3-wrap v3-hero__dock">
         <form className="v3-search" onSubmit={submit} aria-label="Find a car">
@@ -190,12 +284,6 @@ function Hero({ filters, setFilters }) {
             Find a car
           </button>
         </form>
-        <p className="v3-hero__alt">
-          Selling instead?{' '}
-          <a href="#sell">
-            Get an offer <Icon d={I.arrow} size={14} />
-          </a>
-        </p>
       </div>
     </section>
   )
@@ -433,7 +521,6 @@ function About() {
 }
 
 /* ---------------------------------------------------------------- 06 reviews */
-const pad = (n) => String(n).padStart(2, '0')
 function Reviews() {
   const [i, setI] = useState(0)
   const go = (d) => setI((x) => (x + d + reviews.length) % reviews.length)
@@ -478,6 +565,69 @@ function Reviews() {
           </div>
         </div>
         <p className="v3-note">Sample reviews for the mockup.</p>
+      </div>
+    </section>
+  )
+}
+
+/* ---------------------------------------------------------------- 07 instagram */
+/* Placeholder feed: site photographs in the same lit-studio set, until the
+   dealer's own posts exist. Tiles are plain figures while brand.instagramUrl is
+   null — never a dead link (as V1). */
+const IG = [
+  { id: 'ig-lexus', src: img('hero-gen-lexus-red', 960), w: 960, h: 540, pos: '90% 50%', alt: 'A red Lexus LC in a dark studio (generated placeholder image).' },
+  { id: 'ig-cockpit', src: img('finance-gen-cockpit', 1000), w: 1000, h: 1000, pos: '50% 50%', alt: 'The black leather interior of a grey coupe, door open (generated placeholder image).' },
+  { id: 'ig-gt3rs', src: asset('assets/ig-gt3rs.webp'), w: 900, h: 900, pos: '50% 50%', alt: 'A silver Porsche 911 GT3 RS parked beside a concrete building.' },
+]
+function Instagram() {
+  const url = brand.instagramUrl
+  return (
+    <section id="instagram" className="v3-sec v3-sec--alt" data-motion-root="instagram" aria-labelledby="v3-ig-title">
+      <div className="v3-wrap">
+        <div className="v3-head v3-head--split">
+          <div>
+            <Label n="07">Instagram</Label>
+            <h2 id="v3-ig-title" className="v3-h2" data-motion="heading">
+              Follow along.
+            </h2>
+          </div>
+          <p className="v3-ig__handle" data-motion="support">
+            <span>Arrivals, behind the scenes and work in the shop.</span>
+            {url ? (
+              <a className="v3-link" href={url} target="_blank" rel="noopener">
+                {brand.instagramHandle} <Icon d={I.arrow} size={16} />
+                <span className="visually-hidden"> (opens Instagram in a new tab)</span>
+              </a>
+            ) : (
+              <strong>
+                {brand.instagramHandle} <span className="v3-tag">Placeholder</span>
+              </strong>
+            )}
+          </p>
+        </div>
+        <ul className="v3-ig" data-motion="group">
+          {IG.map((t) => {
+            const inner = (
+              <>
+                <img src={t.src} width={t.w} height={t.h} alt={t.alt} loading="lazy" decoding="async" style={{ objectPosition: t.pos }} />
+                <span className="v3-ig__badge" aria-hidden="true">
+                  <Icon d={I.instagram} size={18} />
+                </span>
+              </>
+            )
+            return (
+              <li key={t.id}>
+                {url ? (
+                  <a className="v3-ig__tile" href={url} target="_blank" rel="noopener" aria-label={`${t.alt} On Instagram (opens in a new tab)`}>
+                    {inner}
+                  </a>
+                ) : (
+                  <figure className="v3-ig__tile">{inner}</figure>
+                )}
+              </li>
+            )
+          })}
+        </ul>
       </div>
     </section>
   )
@@ -597,6 +747,7 @@ export default function AppV3() {
         <Service />
         <About />
         <Reviews />
+        <Instagram />
         <Closing />
       </main>
       <Footer />

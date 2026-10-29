@@ -29,7 +29,7 @@ export function useV3Motion(pageRef) {
         // --- hero: a load entrance, not a scroll one ---------------------------
         const hero = page.querySelector('[data-motion-root="hero"]')
         const heroImg = hero.querySelector('.v3-hero__img')
-        const heroRest = hero.querySelectorAll('.v3-hero__lead, .v3-search, .v3-hero__alt')
+        const heroRest = hero.querySelectorAll('.v3-hero__lead, .v3-hero__alt, .v3-hero__ctrl, .v3-search')
         gsap.set(heroRest, { opacity: 0, y: DIST.support })
         gsap.fromTo(heroImg, { scale: 1.06 }, { scale: 1, duration: DUR.xl * 1.6, ease: EASE.out })
         fontsReady(HERO.fontCap).then(() => {
