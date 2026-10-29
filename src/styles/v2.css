@@ -665,3 +665,29 @@
 [data-version='v2'] .svcfin.is-staged .svcfin__track {
   flex-basis: calc(100% - var(--s-6));
 }
+
+/* Step index ABOVE the copy in both staged chapters (Alex, 2026-10-29: "one order —
+   maybe on top"). Sell: first in the centred column. Service/Finance: the index and
+   the (stacked, equal-height) phase groups are centred together as one block. */
+@media (min-width: 1024px) {
+  [data-version='v2'] .sell.is-staged .sell__index {
+    order: -1;
+    margin: 0 0 var(--s-7);
+  }
+
+  [data-version='v2'] .svcfin.is-staged .svcfin__stage {
+    grid-template-rows: minmax(0, 1fr) auto auto minmax(0, 1fr);
+  }
+
+  [data-version='v2'] .svcfin.is-staged .svcfin__index {
+    grid-row: 2;
+    align-self: end;
+    padding: 0 var(--edge) 0 var(--s-9);
+  }
+
+  [data-version='v2'] .svcfin.is-staged .svcfin__group {
+    grid-row: 3;
+    align-self: start;
+    padding-top: var(--s-7);
+  }
+}
