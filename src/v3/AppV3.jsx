@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { brand, navLinks, footerColumns } from '../data/brand.js'
 import { vehiclesV2 } from '../data/v2/inventory.js'
 import { formatPrice, formatMiles } from '../data/inventory.js'
@@ -6,6 +6,7 @@ import { reviews } from '../data/reviews.js'
 import { logoLight } from '../data/v2/logo.js'
 import { asset } from '../data/asset.js'
 import { initScroll, scrollToEl } from '../motion/scroll.js'
+import { useV3Motion } from './useV3Motion.js'
 
 /**
  * AppV3 — CAR LOFT homepage, V3 (Kirsten, 2026-10-29: the client wants the
@@ -49,7 +50,7 @@ const I = {
 
 /** Section label: an index number and a name — CAR LOFT's own wayfinding. */
 const Label = ({ n, children }) => (
-  <p className="v3-label">
+  <p className="v3-label eyebrow">
     <span className="v3-label__n">{n}</span>
     <span className="v3-label__t">{children}</span>
   </p>
@@ -139,7 +140,7 @@ function Hero({ filters, setFilters }) {
     if (el) scrollToEl(el)
   }
   return (
-    <section id="top" className="v3-hero" aria-labelledby="v3-hero-title">
+    <section id="top" className="v3-hero" data-motion-root="hero" aria-labelledby="v3-hero-title">
       <img
         className="v3-hero__img"
         src={img('v3-hero-showroom', 1600)}
@@ -215,15 +216,15 @@ function Inventory({ filters, setFilters }) {
   const shown = list.slice(0, 6)
   const anyFilter = filters.make || filters.body || filters.price
   return (
-    <section id="inventory" className="v3-sec" aria-labelledby="v3-inv-title">
+    <section id="inventory" className="v3-sec" data-motion-root="inventory" aria-labelledby="v3-inv-title">
       <div className="v3-wrap">
         <div className="v3-head">
           <Label n="01">Inventory</Label>
-          <h2 id="v3-inv-title" className="v3-h2">
+          <h2 id="v3-inv-title" className="v3-h2" data-motion="heading">
             Handpicked, <em>across price ranges.</em>
           </h2>
         </div>
-        <div className="v3-chips" role="group" aria-label="Filter by make">
+        <div className="v3-chips" data-motion="group" role="group" aria-label="Filter by make">
           <button type="button" aria-pressed={!filters.make} onClick={() => setFilters((f) => ({ ...f, make: '' }))}>
             All
           </button>
@@ -242,7 +243,7 @@ function Inventory({ filters, setFilters }) {
           ) : null}
         </p>
         {shown.length ? (
-          <ul className="v3-grid">
+          <ul className="v3-grid" data-motion="cards">
             {shown.map((v) => (
               <li key={v.id}>
                 <a className="v3-card" href={`#contact?topic=car&id=${v.id}`}>
@@ -275,7 +276,7 @@ function Inventory({ filters, setFilters }) {
         ) : (
           <p className="v3-empty">No cars match those filters right now — clear a filter, or tell us what you are looking for.</p>
         )}
-        <div className="v3-more">
+        <div className="v3-more" data-motion="cta">
           <Btn href={brand.inventoryUrl} kind="ghost">
             View all inventory
           </Btn>
@@ -304,18 +305,18 @@ function SellConsign() {
     },
   ]
   return (
-    <section id="sell" className="v3-sec v3-sec--alt" aria-labelledby="v3-sell-title">
+    <section id="sell" className="v3-sec v3-sec--alt v3-glow v3-glow--a" data-motion-root="consign" aria-labelledby="v3-sell-title">
       <div className="v3-wrap">
         <div className="v3-head v3-head--split">
           <div>
             <Label n="02">Sell or consign</Label>
-            <h2 id="v3-sell-title" className="v3-h2">
+            <h2 id="v3-sell-title" className="v3-h2" data-motion="heading">
               Make room <em>for what’s next.</em>
             </h2>
           </div>
-          <p className="v3-lead">Two ways to move on from your car. Either way, it starts with a straightforward conversation.</p>
+          <p className="v3-lead" data-motion="support">Two ways to move on from your car. Either way, it starts with a straightforward conversation.</p>
         </div>
-        <ul className="v3-paths">
+        <ul className="v3-paths" data-motion="group">
           {paths.map((p) => (
             <li key={p.key} className="v3-path">
               <span className="v3-path__media">
@@ -339,25 +340,20 @@ function SellConsign() {
 /* ---------------------------------------------------------------- 03 classics */
 function Classics() {
   return (
-    <section id="classics" className="v3-band-photo" aria-labelledby="v3-cl-title">
+    <section id="classics" className="v3-band-photo" data-motion-root="classics" aria-labelledby="v3-cl-title">
       <img className="v3-band-photo__img" src={img('classics-gen-camaro', 1600)} srcSet={`${img('classics-gen-camaro', 960)} 960w, ${img('classics-gen-camaro', 1600)} 1600w, ${img('classics-gen-camaro')} 2752w`} sizes="100vw" width="2752" height="1290" alt="An orange 1969 Chevrolet Camaro SS in a minimal concrete garage (generated placeholder image)." loading="lazy" decoding="async" />
-      <div className="v3-band-photo__shade" aria-hidden="true" />
       <div className="v3-wrap v3-band-photo__inner">
-        <div>
+        <div className="v3-band-photo__copy">
           <Label n="03">Classic cars</Label>
-          <h2 id="v3-cl-title" className="v3-h2">
-            American muscle.
-            <br />
-            <em>Timeless character.</em>
+          <h2 id="v3-cl-title" className="v3-h2" data-motion="heading">
+            American muscle. <em>Timeless character.</em>
           </h2>
-        </div>
-        <div>
-          <p className="v3-lead">We buy, sell, consign and restore classic American muscle — from honest drivers to full restorations.</p>
-          <div className="v3-actions">
+          <p className="v3-lead" data-motion="support">We buy, sell, consign and restore classic American muscle — from honest drivers to full restorations.</p>
+          <div className="v3-actions" data-motion="cta">
             <Btn href="#contact?topic=classics">Ask about classics</Btn>
-            <Btn href="#service" kind="ghost" icon={false}>
-              Restoration services
-            </Btn>
+            <a className="v3-link" href="#service">
+              Restoration services <Icon d={I.arrow} size={16} />
+            </a>
           </div>
         </div>
       </div>
@@ -374,17 +370,17 @@ const SERVICES = [
 ]
 function Service() {
   return (
-    <section id="service" className="v3-sec" aria-labelledby="v3-svc-title">
+    <section id="service" className="v3-sec" data-motion-root="service" aria-labelledby="v3-svc-title">
       <div className="v3-wrap v3-service">
-        <figure className="v3-service__media">
+        <figure className="v3-service__media" data-motion="image" data-reveal="down">
           <img src={img('service-gen-lift-dark', 1000)} srcSet={`${img('service-gen-lift-dark', 1000)} 1000w, ${img('service-gen-lift-dark')} 2048w`} sizes="(min-width: 900px) 46vw, 100vw" width="2048" height="2048" alt="A silver Mercedes-Benz sedan on a lift in a dark, minimal workshop (generated placeholder image)." loading="lazy" decoding="async" />
         </figure>
         <div className="v3-service__copy">
           <Label n="04">Service &amp; finance</Label>
-          <h2 id="v3-svc-title" className="v3-h2">
+          <h2 id="v3-svc-title" className="v3-h2" data-motion="heading">
             Keep it running. <em>Bring it back.</em>
           </h2>
-          <ol className="v3-rows">
+          <ol className="v3-rows" data-motion="group">
             {SERVICES.map((s) => (
               <li key={s.n} id={s.id}>
                 <span className="v3-rows__n">{s.n}</span>
@@ -395,7 +391,7 @@ function Service() {
               </li>
             ))}
           </ol>
-          <div className="v3-actions">
+          <div className="v3-actions" data-motion="cta">
             <Btn href="#contact?topic=service">Contact our repair shop</Btn>
             <Btn href="#contact?topic=finance" kind="ghost" icon={false}>
               Ask about financing
@@ -410,21 +406,21 @@ function Service() {
 /* ---------------------------------------------------------------- 05 about */
 function About() {
   return (
-    <section id="about" className="v3-sec v3-sec--alt" aria-labelledby="v3-about-title">
+    <section id="about" className="v3-sec v3-sec--alt" data-motion-root="about" aria-labelledby="v3-about-title">
       <div className="v3-wrap v3-service v3-service--flip">
-        <figure className="v3-service__media">
+        <figure className="v3-service__media" data-motion="image" data-reveal="down">
           <img src={img('sell-gen-supra', 1000)} srcSet={`${img('sell-gen-supra', 1000)} 1000w, ${img('sell-gen-supra')} 2048w`} sizes="(min-width: 900px) 46vw, 100vw" width="2048" height="2048" alt="A yellow Toyota Supra under a softbox in a dark studio (generated placeholder image)." loading="lazy" decoding="async" />
         </figure>
         <div className="v3-service__copy">
           <Label n="05">About</Label>
-          <h2 id="v3-about-title" className="v3-h2">
+          <h2 id="v3-about-title" className="v3-h2" data-motion="heading">
             A personal approach <em>to buying cars.</em>
           </h2>
-          <p className="v3-lead v3-about__lead">
+          <p className="v3-lead v3-about__lead" data-motion="support">
             We’re an independent dealership for people who like good cars — from modern performance to classic
             American muscle. Sales, consignment and restoration, handled by people you can talk to.
           </p>
-          <ul className="v3-pills">
+          <ul className="v3-pills" data-motion="group">
             <li>Independent dealer</li>
             <li>Newbury Park, CA</li>
           </ul>
@@ -440,12 +436,12 @@ function Reviews() {
   const [i, setI] = useState(0)
   const go = (d) => setI((x) => (x + d + reviews.length) % reviews.length)
   return (
-    <section id="reviews" className="v3-sec" aria-labelledby="v3-rev-title">
+    <section id="reviews" className="v3-sec v3-glow v3-glow--b" data-motion-root="reviews" aria-labelledby="v3-rev-title">
       <div className="v3-wrap">
         <div className="v3-head v3-head--split">
           <div>
             <Label n="06">Reviews</Label>
-            <h2 id="v3-rev-title" className="v3-h2">
+            <h2 id="v3-rev-title" className="v3-h2" data-motion="heading">
               What our <em>customers say.</em>
             </h2>
           </div>
@@ -455,7 +451,7 @@ function Reviews() {
           </a>
         </div>
         <div className="v3-quote" role="region" aria-roledescription="carousel" aria-label="Customer reviews (samples)">
-          <div className="v3-quote__stack">
+          <div className="v3-quote__stack" data-motion="support">
             {reviews.map((r, k) => (
               <figure key={r.id} className={`v3-quote__item${k === i ? ' is-active' : ''}`} aria-hidden={k !== i} inert={k !== i}>
                 <blockquote>
@@ -488,13 +484,13 @@ function Reviews() {
 /* ---------------------------------------------------------------- closing + footer */
 function Closing() {
   return (
-    <section className="v3-closing" aria-labelledby="v3-cta-title">
+    <section className="v3-closing" data-motion-root="closing" aria-labelledby="v3-cta-title">
       <img className="v3-closing__img" src={img('footer-gen-showroom', 3168)} srcSet={`${img('footer-gen-showroom', 1200)} 1200w, ${img('footer-gen-showroom', 3168)} 3168w`} sizes="100vw" width="3168" height="1050" alt="" loading="lazy" decoding="async" />
       <div className="v3-wrap v3-closing__inner">
-        <h2 id="v3-cta-title" className="v3-h2">
+        <h2 id="v3-cta-title" className="v3-h2" data-motion="heading">
           Your next car <em>is a conversation away.</em>
         </h2>
-        <div className="v3-actions v3-actions--center">
+        <div className="v3-actions v3-actions--center" data-motion="cta">
           <Btn href="#contact?topic=sell">Get an offer</Btn>
           <Btn href={brand.contact.phone.href} kind="ghost" icon={false}>
             Call {brand.contact.phone.value}
@@ -563,7 +559,13 @@ function StickyBar() {
 
 export default function AppV3() {
   const [filters, setFilters] = useState({ make: '', body: '', price: '' })
+  const pageRef = useRef(null)
   useEffect(() => initScroll(), [])
+  useV3Motion(pageRef)
+  // the filtered grid changes height: re-measure every trigger below it
+  useEffect(() => {
+    window.dispatchEvent(new Event('layout:change'))
+  }, [filters])
   // In-page anchors go through the Lenis-aware scroller (anchors are off in Lenis).
   useEffect(() => {
     const onClick = (e) => {
@@ -580,7 +582,7 @@ export default function AppV3() {
   }, [])
 
   return (
-    <div className="v3">
+    <div className="v3" ref={pageRef}>
       <a className="v3-skip" href="#main">
         Skip to content
       </a>
