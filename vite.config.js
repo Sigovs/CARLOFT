@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { resolve } from 'node:path'
 import { brand } from './src/data/brand.js'
 
 /**
@@ -29,4 +30,13 @@ function brandMeta() {
 export default defineConfig(({ mode }) => ({
   base: mode === 'pages' ? '/CARLOFT/' : '/',
   plugins: [brandMeta(), react()],
+  // Two pages: index.html (V1) and index_v2.html (V2 — client feedback 2026-10-29).
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(import.meta.dirname, 'index.html'),
+        v2: resolve(import.meta.dirname, 'index_v2.html'),
+      },
+    },
+  },
 }))

@@ -34,8 +34,10 @@
  */
 
 import { asset } from './asset.js'
+import { V2 } from './version.js'
+import { heroSlidesV2 } from './v2/hero.js'
 
-export const heroSlides = [
+const heroSlidesV1 = [
   {
     // Client-supplied hero frame (reference/new hero d.jpg, 2026-09-30):
     // silver Porsche 911 + white Lexus ES on a coastal overlook, clear blue sky.
@@ -119,6 +121,8 @@ export const heroSlides = [
     ],
   },
 ]
+
+export const heroSlides = V2 ? heroSlidesV2 : heroSlidesV1
 
 export const heroSrcSet = (s) => (s.widths || [960, 1600, 2560]).map((w) => `${s.image}-${w}.webp ${w}w`).join(', ')
 export const heroSrc = (s) => `${s.image}-1600.webp`

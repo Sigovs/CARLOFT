@@ -8,6 +8,8 @@ import Classics from './components/Classics.jsx'
 import ServiceFinance from './components/ServiceFinance.jsx'
 import About from './components/About.jsx'
 import Reviews from './components/Reviews.jsx'
+import ReviewsEditorial from './components/v2/ReviewsEditorial.jsx'
+import { V2 } from './data/version.js'
 import Instagram from './components/Instagram.jsx'
 import Footer from './components/Footer.jsx'
 import { useInventoryFilters } from './hooks/useInventoryFilters.js'
@@ -52,7 +54,7 @@ export default function App() {
             Service.jsx / Finance.jsx are kept: render <Service /> <Finance /> here instead to restore. */}
         <ServiceFinance />
         <About />
-        <Reviews />
+        {V2 ? <ReviewsEditorial /> : <Reviews />}
         <Instagram />
       </main>
       <Footer route={route} />

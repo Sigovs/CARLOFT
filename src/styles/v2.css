@@ -1,0 +1,667 @@
+/* =============================================================================
+   v2.css — index_v2.html only (<html data-version="v2">). Client feedback,
+   2026-10-29: "too much blue and grey in the background ... okay with
+   variations of dark and light ... all the cars well lit".
+   Every rule is scoped to [data-version='v2'], so index.html (V1) is untouched.
+   ============================================================================= */
+
+/* The dark family turns neutral (no blue cast); blue survives only as the
+   action colour (primary buttons, text links). */
+:root[data-version='v2'] {
+  --c-ground: #f5f4f1;          /* warm off-white instead of cool grey */
+  --c-deep: #1c1c1d;            /* secondary CTA, wordmark tab, active pills — white on it ≈17:1 */
+  --c-deep-hover: #343436;      /* white on it ≈12.6:1 */
+  --c-graphite: #0f0f10;        /* dark sections + header dark state */
+  --c-graphite-2: #1b1b1c;
+  --c-on-dark-2: #bdbdb9;       /* ≈10.3:1 on graphite */
+  /* No colour accent (Alex, 2026-10-29: not the blue, not brown): actions are
+     monochrome — ink on light grounds, near-white on dark grounds and photos.
+     Token names stay --c-blue* so every button/link rule follows unchanged. */
+  --c-blue: var(--c-ink);       /* primary fill, text links — white on it 17.6:1 */
+  --c-blue-hover: #3a3c40;      /* hover / pressed — white on it ≈11:1 */
+}
+
+/* Secondary on light grounds: an ink outline under the solid ink primary. */
+[data-version='v2'] .btn--secondary {
+  --btn-bg: transparent;
+  --btn-fg: var(--c-ink);
+  --btn-border: var(--c-ink);
+}
+
+[data-version='v2'] .btn--secondary:hover,
+[data-version='v2'] .btn--secondary:focus-visible,
+[data-version='v2'] .btn--secondary:active {
+  --btn-bg: var(--c-ink);
+  --btn-fg: var(--c-white);
+  --btn-border: var(--c-ink);
+}
+
+/* On the photograph (hero) and the dark Classics stage the pair inverts:
+   primary near-white solid (ink label ≈16:1), secondary a near-white outline. */
+[data-version='v2'] .slide__actions .btn:not(.btn--photo),
+[data-version='v2'] .classics__actions .btn:not(.btn--on-dark) {
+  --btn-bg: var(--c-on-dark);
+  --btn-fg: var(--c-ink);
+  --btn-border: var(--c-on-dark);
+}
+
+[data-version='v2'] .slide__actions .btn:not(.btn--photo):is(:hover, :focus-visible, :active),
+[data-version='v2'] .classics__actions .btn:not(.btn--on-dark):is(:hover, :focus-visible, :active) {
+  --btn-bg: var(--c-white);
+  --btn-fg: var(--c-ink);
+  --btn-border: var(--c-white);
+}
+
+[data-version='v2'] .btn--photo,
+[data-version='v2'] .classics__actions .btn--on-dark {
+  --btn-bg: transparent;
+  --btn-fg: var(--c-on-dark);
+  --btn-border: var(--c-on-dark);
+}
+
+[data-version='v2'] .btn--photo:is(:hover, :focus-visible, :active),
+[data-version='v2'] .classics__actions .btn--on-dark:is(:hover, :focus-visible, :active) {
+  --btn-bg: var(--c-on-dark);
+  --btn-fg: var(--c-ink);
+  --btn-border: var(--c-on-dark);
+}
+
+/* Logo (LOGO/CarLoft-business-Logo.pdf) in the wordmark tab.
+   Over the hero, before any scroll: no plate, the logo large and free on the
+   photograph, its left edge on the headline's edge. Once scrolled: the plate
+   returns at bar height and the logo settles into it.
+   The logo's LAYOUT size is the compact one, so the tab's width never changes
+   and nothing in the bar moves; the large state is a transform only. */
+[data-version='v2'] .header {
+  --logo-h: calc(var(--header-h) - 26px);  /* in the bar: 46 desktop / 38 phone, 13px air above and below */
+  --logo-k: 1.8;                           /* large state: ≈68px tall on phones */
+}
+
+@media (min-width: 1024px) {
+  [data-version='v2'] .header {
+    --logo-k: 2.45;                        /* ≈112px tall on desktop */
+  }
+}
+
+[data-version='v2'] .header__wordmark {
+  align-items: flex-start;
+  padding: 0 var(--s-5);
+  transition: background-color var(--dur-s) var(--ease-out);
+}
+
+[data-version='v2'] .header__logo {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: auto;
+  height: var(--logo-h);
+  margin-top: 13px;
+  transform-origin: top left;
+  transition: transform var(--dur-s) var(--ease-out);
+}
+
+/* Large, no plate — top of the page only, and never while the white mobile sheet is open. */
+[data-version='v2'] .header:not([data-compact]):not(:has(.header__sheet.is-open)) .header__wordmark,
+[data-version='v2'] .header:not([data-compact]):not(:has(.header__sheet.is-open)) .header__wordmark:hover,
+[data-version='v2'] .header:not([data-compact]):not(:has(.header__sheet.is-open)) .header__wordmark:focus-visible {
+  background: transparent;
+}
+
+[data-version='v2'] .header:not([data-compact]):not(:has(.header__sheet.is-open)) .header__logo {
+  transform: translateX(calc(-1 * var(--s-5))) scale(var(--logo-k));
+}
+
+/* The hero copy starts below the large logo (desktop ≈ 125px, phone ≈ 81px). */
+[data-version='v2'] .hero {
+  --hero-top: 40px;
+}
+
+@media (min-width: 1024px) {
+  [data-version='v2'] .hero {
+    --hero-top: 84px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-version='v2'] .header__logo,
+  [data-version='v2'] .header__wordmark {
+    transition: none;
+  }
+}
+
+[data-version='v2'] .footer__logo {
+  display: block;
+  width: auto;
+  height: 88px;
+}
+
+/* Step progress bars: ink, not blue. */
+[data-version='v2'] .sell__fill,
+[data-version='v2'] .svcfin__fill {
+  background: var(--c-ink);
+}
+
+/* Reviews ground: the two blue pools become warm smoke beside the cognac. */
+[data-version='v2'] .reviews__shape--blue {
+  background: radial-gradient(ellipse at 40% 45%, #5c554d 0%, rgb(92 85 77 / 0.5) 45%, transparent 72%);
+}
+
+[data-version='v2'] .reviews__shape--deep {
+  background: radial-gradient(ellipse at 55% 50%, #3d3833 0%, rgb(40 37 34 / 0.7) 50%, transparent 76%);
+}
+
+
+
+
+/* Hero copy on the vertical centre (Alex, 2026-10-29), landscape only: the
+   headline + lead block takes an auto margin above it as the actions do, so it
+   sits midway between the logo and the bottom row. Phones keep the words at the
+   top (the car fills the middle of the portrait crop). */
+@media (min-aspect-ratio: 1001 / 1000) {
+  [data-version='v2'] .slide__headline {
+    margin-top: auto;
+  }
+}
+
+/* About: both actions are marked secondary in the markup; with the outline
+   secondary that left no lead — "Plan a Visit" takes the solid ink. */
+[data-version='v2'] .about .btn--secondary:first-child {
+  --btn-bg: var(--c-ink);
+  --btn-fg: var(--c-white);
+  --btn-border: var(--c-ink);
+}
+
+[data-version='v2'] .about .btn--secondary:first-child:is(:hover, :focus-visible, :active) {
+  --btn-bg: var(--c-blue-hover);
+  --btn-border: var(--c-blue-hover);
+}
+
+/* ---------- Reviews V2: editorial testimonial on neutral black + film grain ----------
+   (21st.dev "Editorial Testimonial", ported; components/v2/) */
+.rv2 {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+
+/* neutral black, a fine film grain only (no haze) */
+.rv2__grain {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.07;
+}
+
+.rv2__inner {
+  position: relative;
+}
+
+.rv2__head .eyebrow {
+  color: var(--c-on-dark-2);
+}
+
+.rv2__head .h3 {
+  margin-top: var(--gap-eyebrow);
+  color: var(--c-on-dark);
+}
+
+.rv2__stage {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: clamp(var(--s-6), 5vw, var(--s-9));
+  max-width: 64rem;
+  margin-top: var(--s-8);
+  border-radius: var(--radius);
+}
+
+.rv2__stage:focus-visible {
+  outline: 2px solid var(--c-on-dark);
+  outline-offset: 12px;
+}
+
+/* the large index: a quiet numeral, not a headline */
+.rv2__index {
+  grid-row: 1 / span 2;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 10vw, 9rem);
+  font-weight: 300;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: rgb(242 242 240 / 0.14);
+  user-select: none;
+}
+
+.rv2__reviews {
+  display: grid;
+}
+
+/* All reviews in one cell (the tallest sets the height); the active one
+   crossfades in, the others are hidden from view, focus and AT. */
+.rv2__review {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(var(--s-4));
+  transition:
+    opacity var(--dur-s) var(--ease-out),
+    transform var(--dur-s) var(--ease-out),
+    visibility 0s linear var(--dur-s);
+}
+
+.rv2__review.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity var(--dur-s) var(--ease-out) 0.12s,
+    transform var(--dur-s) var(--ease-out) 0.12s,
+    visibility 0s;
+}
+
+.rv2__quote {
+  margin: 0;
+}
+
+.rv2__quote p {
+  max-width: 34ch;
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, calc(1.5rem + 14 * (100vw - 390px) / 1050), 2.375rem); /* 24 → 38 */
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--c-on-dark);
+  text-wrap: pretty;
+}
+
+.rv2__quote p::before {
+  content: '“';
+}
+
+.rv2__quote p::after {
+  content: '”';
+}
+
+.rv2__author {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  margin-top: auto; /* pinned to the cell's foot: the reviewer never moves either */
+  padding-top: var(--s-7);
+}
+
+.rv2__avatar {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--c-on-dark-hairline);
+  border-radius: 50%;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--c-on-dark);
+  overflow: hidden;
+}
+
+.rv2__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+}
+
+.rv2__who {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rv2__name {
+  font-weight: 600;
+  color: var(--c-on-dark);
+}
+
+.rv2__name a {
+  color: inherit;
+}
+
+.rv2__role {
+  font-size: var(--fs-small);
+  color: var(--c-on-dark-2);
+}
+
+/* The control bar: CTA left, review selector + arrows right — one fixed line. */
+.rv2__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-5);
+  margin-top: var(--s-8);
+}
+
+.rv2__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--s-6);
+}
+
+.rv2__lines {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.rv2__line {
+  padding: var(--s-4) 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.rv2__line span {
+  display: block;
+  width: var(--s-5);
+  height: 1px;
+  background: rgb(242 242 240 / 0.28);
+  transition:
+    width var(--dur-m) var(--ease-out),
+    background-color var(--dur-s) var(--ease-out);
+}
+
+.rv2__line[aria-current] span {
+  width: var(--s-7);
+  background: var(--c-on-dark);
+}
+
+.rv2__line:hover span,
+.rv2__line:focus-visible span {
+  background: rgb(242 242 240 / 0.6);
+}
+
+.rv2__line:focus-visible {
+  outline: 2px solid var(--c-on-dark);
+  outline-offset: 2px;
+}
+
+.rv2__count {
+  margin-left: var(--s-3);
+  white-space: nowrap;
+  font-size: var(--fs-eyebrow);
+  letter-spacing: var(--tr-eyebrow);
+  color: var(--c-on-dark-2);
+}
+
+.rv2__arrows {
+  display: flex;
+  gap: var(--s-2);
+}
+
+.rv2__arrow {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--c-on-dark-hairline);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--c-on-dark);
+  cursor: pointer;
+  transition:
+    border-color var(--dur-xs) var(--ease-out),
+    background-color var(--dur-xs) var(--ease-out);
+}
+
+.rv2__arrow .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.rv2__arrow:hover,
+.rv2__arrow:focus-visible {
+  border-color: var(--c-on-dark);
+  background: rgb(242 242 240 / 0.06);
+}
+
+
+
+@media (max-width: 767px) {
+  .rv2__stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rv2__index {
+    grid-row: auto;
+    margin-bottom: var(--s-4);
+    font-size: 4.5rem;
+  }
+
+  .rv2__nav {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .rv2__lines {
+    gap: var(--s-2);
+  }
+
+  .rv2__line span {
+    width: var(--s-4);
+  }
+
+  .rv2__line[aria-current] span {
+    width: var(--s-6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv2__review,
+  .rv2__line span {
+    transition: none;
+  }
+}
+
+/* ---------- Round 3 (Alex, 2026-10-29): a dark site, like the Clutch reference ----------
+   Every section except the inventory (search band + cards) sits on near-black, so
+   the photographs carry the colour. Dark sections alternate two near-blacks, as
+   Clutch does. Done by inverting the tokens inside each section: every rule that
+   reads --c-white / --c-ink / --c-line… follows (text, hairlines, pills, buttons:
+   primary = near-white solid with a near-black label, secondary = light outline). */
+[data-version='v2'] :is(.sell, .svcfin, .about__panel, .instagram) {
+  --c-white: #141415;           /* the section ground (sections set background: --c-white) */
+  --c-ground: #1b1b1c;          /* media plates */
+  --c-ink: #f2f2f0;             /* headings, body ink — 16.6:1 on #141415 */
+  --c-ink-2: #bdbdb9;           /* body, leads — 9.9:1 */
+  --c-ink-3: #9b9a96;           /* meta — 6.6:1 */
+  --c-line: rgb(255 255 255 / 0.12);
+  --c-line-strong: rgb(255 255 255 / 0.34);
+  --hairline: 1px solid rgb(255 255 255 / 0.12);
+  --c-blue: #f2f2f0;            /* primary fill; its label is --c-white (near-black) */
+  --c-blue-hover: #ffffff;
+  --c-deep: #f2f2f0;            /* active step pill: light fill, near-black label */
+  --c-deep-hover: #ffffff;
+  --focus-ring: 2px solid #f2f2f0;
+  color: var(--c-ink);
+}
+
+/* About: the white panel becomes a near-black plate over the photograph. */
+[data-version='v2'] .about__panel {
+  background: var(--c-white);
+}
+
+/* The header is dark once scrolled, on every section (Clutch: one dark bar). */
+[data-version='v2'] .header[data-header='scrolled'] {
+  --h-bg: var(--c-graphite);
+  --h-fg: var(--c-on-dark);
+  --h-fg-2: var(--c-on-dark-2);
+  --h-border: var(--c-on-dark-hairline);
+}
+
+
+/* The page ground is dark too: no white strip shows through section gaps
+   (the footer's top margin, the reveals' clip insets). */
+[data-version='v2'] body {
+  background: var(--c-graphite);
+}
+
+/* ---------- Round 5 (Alex, 2026-10-29: "cropped badly, make a seamless transition;
+   Classics has too much empty space, unreal gaps") ---------- */
+
+/* Classics: the generated frame shown WHOLE across the stage (no crop of the car),
+   anchored to the stage foot, its top dissolving into the graphite room — no hard
+   band under the header. The copy is one group, top-left over the dark wall. */
+@media (min-width: 1024px) {
+  [data-version='v2'] .classics__layer img {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    max-width: none;
+    aspect-ratio: 2752 / 1290;
+    object-fit: cover;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 24%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 24%);
+  }
+
+  [data-version='v2'] .classics__copy {
+    top: calc(var(--header-h) + clamp(var(--s-6), 7vh, var(--s-9)));
+  }
+
+  [data-version='v2'] .classics__media::after {
+    background: linear-gradient(90deg, rgb(15 15 16 / 0.4) 0%, rgb(15 15 16 / 0) 42%);
+  }
+}
+
+/* Footer: the showroom frame WHOLE, centred, as wide as the page allows (≤ 1680px),
+   dissolving into the graphite on all four sides — no seam, no car cut by an edge.
+   The links start below its car row. */
+[data-version='v2'] .footer {
+  --ft-w: min(100vw, 1680px);
+  padding-top: max(clamp(var(--s-10), 22vw, 320px), calc(var(--ft-w) / 3.017 * 0.78));
+}
+
+[data-version='v2'] .footer__bg {
+  inset: 0 auto auto 50%;
+  width: var(--ft-w);
+  height: auto;
+  aspect-ratio: 3168 / 1050;
+  transform: translateX(-50%);
+}
+
+[data-version='v2'] .footer__bg img {
+  object-fit: cover;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 22%, #000 62%, transparent 96%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 22%, #000 62%, transparent 96%);
+  mask-composite: intersect;
+}
+
+[data-version='v2'] .footer__bg::after {
+  background: none;
+}
+
+/* Reviews: a subtle, uneven radial light on the black (neutral grey, no colour). */
+.rv2 {
+  background:
+    radial-gradient(ellipse 46% 58% at 74% 34%, rgb(255 255 255 / 0.055) 0%, rgb(255 255 255 / 0.02) 48%, transparent 72%),
+    radial-gradient(ellipse 34% 30% at 16% 82%, rgb(255 255 255 / 0.035) 0%, transparent 70%),
+    radial-gradient(ellipse 22% 26% at 44% 12%, rgb(255 255 255 / 0.025) 0%, transparent 70%),
+    var(--c-graphite);
+}
+
+/* Header: the dark bar arrives with the first scroll (Alex, 2026-10-29) — the
+   logo's plate and the bar appear together, never a lone plate over the hero.
+   (Specificity beats the transparent-over-hero rule in header.css.) */
+:root[data-version='v2'] .header.header[data-compact][data-header] {
+  --h-bg: var(--c-graphite);
+  --h-fg: var(--c-on-dark);
+  --h-fg-2: var(--c-on-dark-2);
+  --h-border: var(--c-on-dark-hairline);
+}
+
+/* Step index (Sell · Service/Finance), V2: quiet editorial tabs instead of pills —
+   number + label, the active step in full ink, the rest receded; one hairline
+   under the steps, exactly as wide as them, whose fill is the scroll progress.
+   (Alex, 2026-10-29: the pills + long bar read badly on the dark ground.) */
+[data-version='v2'] .sell.is-staged .sell__index {
+  width: fit-content;
+  max-width: none;
+}
+
+[data-version='v2'] .svcfin.is-staged .svcfin__index {
+  justify-self: start;
+  width: fit-content;
+}
+
+[data-version='v2'] .sell__index-list {
+  gap: var(--s-6);
+}
+
+[data-version='v2'] .svcfin.is-staged .svcfin__index {
+  column-gap: var(--s-6);
+}
+
+[data-version='v2'] :is(.sell__index-btn, .svcfin__index-btn),
+[data-version='v2'] :is(.sell__index-btn, .svcfin__index-btn)[aria-current='step'] {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--c-ink-3);
+}
+
+[data-version='v2'] :is(.sell__index-btn, .svcfin__index-btn) :is(.sell__index-num, .tabular) {
+  color: var(--c-ink-3);
+  font-weight: 500;
+}
+
+[data-version='v2'] :is(.sell__index-btn, .svcfin__index-btn)[aria-current='step'],
+[data-version='v2'] :is(.sell__index-btn, .svcfin__index-btn)[aria-current='step'] :is(.sell__index-num, .tabular) {
+  color: var(--c-ink);
+}
+
+[data-version='v2'] :is(.sell__index-btn, .svcfin__index-btn):hover {
+  color: var(--c-ink-2);
+}
+
+[data-version='v2'] :is(.sell__track, .svcfin__track) {
+  max-width: none;
+  height: 1px;
+  margin-top: 0;
+}
+
+[data-version='v2'] :is(.sell__track, .svcfin__track)::before {
+  inset: 0;
+  height: 1px;
+}
+
+[data-version='v2'] :is(.sell__fill, .svcfin__fill) {
+  background: var(--c-ink);
+}
+
+/* Classics' approach frame (V1: the inset stage on the white page) sits on the
+   dark page here — no white band between Sell and Classics. */
+[data-version='v2'] .classics,
+[data-version='v2'] .classics.is-framed {
+  background: var(--c-graphite);
+}
+
+/* Service/Finance: the wrapped track would include one more column gap than the
+   two steps use — trim it so the hairline ends exactly under "Finance". */
+[data-version='v2'] .svcfin.is-staged .svcfin__track {
+  flex-basis: calc(100% - var(--s-6));
+}

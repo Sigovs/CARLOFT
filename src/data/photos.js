@@ -16,8 +16,10 @@
  */
 
 import { asset } from './asset.js'
+import { V2 } from './version.js'
+import { photosV2 } from './v2/photos.js'
 
-export const photos = {
+const photosV1 = {
   sell: {
     file: 'sell-porsche-992-rear',
     variants: [1000, 1800], // largest = the base file name without a suffix
@@ -87,6 +89,8 @@ export const photos = {
   },
 
 }
+
+export const photos = V2 ? photosV2 : photosV1
 
 const url = (p, w) =>
   w === p.variants[p.variants.length - 1] && !p.suffixLargest ? asset(`assets/${p.file}.webp`) : asset(`assets/${p.file}-${w}.webp`)

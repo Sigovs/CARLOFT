@@ -14,10 +14,12 @@
  */
 
 import { asset } from './asset.js'
+import { V2 } from './version.js'
+import { vehiclesV2, bodyTypesV2 } from './v2/inventory.js'
 
 const img = (file) => asset(`assets/${file}.webp`)
 
-export const vehicles = [
+const vehiclesV1 = [
   {
     id: 'p911',
     make: 'Porsche',
@@ -139,6 +141,8 @@ export const vehicles = [
   },
 ]
 
+export const vehicles = V2 ? vehiclesV2 : vehiclesV1
+
 /* ---- search options, derived from the dataset (BRIEF §14.3) ---- */
 
 export const makes = [...new Set(vehicles.map((v) => v.make))].sort()
@@ -146,7 +150,7 @@ export const makes = [...new Set(vehicles.map((v) => v.make))].sort()
 export const modelsFor = (make) =>
   [...new Set(vehicles.filter((v) => !make || v.make === make).map((v) => v.model))].sort()
 
-export const bodyTypes = ['Coupe', 'Sedan', 'Hatchback', 'SUV']
+export const bodyTypes = V2 ? bodyTypesV2 : ['Coupe', 'Sedan', 'Hatchback', 'SUV']
 
 /** Price-max options (derived from the sample prices; illustrative). */
 export const priceOptions = [20000, 40000, 75000, 100000]

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" data-version="v2">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Title and description are injected from src/data/brand.js (vite.config.js, brand-meta). -->
+    <title>%BRAND_TITLE%</title>
+    <meta name="description" content="%BRAND_DESCRIPTION%" />
+    <meta property="og:title" content="%BRAND_TITLE%" />
+    <meta property="og:description" content="%BRAND_DESCRIPTION%" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="data:," />
+    <!-- MOTION.md §6.6: scopes hover-transform CSS and staged layouts only; never hides content. -->
+    <script>
+      document.documentElement.classList.add('js')
+    </script>
+    <!-- V2 (client feedback 2026-10-29): data-version="v2" switches src/data to src/data/v2 and turns on src/styles/v2.css.
+         Slide 1 (white 911, generated studio frame). imagesizes mirrors heroSizes() in src/data/hero.js. -->
+    <link
+      rel="preload"
+      as="image"
+      href="assets/hero-gen-911-white-1600.webp"
+      imagesrcset="assets/hero-gen-911-white-960.webp 960w, assets/hero-gen-911-white-1600.webp 1600w, assets/hero-gen-911-white-2560.webp 2560w"
+      imagesizes="(max-aspect-ratio: 1/1) 178vh, (max-aspect-ratio: 2560/1440) 178vh, 100vw"
+      fetchpriority="high"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

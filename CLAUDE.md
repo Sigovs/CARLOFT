@@ -76,3 +76,19 @@ American muscle; consignment; service/restoration/paint/body; finance).
   placeholders in `src/data/`, visibly marked. No invented claims.
 - Photography copied from WORK into `public/assets/` (never runtime WORK paths).
 - Do not publish or deploy.
+
+## Feedback log
+
+- **2026-10-29, client on V1:** too much blue and grey in the backgrounds; dark/light alternation is
+  fine; every car must be well lit (reference: clutchmotorsco.com). Built as a separate page,
+  **`index_v2.html`** (Alex: "это index_v2 будет") — V1 `index.html` stays as it was. V2 = neutral
+  dark family (no navy), blue only on primary actions/links, lit-car photography, one consistent
+  studio set for inventory. Overrides: `src/data/v2/`, `src/styles/v2.css`, flag `src/data/version.js`.
+- **V2 decisions (Alex, 2026-10-29):** actions are **monochrome** (ink on light, near-white on dark/photo,
+  outline secondaries) — blue rejected ("этот синенький не очень уже"), then brown/cognac rejected; client logo (LOGO/) large and plate-less over the hero until
+  the first scroll; hero copy on the vertical centre (landscape); Classics full screen.
+  Reviews = ports of 21st.dev "Editorial Testimonial" + "Grainy Light Leak" (retuned warm silver,
+  no pointer) in `src/components/v2/`.
+- **Rejected pattern:** blue-cast grounds (sky-dominated heroes, navy tabs/pills, blue gradient pools,
+  dusk footers) and cars that are small, grey-on-grey or dimly lit.
+

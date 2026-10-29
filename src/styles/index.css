@@ -9,3 +9,4 @@
 @import './chapters.css';
 @import './svcfin.css';
 @import './tail.css';
+@import './v2.css'; /* index_v2.html overrides, scoped to [data-version='v2'] */

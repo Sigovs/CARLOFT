@@ -65,3 +65,55 @@ Retired: classics-camaro-studio* (the likely AI-generated frame — GI3 issue cl
 | service-workshop (+ -960) | reference/service.png (client-supplied, 1448×1086) | client-supplied | Mercedes on a two-post lift, technician |
 | finance-mercedes-interior (+ -960) | reference/finance.png (client-supplied, 1448×1086) | client-supplied | Mercedes E-Class cabin, cream leather |
 Retired: service-lift*, finance-interior* (files removed).
+
+
+## V2 page — index_v2.html (2026-10-29)
+Client feedback on V1: "too much blue and grey in the background … okay with variations of dark and
+light … like clutchmotorsco.com, all the cars well lit". V1 (index.html) and its files are untouched;
+V2 data lives in `src/data/v2/`, its CSS in `src/styles/v2.css` (scoped to `[data-version='v2']`).
+All V2 images are temporary WORK images (other dealers' / Gunther Werks shoots) — usage rights for a
+public site are NOT established. Sources under `C:\____WORK\`.
+
+| File (variants) | Source | Processing | Notes |
+|---|---|---|---|
+| hero-gw-haze-studio (-960/-1600/-2560) | PRESTIGE/PRESTIGE_GUNTHER/…/gallery/studio-dark/studio-dark-14-f26-headon-haze_6336x6336.jpg | **empty studio wall/floor extended left (+42%) and right (+12%) by stretching edge columns**, 16:9 | silver Gunther Werks 911 restomod; no car pixels altered |
+| hero-gw-white-studio (-960/-1600/-2560) | …/studio-dark/studio-dark-42-mckenna-hero_2560x1706.jpg | **studio extended left (+40%) and top/bottom** by stretching edge pixels, 16:9 | white GW 911, red glow |
+| hero-porsche-gt2rs | unchanged from V1 | | |
+| sell-porsche-gt3-green (-1000) | CHICAGO MOTOR CARS/assets/img/inventory/cmc-porsche-gt3.jpg (1920×1280) | square crop, front quarter | green 992 GT3, lit hangar |
+| classics-corvette-1960 (-960/-1600) | DU PONT REGESTRY/_____TEST FINAL/assets/source/607112_1960-chevrolet-corvette/009_…jpg | **duPont REGISTRY sign on the pillar painted out** with the pillar texture | front plate blank in source |
+| service-garage-993 (-1000) | …/gallery/craft/craft-27-garage-assembly-orange-car_2560x2560.jpg | none | orange GW 911 body shell on a dolly |
+| about-turnpike-993 (-1200) | …/gallery/location/location-01-japan-turnpike-chase_6860x4573.jpg | 16:9 crop from x 14%; **licence plate blurred** | orange GW 911, autumn road |
+| footer-amber-studio (-1200/-2400) | …/gallery/studio-dark/studio-dark-43-hercules-hero-amber_2560x1707.jpg | resize | decorative, alt="" |
+| inv-porsche-911-targa, inv-porsche-macan, inv-porsche-718, inv-mercedes-g63, inv-range-rover, inv-mazda-mx5, inv-shelby-gt350 | DU PONT REGESTRY/_____TEST FINAL/assets/source/<listing>/ (one white studio set) | 1440×960 | make/model/year from listing folder names |
+
+Finance keeps V1's client-supplied interior. Excluded while scouting: images without camera data at
+generator sizes (likely AI-generated): PREMIERE, LUX CARS, ACTON service, CORSA, HINDERER, VIP LEASING,
+most VEGAS, KEY KARS 5504×3072, Chicago "fin-lineup", Midwest Cobras black-ground renders.
+| carloft-logo-light (.webp, .png) | LOGO/CarLoft-business-Logo.pdf (client-supplied) | the PDF's embedded 1050×600 JPEG, trimmed; alpha from luminance, coloured #f2f2f0 | V2 header tab + footer. **No vector master** — replace with SVG when the client has one |
+
+### V2 update (2026-10-29, later)
+Classics back to full screen; footer replaced (Alex: the amber studio car sat badly under the links).
+| classics-mustang-garage (-960/-1600) | BHCC/assets/images/visbrake_2.jpg (1920×960) | none | blue Mustang Mach 1 under a spotlight, collector garage; car-brand flags (Corvette, Alfa Romeo, Lamborghini) visible. Its source BHCC/refference/BRAKE2.jpg is portrait 3240×4038, so the wide frame is **likely an extended (outpainted) version** — the car itself matches |
+| footer-bhcc-showroom (-1200/-2000) | BHCC/assets/images/sell-showroom.jpg (2000×1000) | top 28% cropped off | collector showroom, white 911 + classics; shown as a top band that fades into graphite |
+Retired: classics-corvette-1960*, footer-amber-studio-* (files removed).
+
+### V2 round 4 (2026-10-29): AI-GENERATED section imagery
+Alex: generate the cars per section, composed for where they sit — air on every side, no crops,
+never against an edge or a neighbouring section; client dislikes blue, Alex dislikes brown → strictly
+neutral graphite / white light. **All files below are synthetic placeholders** (fal-ai/nano-banana-pro,
+2K), they depict real makes and must never be presented as real stock or real premises; alt texts
+say "generated placeholder image". Inventory cards stay real listing photos.
+| File | Prompted as | Post-processing |
+|---|---|---|
+| hero-gen-911-white (-960/-1600/-2560) | white Porsche 911, graphite studio, right half | studio extended left 26% + floor below; overhead softbox painted out (under the white header) |
+| hero-gen-lexus-red (-960/-1600/-2560) | red Lexus LC 500, graphite studio, right half | studio extended left 12% + floor; top 19% cropped (softbox) |
+| sell-gen-supra (-1000) | yellow Toyota GR Supra, square, wide margins | none |
+| classics-gen-camaro (-960/-1600) | 1969 Camaro SS, concrete garage, right of centre | none |
+| service-gen-workshop (-1000) | silver Mercedes E-Class on a lift, white workshop | none |
+| about-gen-landcruiser (-1200) | white Land Cruiser, left, plain concrete wall | zoomed out ×1.28 (wall, sky, asphalt continued); saturation −65% |
+| footer-gen-showroom (-1200/-3168) | five cars in a dark showroom, 21:9 band | none |
+Spend: 14 images × $0.15 ≈ $2.10 (incl. discarded first round). Hero slide 2 (GT2 RS) and Finance
+interior remain the earlier real photos. Retired: hero-gw-*, sell-gw-*, service-gw-*, classics-corvette-*,
+about-turnpike-*, footer-bhcc-* (removed).
+Round 5: classics-gen-camaro — top 16% (ceiling light strip) cropped, 2752×1290; footer-gen-showroom — dark
+wall/floor continued 14% each side, 3168×1050 (shown whole, faded on all sides).
