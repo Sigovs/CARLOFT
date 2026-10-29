@@ -89,6 +89,10 @@ American muscle; consignment; service/restoration/paint/body; finance).
   the first scroll; hero copy on the vertical centre (landscape); Classics full screen.
   Reviews = ports of 21st.dev "Editorial Testimonial" + "Grainy Light Leak" (retuned warm silver,
   no pointer) in `src/components/v2/`.
+- **V3 (Kirsten, 2026-10-29):** client still says V2 doesn't follow Clutch → **`index_v3.html` follows the
+  clutchmotorsco.com LAYOUT** (dark header + CTA, showroom hero, brand marquee, In-stock card rail,
+  alternating photo/copy splits, 4 feature cards, review cards, closing CTA band, sticky mobile bar).
+  Separate app tree `src/v3/` (not overrides). Layout only — never their copy, numbers, ratings or lime accent.
 - **Rejected pattern:** blue-cast grounds (sky-dominated heroes, navy tabs/pills, blue gradient pools,
   dusk footers) and cars that are small, grey-on-grey or dimly lit.
 

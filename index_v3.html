@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" data-version="v3">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Title and description are injected from src/data/brand.js (vite.config.js, brand-meta). -->
+    <title>%BRAND_TITLE%</title>
+    <meta name="description" content="%BRAND_DESCRIPTION%" />
+    <meta property="og:title" content="%BRAND_TITLE%" />
+    <meta property="og:description" content="%BRAND_DESCRIPTION%" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="data:," />
+    <!-- MOTION.md §6.6: scopes hover-transform CSS and staged layouts only; never hides content. -->
+    <script>
+      document.documentElement.classList.add('js')
+    </script>
+    <link rel="preload" as="image" href="assets/v3-hero-showroom-1600.webp" imagesrcset="assets/v3-hero-showroom-960.webp 960w, assets/v3-hero-showroom-1600.webp 1600w, assets/v3-hero-showroom-2752.webp 2752w" imagesizes="100vw" fetchpriority="high" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/v3/main.jsx"></script>
+  </body>
+</html>

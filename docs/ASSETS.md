@@ -126,3 +126,10 @@ Round 7: Service + Finance in the same graphite studio world (AI-GENERATED, 2 ×
 — silver Mercedes E-Class on a graphite lift, dark minimal workshop (saturation −30%); finance-gen-cockpit (-1000) —
 black leather cockpit through the open door (saturation −20%; replaces V1's cream interior on V2).
 Retired: service-gen-workshop* (removed).
+
+## V3 page — index_v3.html (2026-10-29)
+Kirsten: the client still says V2 "doesn't follow the Clutch design" → V3 follows clutchmotorsco.com's
+LAYOUT (own app tree: src/v3/). Copy, photography, colour and brand stay CAR LOFT's; no figures,
+ratings or claims from the reference are carried over. Photography reused from V2 (all AI-generated
+placeholders except the inventory listings) plus:
+| v3-hero-showroom (-960/-1600/-2752) | AI-GENERATED (fal-ai/nano-banana-pro), dark showroom, car row right | studio extended left 22% / right 10% + floor below; saturation −15% | $0.15 |

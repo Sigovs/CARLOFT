@@ -30,12 +30,13 @@ function brandMeta() {
 export default defineConfig(({ mode }) => ({
   base: mode === 'pages' ? '/CARLOFT/' : '/',
   plugins: [brandMeta(), react()],
-  // Two pages: index.html (V1) and index_v2.html (V2 — client feedback 2026-10-29).
+  // Three pages: index.html (V1), index_v2.html (V2) and index_v3.html (V3, Clutch layout).
   build: {
     rollupOptions: {
       input: {
         main: resolve(import.meta.dirname, 'index.html'),
         v2: resolve(import.meta.dirname, 'index_v2.html'),
+        v3: resolve(import.meta.dirname, 'index_v3.html'),
       },
     },
   },
