@@ -471,6 +471,7 @@ select {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
   align-items: stretch;
+  gap: 8px; /* each field its own tile — never glued to its neighbour */
   padding: 8px;
   border: 1px solid var(--v3-line);
   border-radius: 14px;
@@ -485,18 +486,15 @@ select {
   justify-content: center;
   gap: 2px;
   min-width: 0;
-  padding: 8px 18px;
+  padding: 10px 20px;
   border-radius: var(--v3-r-btn);
+  background: rgb(255 255 255 / 0.045);
   cursor: pointer;
   transition: background-color 0.2s var(--v3-ease);
 }
 
-.v3-field + .v3-field {
-  box-shadow: inset 1px 0 0 var(--v3-line);
-}
-
 .v3-field:hover {
-  background: rgb(255 255 255 / 0.05);
+  background: rgb(255 255 255 / 0.08);
 }
 
 .v3-field__label {
@@ -1218,7 +1216,6 @@ select {
 
   .v3-search__go {
     grid-column: 1 / -1;
-    margin-top: 8px;
   }
 
   .v3-paths,
@@ -1272,18 +1269,12 @@ select {
     padding: 6px;
   }
 
-  .v3-field + .v3-field {
-    box-shadow: inset 0 1px 0 var(--v3-line);
-  }
-
   .v3-field {
-    padding: 10px 14px;
-    border-radius: 0;
+    padding: 10px 16px;
   }
 
   .v3-search__go {
     grid-column: auto;
-    margin-top: 6px;
   }
 
   .v3-grid {

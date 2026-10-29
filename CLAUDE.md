@@ -98,7 +98,9 @@ American muscle; consignment; service/restoration/paint/body; finance).
   first scroll; the V2 type voice (Archivo 800, Inter Tight) and the V2 motion; search in the hero; 3-up grid.
 - **Rejected pattern:** rule/bar decorations in eyebrows ("без этих долбаных полосочек") — labels are
   number + word only. Italic serif accent words in headings rejected as "Claude slop" — one heading
-  voice, no italics. Photo edges into the ground: long eased fades, never a short cut ("как топором"). Also: a text panel over a photo where the car is hidden or tiny (V3 About, grey daylight).
+  voice, no italics. Photo edges into the ground: long eased fades, never a short cut ("как топором").
+  Never glue elements to each other (search fields, controls, tiles): always a visible gap
+  (≥ 8px) — "сделай space, не приклеиваем элементы друг к другу". Also: a text panel over a photo where the car is hidden or tiny (V3 About, grey daylight).
 - **Rejected pattern:** blue-cast grounds (sky-dominated heroes, navy tabs/pills, blue gradient pools,
   dusk footers) and cars that are small, grey-on-grey or dimly lit.
 
