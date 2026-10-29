@@ -95,9 +95,10 @@ American muscle; consignment; service/restoration/paint/body; finance).
   Separate app tree `src/v3/` (not overrides). Layout only — never their copy, numbers, ratings or lime accent.
   **Alex: "not one-to-one"** — keep Clutch's logic (dark, lit cars, inventory first, sell/buy paths, proof,
   one ask) in CAR LOFT's own expression: header clean over the hero with the large logo, dark bar from the
-  first scroll; grotesque display + Newsreader italic accent; search in the hero; 3-up inventory grid.
+  first scroll; the V2 type voice (Archivo 800, Inter Tight) and the V2 motion; search in the hero; 3-up grid.
 - **Rejected pattern:** rule/bar decorations in eyebrows ("без этих долбаных полосочек") — labels are
-  number + word only. Also: a text panel over a photo where the car is hidden or tiny (V3 About, grey daylight).
+  number + word only. Italic serif accent words in headings rejected as "Claude slop" — one heading
+  voice, no italics. Photo edges into the ground: long eased fades, never a short cut ("как топором"). Also: a text panel over a photo where the car is hidden or tiny (V3 About, grey daylight).
 - **Rejected pattern:** blue-cast grounds (sky-dominated heroes, navy tabs/pills, blue gradient pools,
   dusk footers) and cars that are small, grey-on-grey or dimly lit.
 

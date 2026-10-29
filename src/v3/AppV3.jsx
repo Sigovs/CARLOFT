@@ -17,7 +17,7 @@ import { useV3Motion } from './useV3Motion.js'
  * paths (sell / buy), proof, one closing ask. The expression is CAR LOFT's own:
  *
  *   header      clean over the hero (no bar), the logo large; a dark bar from the first scroll
- *   hero        lit showroom; a serif italic accent in the headline; a search bar IN the hero
+ *   hero        lit showroom; the V2 heading voice; a search bar IN the hero
  *   01 inventory  three-up grid filtered by the hero search and by make chips
  *   02 sell / consign  two paths side by side, one photograph each
  *   03 classics full-bleed band, copy over the dark wall
@@ -156,7 +156,7 @@ function Hero({ filters, setFilters }) {
         <h1 id="v3-hero-title" className="v3-display">
           Good cars.
           <br />
-          <em>Real people.</em>
+          Real people.
         </h1>
         <p className="v3-lead v3-hero__lead">
           An independent dealer in Newbury Park — used cars across every price range, classic American muscle and our
@@ -221,7 +221,7 @@ function Inventory({ filters, setFilters }) {
         <div className="v3-head">
           <Label n="01">Inventory</Label>
           <h2 id="v3-inv-title" className="v3-h2" data-motion="heading">
-            Handpicked, <em>across price ranges.</em>
+            Handpicked, across price ranges.
           </h2>
         </div>
         <div className="v3-chips" data-motion="group" role="group" aria-label="Filter by make">
@@ -311,7 +311,7 @@ function SellConsign() {
           <div>
             <Label n="02">Sell or consign</Label>
             <h2 id="v3-sell-title" className="v3-h2" data-motion="heading">
-              Make room <em>for what’s next.</em>
+              Make room for what’s next.
             </h2>
           </div>
           <p className="v3-lead" data-motion="support">Two ways to move on from your car. Either way, it starts with a straightforward conversation.</p>
@@ -346,7 +346,9 @@ function Classics() {
         <div className="v3-band-photo__copy">
           <Label n="03">Classic cars</Label>
           <h2 id="v3-cl-title" className="v3-h2" data-motion="heading">
-            American muscle. <em>Timeless character.</em>
+            American muscle.
+            <br />
+            Timeless character.
           </h2>
           <p className="v3-lead" data-motion="support">We buy, sell, consign and restore classic American muscle — from honest drivers to full restorations.</p>
           <div className="v3-actions" data-motion="cta">
@@ -378,7 +380,7 @@ function Service() {
         <div className="v3-service__copy">
           <Label n="04">Service &amp; finance</Label>
           <h2 id="v3-svc-title" className="v3-h2" data-motion="heading">
-            Keep it running. <em>Bring it back.</em>
+            Keep it running. Bring it back.
           </h2>
           <ol className="v3-rows" data-motion="group">
             {SERVICES.map((s) => (
@@ -414,7 +416,7 @@ function About() {
         <div className="v3-service__copy">
           <Label n="05">About</Label>
           <h2 id="v3-about-title" className="v3-h2" data-motion="heading">
-            A personal approach <em>to buying cars.</em>
+            A personal approach to buying cars.
           </h2>
           <p className="v3-lead v3-about__lead" data-motion="support">
             We’re an independent dealership for people who like good cars — from modern performance to classic
@@ -442,7 +444,7 @@ function Reviews() {
           <div>
             <Label n="06">Reviews</Label>
             <h2 id="v3-rev-title" className="v3-h2" data-motion="heading">
-              What our <em>customers say.</em>
+              What our customers say.
             </h2>
           </div>
           <a className="v3-link" href={brand.reviewsUrl} target="_blank" rel="noopener">
@@ -488,7 +490,7 @@ function Closing() {
       <img className="v3-closing__img" src={img('footer-gen-showroom', 3168)} srcSet={`${img('footer-gen-showroom', 1200)} 1200w, ${img('footer-gen-showroom', 3168)} 3168w`} sizes="100vw" width="3168" height="1050" alt="" loading="lazy" decoding="async" />
       <div className="v3-wrap v3-closing__inner">
         <h2 id="v3-cta-title" className="v3-h2" data-motion="heading">
-          Your next car <em>is a conversation away.</em>
+          Your next car is a conversation away.
         </h2>
         <div className="v3-actions v3-actions--center" data-motion="cta">
           <Btn href="#contact?topic=sell">Get an offer</Btn>
