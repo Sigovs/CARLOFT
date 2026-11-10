@@ -302,12 +302,12 @@
   border-color: rgb(255 255 255 / 0.7);
 }
 
-/* filled: a full pill, grey with black type (Alex: grey, not white) — #0b0b0c on it 7.8:1 */
+/* filled: a full pill in dark grey (Alex: grey, "darker still") — light type on it, 7.9:1 */
 .brandbar__item--solid {
-  border-color: #a3a3a0;
+  border-color: #4a4a48;
   border-radius: 999px;
-  background: #a3a3a0;
-  color: #0b0b0c;
+  background: #4a4a48;
+  color: #f2f2f0;
 }
 
 .brandbar__n {
