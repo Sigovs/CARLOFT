@@ -18,7 +18,7 @@ import { asset } from '../asset.js'
  * stay open. Light marks for dark grounds only.
  */
 export const logoV22 = {
-  horizontal: { src: asset('assets/carloft-logo-horizontal.svg'), width: 1506, height: 277 },
+  horizontal: { src: asset('assets/carloft-logo-horizontal.svg'), width: 1220, height: 255 }, // name left, car right (LOGO/, 2026-11-09 22:00)
   name: { src: asset('assets/carloft-logo-name.svg'), width: 865, height: 255 },
   vertical: { src: asset('assets/carloft-logo-vertical.svg'), width: 600, height: 454 },
 }

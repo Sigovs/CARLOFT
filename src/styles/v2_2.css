@@ -146,9 +146,9 @@
 :root[data-variant='v2_2'] {
   --full-h: 64px;                                   /* phones, top: the vertical mark, 85px wide */
   --full-top: 6px;
-  --bar-h: 34px;                                    /* phones, scrolled: the horizontal mark, 185px — 14px clear of the phone button */
+  --bar-h: 38px;                                    /* phones, scrolled: the horizontal mark (name + car right), 182px — clear of the phone button */
   --name-h: 40px;                                   /* 1024–1279, scrolled: the name, 136px */
-  --name-w: calc(var(--bar-h) * 1506 / 277);        /* the link's own box = the scrolled mark */
+  --name-w: calc(var(--bar-h) * 1220 / 255);        /* the link's own box = the scrolled mark */
 }
 
 @media (min-width: 1024px) {
@@ -162,8 +162,8 @@
 @media (min-width: 1280px) {
   :root[data-variant='v2_2'] {
     --full-h: 144px;                                /* 190px wide (V2 was 148×113) */
-    --bar-h: 44px;                                  /* 239px wide, 14px of air in the 72px bar; 65px before the menu at 1280 */
-    --name-w: calc(var(--bar-h) * 1506 / 277);
+    --bar-h: 46px;                                  /* 220px wide, 13px of air in the 72px bar */
+    --name-w: calc(var(--bar-h) * 1220 / 255);
   }
 }
 
