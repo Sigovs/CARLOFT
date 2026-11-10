@@ -647,3 +647,16 @@
     transform: translateY(-50%);
   }
 }
+
+/* Classics: Alex's warehouse frame (extended left to 2265×1080), shown whole across the stage, anchored
+   to its foot as before; a deeper scrim on the left keeps the copy legible over
+   the lit shelving. */
+@media (min-width: 1024px) {
+  :root[data-variant='v2_2'] .classics__layer img {
+    aspect-ratio: 2265 / 1080;
+  }
+
+  :root[data-variant='v2_2'] .classics__media::after {
+    background: linear-gradient(90deg, rgb(15 15 16 / 0.72) 0%, rgb(15 15 16 / 0.5) 30%, rgb(15 15 16 / 0) 48%);
+  }
+}

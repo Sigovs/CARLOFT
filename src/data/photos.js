@@ -95,6 +95,20 @@ const photosV1 = {
    extended on every side for air (docs/ASSETS.md). V2 keeps the Land Cruiser. */
 const photosV22 = {
   ...photosV2,
+  classics: {
+    ...photosV2.classics,
+    // Alex's own frame (LOGO/musclecar sectionm.jpg, 2026-11-10): the orange '69
+    // Camaro SS lit in a dark steel warehouse; the hangar continued 18% on the
+    // left (edge tone, darkened) so the car sits at 53–87% of the width, clear
+    // of the copy.
+    file: 'classics-muscle-loft',
+    variants: [960, 1600, 2265],
+    suffixLargest: true,
+    width: 2265,
+    height: 1080,
+    alt: 'An orange 1969 Chevrolet Camaro SS lit in a dark industrial warehouse.',
+    focus: { mobile: '72% 55%', desktop: '50% 50%' },
+  },
   footer: {
     ...photosV2.footer,
     // Alex's own frame (LOGO/footer image.jpg, 2026-11-09 23:42; client: "the cars
