@@ -277,7 +277,7 @@
   background: #0f0f10;
   border-block: 1px solid rgb(255 255 255 / 0.28);
   box-shadow: 0 10px 30px rgb(0 0 0 / 0.35);
-  transform: rotate(-2.5deg);
+  transform: translateY(-18px) rotate(-2.5deg); /* raised a little (Alex): less of it over the search band */
 }
 
 .brandbar__track {
