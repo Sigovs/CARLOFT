@@ -25,6 +25,8 @@ export const logoV22 = {
   // the same lock-up with the name in a Miami Blue gradient (Alex, LOGO/ 2026-11-09 22:08): before the scroll.
   // Drawn as it is (its own colours), not through the white mask; same geometry → same glow.
   horizontalColor: { src: asset('assets/carloft-logo-horizontal-color.svg'), width: 1220, height: 255, image: true, glow: { src: asset('assets/carloft-logo-horizontal-glow.png'), padX: 8.179, padY: 39.13 } },
+  // the vertical lock-up with the name in the Miami Blue gradient (Alex, LOGO/ 2026-11-09 22:12): before the scroll.
+  verticalColor: { src: asset('assets/carloft-logo-vertical-color.svg'), width: 865, height: 562, image: true },
   name: { src: asset('assets/carloft-logo-name.svg'), width: 865, height: 255, glow: { src: asset('assets/carloft-logo-name-glow.png'), padX: 11.055, padY: 37.5 } },
   vertical: { src: asset('assets/carloft-logo-vertical.svg'), width: 600, height: 454, glow: { src: asset('assets/carloft-logo-vertical-glow.png'), padX: 9.458, padY: 12.5 } },
 }

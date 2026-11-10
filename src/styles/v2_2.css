@@ -76,10 +76,11 @@
    2 · Logo — larger, a "shine", the car beside the name (client ticket
    2026-11-09; Alex's masters in LOGO/: horizontal before the scroll, the name
    alone in the scrolled bar, vertical in the footer).
-   Before the scroll: the horizontal lock-up with the name in a Miami Blue
-   gradient (Alex's master, LOGO/ 22:08), large, in the bar's logo slot with air
-   above it, on the transparent bar. Scrolled: the white horizontal lock-up in
-   the bar; at 1024–1279, beside the full centred menu, the name alone.
+   Before the scroll: the VERTICAL lock-up with the name in the Miami Blue
+   gradient (Alex's master, LOGO/ 22:12 — "logo vert до скролла"), large, in the
+   bar's logo slot with air above, running down onto the transparent bar's photo.
+   Scrolled: the white horizontal lock-up in the bar; at 1024–1279, beside the
+   full centred menu, the name alone.
    The marks cross-fade (opacity + transform only); the bar's layout never moves.
    ----------------------------------------------------------------------------- */
 .logo-mark {
@@ -134,35 +135,35 @@
   display: none;
 }
 
-/* Sizes on :root (the hero's padding reads them too). Before the scroll the
-   colour lock-up is as large as the room left of the centred menu allows. */
+/* Sizes on :root (the hero's padding reads them too). The vertical mark is
+   865:562 — its width is what must stay clear of the centred menu. */
 :root[data-variant='v2_2'] {
-  --full-h: 38px;                                   /* phones, top: 182px wide, clear of the phone button */
+  --full-h: 66px;                                   /* phones, top: 102px wide */
   --full-top: 14px;                                 /* air above the mark (Alex) */
-  --bar-h: 38px;                                    /* phones, scrolled: the white mark, 182px */
+  --bar-h: 38px;                                    /* phones, scrolled: the white horizontal, 182px */
   --name-h: 40px;                                   /* 1024–1279, scrolled: the name, 136px */
   --name-w: calc(var(--bar-h) * 1220 / 255);        /* the link's own box */
 }
 
 @media (min-width: 768px) {
   :root[data-variant='v2_2'] {
-    --full-h: 56px;                                 /* 268px — the menu is in the sheet below 1024 */
+    --full-h: 104px;                                /* 160px wide — the menu is in the sheet below 1024 */
     --full-top: 20px;
   }
 }
 
 @media (min-width: 1024px) {
   :root[data-variant='v2_2'] {
-    --full-h: 34px;                                 /* 163px: beside the full menu at 1024 */
-    --full-top: 19px;                               /* on the menu's line */
+    --full-h: 104px;                                /* 160px wide: clear of the full menu at 1024 */
+    --full-top: 24px;
     --name-w: calc(var(--name-h) * 865 / 255);
   }
 }
 
 @media (min-width: 1280px) {
   :root[data-variant='v2_2'] {
-    --full-h: 54px;                                 /* 258px wide, ends ~40px before the menu at 1280 */
-    --full-top: 22px;
+    --full-h: 140px;                                /* 215px wide */
+    --full-top: 28px;
     --bar-h: 46px;                                  /* scrolled: 220px wide */
     --name-w: calc(var(--bar-h) * 1220 / 255);
   }
@@ -170,7 +171,7 @@
 
 @media (min-width: 1440px) {
   :root[data-variant='v2_2'] {
-    --full-h: 62px;                                 /* 297px wide, ~70px before the menu */
+    --full-h: 156px;                                /* 240px wide (V2 was 148×113) */
   }
 }
 
