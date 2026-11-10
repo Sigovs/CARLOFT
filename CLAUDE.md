@@ -110,7 +110,7 @@ American muscle; consignment; service/restoration/paint/body; finance).
   grey ~1.1–1.4:1 → on light sections it is only ever a FILL with dark text, never text, icon or outline.
   **Logo (V2.2, Alex):** before the scroll the horizontal master with the name in a Miami Blue gradient
   (`LOGO/logo horizontal.svg`, drawn as is); once scrolled the white horizontal (name left, car right).
-  A small Miami Blue neon glow AROUND the outer contour only (pre-rendered, never inside the car). **Rejected:** chrome gradient / light sweep INSIDE
+  No glow (Alex: "убери glow" — tried as a neon halo, removed); no effects inside the mark either. **Rejected:** chrome gradient / light sweep INSIDE
   the logo ("какой shine внутри?!"), and a logo hanging below an empty header slot.
 - **Rejected pattern:** rule/bar decorations in eyebrows ("без этих долбаных полосочек") — labels are
   number + word only. Italic serif accent words in headings rejected as "Claude slop" — one heading

@@ -114,6 +114,7 @@
    "like neon light, around, not inside"). A drop-shadow would also light the
    gaps inside the car, so it is a pre-rendered layer (src/data/v2/logo.js). */
 .logo-mark__glow {
+  display: none; /* off (Alex, 2026-11-09: "убери glow") — the layer stays in the markup, one line to bring back */
   background: center / 100% 100% no-repeat;
   pointer-events: none;
 }
