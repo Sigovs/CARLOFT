@@ -76,11 +76,10 @@
    2 · Logo — larger, a "shine", the car beside the name (client ticket
    2026-11-09; Alex's masters in LOGO/: horizontal before the scroll, the name
    alone in the scrolled bar, vertical in the footer).
-   Before the scroll: the VERTICAL lock-up, large, in the bar's logo slot from
-   its top edge, running down onto the photograph while the bar is still
-   transparent (the approved V2 composition, larger). Scrolled: the HORIZONTAL
-   lock-up in the bar (Alex, 2026-11-09). At 1024–1279 it cannot sit beside the
-   centred menu (157px of room, it needs ~220), so there the name alone stands in.
+   Before the scroll: the horizontal lock-up with the name in a Miami Blue
+   gradient (Alex's master, LOGO/ 22:08), large, in the bar's logo slot with air
+   above it, on the transparent bar. Scrolled: the white horizontal lock-up in
+   the bar; at 1024–1279, beside the full centred menu, the name alone.
    The marks cross-fade (opacity + transform only); the bar's layout never moves.
    ----------------------------------------------------------------------------- */
 .logo-mark {
@@ -95,10 +94,20 @@
 
 .logo-mark__ink {
   inset: 0;
+  width: 100%;
+  height: 100%;
   -webkit-mask: var(--logo) center / contain no-repeat;
   mask: var(--logo) center / contain no-repeat;
   mask-mode: luminance; /* white = shown, the black detail lines stay open */
   background: #f4f6f7;  /* plain white mark — no fill effects inside (Alex) */
+}
+
+/* A master with its own colours is drawn as it is: no mask, no white fill. */
+.logo-mark__ink--image {
+  -webkit-mask: none;
+  mask: none;
+  background: none;
+  object-fit: contain;
 }
 
 /* The "shine": a small Miami Blue neon glow AROUND the outer contour only (Alex:
@@ -124,28 +133,43 @@
   display: none;
 }
 
-/* Sizes on :root (the hero's padding reads them too). */
+/* Sizes on :root (the hero's padding reads them too). Before the scroll the
+   colour lock-up is as large as the room left of the centred menu allows. */
 :root[data-variant='v2_2'] {
-  --full-h: 64px;                                   /* phones, top: the vertical mark, 85px wide */
+  --full-h: 38px;                                   /* phones, top: 182px wide, clear of the phone button */
   --full-top: 14px;                                 /* air above the mark (Alex) */
-  --bar-h: 38px;                                    /* phones, scrolled: the horizontal mark (name + car right), 182px — clear of the phone button */
+  --bar-h: 38px;                                    /* phones, scrolled: the white mark, 182px */
   --name-h: 40px;                                   /* 1024–1279, scrolled: the name, 136px */
-  --name-w: calc(var(--bar-h) * 1220 / 255);        /* the link's own box = the scrolled mark */
+  --name-w: calc(var(--bar-h) * 1220 / 255);        /* the link's own box */
+}
+
+@media (min-width: 768px) {
+  :root[data-variant='v2_2'] {
+    --full-h: 56px;                                 /* 268px — the menu is in the sheet below 1024 */
+    --full-top: 20px;
+  }
 }
 
 @media (min-width: 1024px) {
   :root[data-variant='v2_2'] {
-    --full-h: 124px;                                /* 164px wide: clear of the centred menu at 1024 */
-    --full-top: 28px;                               /* air above the mark (Alex) */
+    --full-h: 34px;                                 /* 163px: beside the full menu at 1024 */
+    --full-top: 19px;                               /* on the menu's line */
     --name-w: calc(var(--name-h) * 865 / 255);
   }
 }
 
 @media (min-width: 1280px) {
   :root[data-variant='v2_2'] {
-    --full-h: 144px;                                /* 190px wide (V2 was 148×113) */
-    --bar-h: 46px;                                  /* 220px wide, 13px of air in the 72px bar */
+    --full-h: 54px;                                 /* 258px wide, ends ~40px before the menu at 1280 */
+    --full-top: 22px;
+    --bar-h: 46px;                                  /* scrolled: 220px wide */
     --name-w: calc(var(--bar-h) * 1220 / 255);
+  }
+}
+
+@media (min-width: 1440px) {
+  :root[data-variant='v2_2'] {
+    --full-h: 62px;                                 /* 297px wide, ~70px before the menu */
   }
 }
 
@@ -204,7 +228,7 @@
 /* Hero copy starts below the large mark. */
 @media (min-width: 1024px) {
   :root[data-variant='v2_2'] .hero {
-    --hero-top: calc(var(--full-top) + var(--full-h) - var(--header-h) + 40px);
+    --hero-top: max(84px, calc(var(--full-top) + var(--full-h) - var(--header-h) + 64px));
   }
 }
 

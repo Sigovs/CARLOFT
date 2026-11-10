@@ -108,8 +108,9 @@ American muscle; consignment; service/restoration/paint/body; finance).
   Cadillac), grey inventory ground, About with a red Porsche + blue MB AMG, footer cars that pop.
   **Accent = `#14f3ff`** (Alex). Contrast: dark ink on it 13.7:1; on dark grounds 13.6:1; on white / light
   grey ~1.1–1.4:1 → on light sections it is only ever a FILL with dark text, never text, icon or outline.
-  **Logo (V2.2, Alex):** vertical before the scroll, horizontal (name left, car right) once scrolled. Plain
-  white mark + a small Miami Blue neon glow AROUND it. **Rejected:** chrome gradient / light sweep INSIDE
+  **Logo (V2.2, Alex):** before the scroll the horizontal master with the name in a Miami Blue gradient
+  (`LOGO/logo horizontal.svg`, drawn as is); once scrolled the white horizontal (name left, car right).
+  A small Miami Blue neon glow AROUND the outer contour only (pre-rendered, never inside the car). **Rejected:** chrome gradient / light sweep INSIDE
   the logo ("какой shine внутри?!"), and a logo hanging below an empty header slot.
 - **Rejected pattern:** rule/bar decorations in eyebrows ("без этих долбаных полосочек") — labels are
   number + word only. Italic serif accent words in headings rejected as "Claude slop" — one heading

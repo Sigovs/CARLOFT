@@ -3,7 +3,8 @@
  *  - the glow: a pre-rendered Miami Blue neon AROUND the outer contour only
  *    (src/data/v2/logo.js), reaching past the box by its pad;
  *  - the ink: the client's vector master as a CSS luminance mask over plain
- *    white — its black detail lines and transparent ground stay open.
+ *    white — its black detail lines and transparent ground stay open; or, for a
+ *    master with its own colours (logo.image), the SVG drawn as it is.
  * Decorative: the link or heading around it carries the name.
  */
 export default function LogoMark({ logo, className = '' }) {
@@ -16,7 +17,11 @@ export default function LogoMark({ logo, className = '' }) {
           style={{ backgroundImage: `url("${g.src}")`, inset: `-${g.padY}% -${g.padX}%` }}
         />
       ) : null}
-      <span className="logo-mark__ink" style={{ '--logo': `url("${logo.src}")` }} />
+      {logo.image ? (
+        <img className="logo-mark__ink logo-mark__ink--image" src={logo.src} width={logo.width} height={logo.height} alt="" decoding="async" />
+      ) : (
+        <span className="logo-mark__ink" style={{ '--logo': `url("${logo.src}")` }} />
+      )}
     </span>
   )
 }
