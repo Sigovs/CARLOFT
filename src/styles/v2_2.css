@@ -527,3 +527,15 @@
     object-position: 50% 62%;
   }
 }
+
+/* Instagram (#141415) → footer (#0f0f10): no step (Alex: "seamless"). The
+   Instagram ground eases into the footer's graphite over its empty bottom; the
+   footer and its frame share that graphite (the frame's own ground is 15,15,16),
+   so nothing reads as an edge. */
+:root[data-variant='v2_2'] #instagram {
+  background: linear-gradient(to bottom, #141415 55%, #0f0f10 100%);
+}
+
+:root[data-variant='v2_2'] .footer {
+  background: #0f0f10;
+}
