@@ -539,3 +539,11 @@
 :root[data-variant='v2_2'] .footer {
   background: #0f0f10;
 }
+
+/* About → Reviews: seamless (Alex). The Reviews film grain lifted the whole
+   ground from 15 to ~21 at a hard edge; it now fades in over the first 240px,
+   so the seam starts at About's graphite and brightens gradually. */
+:root[data-variant='v2_2'] .rv2__grain {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 240px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 240px);
+}
