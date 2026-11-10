@@ -14,7 +14,7 @@ import { asset } from '../asset.js'
  * the vertical lock-up (car over name) large before the scroll and in the footer,
  * the horizontal one in the scrolled bar (Alex, 2026-11-09); the name alone only
  * where the horizontal one cannot sit beside the full menu (1024–1279). Used as CSS luminance masks, so the fill
- * is ours (the chrome + the light sweep in v2_2.css) and the black detail lines
+ * is ours (plain white + an outer neon glow in v2_2.css) and the black detail lines
  * stay open. Light marks for dark grounds only.
  */
 export const logoV22 = {
