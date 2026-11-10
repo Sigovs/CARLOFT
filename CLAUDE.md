@@ -102,6 +102,12 @@ American muscle; consignment; service/restoration/paint/body; finance).
   working mockup; V3 stays as an exploration. **V2 is frozen; the next round is `index_v2_2.html`**
   (Alex: "делаем копию, называем index_v2_2") — a layer on top of V2: `data-variant="v2_2"`,
   `src/styles/v2_2.css`, flag `V2_2` in `src/data/version.js`. Never edit V2 for V2.2 work.
+- **V2.2 brief = client ticket "nov changes 9th.pdf"** (AAN #48798, 2026-11-09): Miami Blue accent (Clutch-style
+  use), larger logo with "shine" and the car to the right of the wordmark (`LOGO/logo vert.svg`), red Porsche
+  hero, scrolling brand bar (MB, Porsche, Toyota, Land Rover, Chevrolet, Ford, Mazda, Audi, Honda, BMW,
+  Cadillac), grey inventory ground, About with a red Porsche + blue MB AMG, footer cars that pop.
+  **Accent = `#14f3ff`** (Alex). Contrast: dark ink on it 13.7:1; on dark grounds 13.6:1; on white / light
+  grey ~1.1–1.4:1 → on light sections it is only ever a FILL with dark text, never text, icon or outline.
 - **Rejected pattern:** rule/bar decorations in eyebrows ("без этих долбаных полосочек") — labels are
   number + word only. Italic serif accent words in headings rejected as "Claude slop" — one heading
   voice, no italics. Photo edges into the ground: long eased fades, never a short cut ("как топором").

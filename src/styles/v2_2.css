@@ -5,3 +5,69 @@
    :root[data-variant='v2_2'] so it can never reach V1 or V2.
    Starts empty: V2.2 is an exact copy of V2 until the first change lands.
    ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   1 · Accent — Miami Blue #14f3ff (client ticket 2026-11-09, value from Alex).
+   Used the way Clutch uses its lime: ONE filled primary per section (dark label),
+   section labels and active states as text on DARK grounds, the focus ring.
+   Never on headings, menu, grounds, secondaries or the footer.
+   Contrast: #0b0b0c on it 13.7:1 · it on #0f0f10–#141415 13.6:1 · on white/light
+   grey 1.1–1.4:1 → on light sections it appears ONLY as a fill with a dark label.
+   ----------------------------------------------------------------------------- */
+:root[data-variant='v2_2'] {
+  --c-accent: #14f3ff;
+  --c-accent-hover: #8af9ff;
+  --c-accent-ink: #0b0b0c;
+}
+
+/* Primary buttons: every solid .btn (hero, search, sell, classics, service,
+   finance, vehicle dialog) and About's first action ("Plan a Visit"). */
+:root[data-variant='v2_2'] :is(.btn:not(.btn--secondary, .btn--photo, .btn--on-dark), .about .btn--secondary:first-child) {
+  --btn-bg: var(--c-accent);
+  --btn-fg: var(--c-accent-ink);
+  --btn-border: var(--c-accent);
+}
+
+:root[data-variant='v2_2'] :is(.btn:not(.btn--secondary, .btn--photo, .btn--on-dark), .about .btn--secondary:first-child):is(:hover, :focus-visible, :active) {
+  --btn-bg: var(--c-accent-hover);
+  --btn-fg: var(--c-accent-ink);
+  --btn-border: var(--c-accent-hover);
+}
+
+/* Header: the phone becomes the filled action (Clutch's "Get my offer" place). */
+:root[data-variant='v2_2'] .header__phone {
+  border-color: var(--c-accent);
+  background: var(--c-accent);
+  color: var(--c-accent-ink);
+}
+
+:root[data-variant='v2_2'] .header__phone:is(:hover, :focus-visible) {
+  border-color: var(--c-accent-hover);
+  background: var(--c-accent-hover);
+}
+
+/* Section labels — dark sections only (inventory and the search band are light). */
+:root[data-variant='v2_2'] :is(#sell, #classics, #service, #about, #reviews, #instagram) .eyebrow {
+  color: var(--c-accent);
+}
+
+/* Active step (Sell · Service/Finance): the number in the accent, the word stays ink. */
+:root[data-variant='v2_2'] :is(.sell__index-btn, .svcfin__index-btn)[aria-current='step'] :is(.sell__index-num, .tabular) {
+  color: var(--c-accent);
+}
+
+/* "See all reviews": the accent text link on dark (Clutch's "Read more"). */
+:root[data-variant='v2_2'] #reviews .pill--on-dark {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+
+:root[data-variant='v2_2'] #reviews .pill--on-dark:is(:hover, :focus-visible) {
+  background: var(--c-accent);
+  color: var(--c-accent-ink);
+}
+
+/* Focus ring on the dark sections and the header. */
+:root[data-variant='v2_2'] :is(.header, #top, #sell, #classics, #service, #about, #reviews, #instagram, .footer) {
+  --focus-ring: 2px solid var(--c-accent);
+}
