@@ -254,21 +254,22 @@
 
 /* -----------------------------------------------------------------------------
    4 · Brand bar — "the scrolling brand bar like Clutch" (client ticket
-   2026-11-09). Under the hero, on the hero's own near-black so it reads as its
-   last line; the makes as wide grey caps in the display face, air between them,
-   no rules or separators. A slow linear loop (transform only), paused on hover;
-   reduced motion: still, wrapped, centred.
+   2026-11-09), in a brutalist style (Alex; refs: brutalist graphic packs,
+   Bauhaus shapes). Monochrome on the hero's near-black, framed by hairlines;
+   every make a badge — index number, geometric glyph, name — plain, outlined or
+   inverted in a repeating rhythm, 1px borders, square corners or full pills.
+   A slow transform-only loop, paused on hover; reduced motion: still, wrapped.
    ----------------------------------------------------------------------------- */
 .brandbar {
   overflow: hidden;
   background: #0f0f10;
-  border-top: 1px solid rgb(255 255 255 / 0.08);
+  border-block: 1px solid rgb(255 255 255 / 0.22);
 }
 
 .brandbar__track {
   display: flex;
   width: max-content;
-  animation: brandbar-run 48s linear infinite;
+  animation: brandbar-run 56s linear infinite;
 }
 
 .brandbar:hover .brandbar__track {
@@ -278,22 +279,60 @@
 .brandbar__list {
   display: flex;
   flex: none;
+  align-items: center;
+  gap: clamp(14px, 1.6vw, 22px);
   margin: 0;
-  padding: 0;
+  padding: clamp(16px, 1.8vw, 22px) clamp(7px, 0.8vw, 11px);
   list-style: none;
 }
 
-.brandbar__list li {
-  padding: clamp(20px, 2.4vw, 30px) clamp(24px, 3vw, 44px);
+.brandbar__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  color: #f2f2f0;
+  white-space: nowrap;
+}
+
+/* outlined: a square-cornered frame */
+.brandbar__item--outline {
+  border-color: rgb(255 255 255 / 0.7);
+}
+
+/* inverted: a full pill, white with black type */
+.brandbar__item--solid {
+  border-color: #f2f2f0;
+  border-radius: 999px;
+  background: #f2f2f0;
+  color: #0b0b0c;
+}
+
+.brandbar__n {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.6;
+}
+
+.brandbar__glyph {
+  flex: none;
+  width: 18px;
+  height: 18px;
+}
+
+.brandbar__name {
   font-family: var(--font-display);
   font-stretch: 125%;
-  font-size: clamp(0.8125rem, 0.75rem + 0.3vw, 1rem);
-  font-weight: 700;
-  letter-spacing: 0.16em;
+  font-size: clamp(0.875rem, 0.8rem + 0.35vw, 1.125rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
   line-height: 1;
   text-transform: uppercase;
-  white-space: nowrap;
-  color: #8f8f8b; /* 5.9:1 on #0f0f10 */
 }
 
 @keyframes brandbar-run {
@@ -313,14 +352,41 @@
     flex-wrap: wrap;
     justify-content: center;
     min-width: 0;
-    padding-block: 10px;
+    gap: 10px;
+    padding: 16px var(--gutter);
   }
 
   .brandbar__list--copy {
     display: none;
   }
+}
 
-  .brandbar__list li {
-    padding: 10px 16px;
+/* The bar is part of the first screen ("before the fold", Alex): the hero gives
+   up the bar's height, so hero + bar = one viewport, as on the reference. */
+:root[data-variant='v2_2'] {
+  --brandbar-h: 90px;
+}
+
+@media (max-width: 767px) {
+  :root[data-variant='v2_2'] {
+    --brandbar-h: 78px;
+  }
+}
+
+:root[data-variant='v2_2'] .hero {
+  height: calc(100vh - var(--brandbar-h));
+  height: calc(100svh - var(--brandbar-h));
+}
+
+:root[data-variant='v2_2'] .brandbar {
+  box-sizing: border-box;
+  height: var(--brandbar-h);
+  display: flex;
+  align-items: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-variant='v2_2'] .brandbar {
+    height: auto;
   }
 }
