@@ -302,11 +302,11 @@
   border-color: rgb(255 255 255 / 0.7);
 }
 
-/* inverted: a full pill, white with black type */
+/* filled: a full pill, grey with black type (Alex: grey, not white) — #0b0b0c on it 7.8:1 */
 .brandbar__item--solid {
-  border-color: #f2f2f0;
+  border-color: #a3a3a0;
   border-radius: 999px;
-  background: #f2f2f0;
+  background: #a3a3a0;
   color: #0b0b0c;
 }
 
