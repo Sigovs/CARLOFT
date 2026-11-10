@@ -95,6 +95,17 @@ const photosV1 = {
    extended on every side for air (docs/ASSETS.md). V2 keeps the Land Cruiser. */
 const photosV22 = {
   ...photosV2,
+  footer: {
+    ...photosV2.footer,
+    // Alex's own frame (LOGO/footer image.jpg, 2026-11-09; client: "the cars get
+    // lost"): five lit cars in a dark studio, cropped to a super-wide band. Its
+    // ground is the footer's own graphite, so it runs full-bleed without a seam.
+    file: 'footer-loft',
+    variants: [1200, 1920],
+    suffixLargest: true,
+    width: 1920,
+    height: 540,
+  },
   about: {
     ...photosV2.about,
     // Alex's own frame (LOGO/about.jpg, 2026-11-09), the studio extended on every

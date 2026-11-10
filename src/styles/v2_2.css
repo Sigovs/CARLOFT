@@ -486,3 +486,44 @@
     background: rgb(20 20 21 / 0.9);
   }
 }
+
+/* -----------------------------------------------------------------------------
+   7 · Footer — "the cars get lost" (client ticket 2026-11-09). Alex's frame:
+   five lit cars in a dark studio whose ground is the footer's own graphite, so
+   the band runs the full width of the screen ("super wide") with no seam; only a
+   short fade at the top and a longer one into the links below. The links start
+   under the car row.
+   ----------------------------------------------------------------------------- */
+:root[data-variant='v2_2'] .footer {
+  --ft-w: 100vw;
+  padding-top: calc(var(--ft-w) / 3.556 + var(--s-5)); /* the links start below the frame, never on its floor */
+}
+
+:root[data-variant='v2_2'] .footer__bg {
+  aspect-ratio: 1920 / 540;
+}
+
+:root[data-variant='v2_2'] .footer__bg img {
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 6%, #000 80%, transparent 100%);
+  mask-image:
+    linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 6%, #000 80%, transparent 100%);
+}
+
+/* Phones: a tighter crop (2.6:1) — the five cars stay whole (they span 20–83% of
+   the frame, the crop keeps 13–87%) and read ~1.4× larger. */
+@media (max-width: 767px) {
+  :root[data-variant='v2_2'] .footer {
+    padding-top: calc(var(--ft-w) / 2.6 + var(--s-5));
+  }
+
+  :root[data-variant='v2_2'] .footer__bg {
+    aspect-ratio: 2.6 / 1;
+  }
+
+  :root[data-variant='v2_2'] .footer__bg img {
+    object-position: 50% 62%;
+  }
+}
