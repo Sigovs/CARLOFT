@@ -1,15 +1,22 @@
 /**
- * LogoMark — V2.2 logo (index_v2_2.html). The client's vector master is used as
- * a CSS luminance mask: its white shapes show our fill (plain white; the neon
- * glow around it is on the parent, v2_2.css), its black detail lines and its transparent ground
- * stay open. Decorative: the link or heading around it carries the name.
+ * LogoMark — V2.2 logo (index_v2_2.html). Two layers in one box:
+ *  - the glow: a pre-rendered Miami Blue neon AROUND the outer contour only
+ *    (src/data/v2/logo.js), reaching past the box by its pad;
+ *  - the ink: the client's vector master as a CSS luminance mask over plain
+ *    white — its black detail lines and transparent ground stay open.
+ * Decorative: the link or heading around it carries the name.
  */
 export default function LogoMark({ logo, className = '' }) {
+  const g = logo.glow
   return (
-    <span
-      className={`logo-mark ${className}`}
-      aria-hidden="true"
-      style={{ '--logo': `url("${logo.src}")`, '--logo-ratio': `${logo.width} / ${logo.height}` }}
-    />
+    <span className={`logo-mark ${className}`} aria-hidden="true" style={{ '--logo-ratio': `${logo.width} / ${logo.height}` }}>
+      {g ? (
+        <span
+          className="logo-mark__glow"
+          style={{ backgroundImage: `url("${g.src}")`, inset: `-${g.padY}% -${g.padX}%` }}
+        />
+      ) : null}
+      <span className="logo-mark__ink" style={{ '--logo': `url("${logo.src}")` }} />
+    </span>
   )
 }

@@ -86,20 +86,27 @@
 .logo-mark {
   display: block;
   aspect-ratio: var(--logo-ratio);
+}
+
+.logo-mark__ink,
+.logo-mark__glow {
+  position: absolute;
+}
+
+.logo-mark__ink {
+  inset: 0;
   -webkit-mask: var(--logo) center / contain no-repeat;
   mask: var(--logo) center / contain no-repeat;
   mask-mode: luminance; /* white = shown, the black detail lines stay open */
   background: #f4f6f7;  /* plain white mark — no fill effects inside (Alex) */
 }
 
-/* The "shine": a small Miami Blue neon glow AROUND the mark (Alex: "like neon light, around,
-   not inside"). It sits on the parent, since a mask would clip a glow drawn on
-   the mark itself. Static — no animation. */
-:root[data-variant='v2_2'] :is(.header__wordmark, :has(> .footer__mark)) {
-  /* in Miami Blue (Alex), the accent #14f3ff: a tight inner halo + a soft wider one */
-  filter:
-    drop-shadow(0 0 2px rgb(20 243 255 / 0.7))
-    drop-shadow(0 0 10px rgb(20 243 255 / 0.38));
+/* The "shine": a small Miami Blue neon glow AROUND the outer contour only (Alex:
+   "like neon light, around, not inside"). A drop-shadow would also light the
+   gaps inside the car, so it is a pre-rendered layer (src/data/v2/logo.js). */
+.logo-mark__glow {
+  background: center / 100% 100% no-repeat;
+  pointer-events: none;
 }
 
 /* The link: no plate, no hanging tab, in any state. */
@@ -203,6 +210,7 @@
 
 /* Footer: the vertical lock-up, same white mark and glow. */
 :root[data-variant='v2_2'] .footer__mark {
+  position: relative;
   height: 112px;
 }
 

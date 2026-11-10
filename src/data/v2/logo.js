@@ -14,13 +14,16 @@ import { asset } from '../asset.js'
  * the vertical lock-up (car over name) large before the scroll and in the footer,
  * the horizontal one in the scrolled bar (Alex, 2026-11-09); the name alone only
  * where the horizontal one cannot sit beside the full menu (1024–1279). Used as CSS luminance masks, so the fill
- * is ours (plain white + an outer neon glow in v2_2.css) and the black detail lines
+ * is ours (plain white; the neon glow is a separate layer around it) and the black detail lines
  * stay open. Light marks for dark grounds only.
  */
 export const logoV22 = {
-  horizontal: { src: asset('assets/carloft-logo-horizontal.svg'), width: 1220, height: 255 }, // name left, car right (LOGO/, 2026-11-09 22:00)
-  name: { src: asset('assets/carloft-logo-name.svg'), width: 865, height: 255 },
-  vertical: { src: asset('assets/carloft-logo-vertical.svg'), width: 600, height: 454 },
+  // glow: the Miami Blue neon AROUND the outer contour only (Alex: "not inside"),
+  // pre-rendered from each master — its silhouette with the inner gaps filled,
+  // blurred, the silhouette cut out. pad = how far it reaches past the mark (% of w / h).
+  horizontal: { src: asset('assets/carloft-logo-horizontal.svg'), width: 1220, height: 255, glow: { src: asset('assets/carloft-logo-horizontal-glow.png'), padX: 8.179, padY: 39.13 } }, // name left, car right (LOGO/, 2026-11-09 22:00)
+  name: { src: asset('assets/carloft-logo-name.svg'), width: 865, height: 255, glow: { src: asset('assets/carloft-logo-name-glow.png'), padX: 11.055, padY: 37.5 } },
+  vertical: { src: asset('assets/carloft-logo-vertical.svg'), width: 600, height: 454, glow: { src: asset('assets/carloft-logo-vertical-glow.png'), padX: 9.458, padY: 12.5 } },
 }
 
 export const logoLight = {
