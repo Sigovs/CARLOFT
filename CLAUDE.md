@@ -98,6 +98,10 @@ American muscle; consignment; service/restoration/paint/body; finance).
   first scroll; the V2 type voice (Archivo 800, Inter Tight) and the V2 motion; search in the hero; 3-up grid.
   **V3 accent (Alex): "not blue, not green, not brown"** → signal orange `--v3-accent #ff5a1f`, actions
   only (primary buttons, active chip, card arrow hover, section numbers).
+- **2026-11-09 — the client is following V2** (`index_v2.html`, Alex sent the live link). V2 is the
+  working mockup; V3 stays as an exploration. **V2 is frozen; the next round is `index_v2_2.html`**
+  (Alex: "делаем копию, называем index_v2_2") — a layer on top of V2: `data-variant="v2_2"`,
+  `src/styles/v2_2.css`, flag `V2_2` in `src/data/version.js`. Never edit V2 for V2.2 work.
 - **Rejected pattern:** rule/bar decorations in eyebrows ("без этих долбаных полосочек") — labels are
   number + word only. Italic serif accent words in headings rejected as "Claude slop" — one heading
   voice, no italics. Photo edges into the ground: long eased fades, never a short cut ("как топором").

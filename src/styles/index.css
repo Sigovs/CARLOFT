@@ -10,3 +10,4 @@
 @import './svcfin.css';
 @import './tail.css';
 @import './v2.css'; /* index_v2.html overrides, scoped to [data-version='v2'] */
+@import './v2_2.css'; /* index_v2_2.html, on top of V2, scoped to [data-variant='v2_2'] */

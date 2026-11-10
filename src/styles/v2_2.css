@@ -1,0 +1,7 @@
+/* =============================================================================
+   v2_2.css — index_v2_2.html only (<html data-version="v2" data-variant="v2_2">).
+   Alex, 2026-11-09: the client follows V2, so index_v2.html is frozen and the
+   next round is built here, on top of V2. Every rule is scoped to
+   :root[data-variant='v2_2'] so it can never reach V1 or V2.
+   Starts empty: V2.2 is an exact copy of V2 until the first change lands.
+   ============================================================================= */
