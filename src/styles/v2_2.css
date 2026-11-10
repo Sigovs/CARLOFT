@@ -145,7 +145,7 @@
 /* Sizes on :root (the hero's padding reads them too). */
 :root[data-variant='v2_2'] {
   --full-h: 64px;                                   /* phones, top: the vertical mark, 85px wide */
-  --full-top: 6px;
+  --full-top: 14px;                                 /* air above the mark (Alex) */
   --bar-h: 38px;                                    /* phones, scrolled: the horizontal mark (name + car right), 182px — clear of the phone button */
   --name-h: 40px;                                   /* 1024–1279, scrolled: the name, 136px */
   --name-w: calc(var(--bar-h) * 1220 / 255);        /* the link's own box = the scrolled mark */
@@ -154,7 +154,7 @@
 @media (min-width: 1024px) {
   :root[data-variant='v2_2'] {
     --full-h: 124px;                                /* 164px wide: clear of the centred menu at 1024 */
-    --full-top: 12px;
+    --full-top: 28px;                               /* air above the mark (Alex) */
     --name-w: calc(var(--name-h) * 865 / 255);
   }
 }
