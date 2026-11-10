@@ -125,16 +125,30 @@ const heroSlidesV1 = [
 /* V2.2 (client ticket 2026-11-09: "a red Porsche instead of the white car"): the
    same studio frame with the 911 repainted Guards Red (fal-ai/nano-banana-pro/edit,
    docs/ASSETS.md). Only V2.2 — index_v2.html keeps the white car. */
-const heroSlidesV22 = heroSlidesV2.map((s) =>
-  s.id === 'gen-911-white'
-    ? {
-        ...s,
-        id: 'gen-911-red',
-        image: asset('assets/hero-gen-911-red'),
-        alt: 'A Guards Red Porsche 911 lit in a dark graphite studio (generated placeholder image).',
-      }
-    : s,
-)
+/* Slides 2 and 3 (Alex: "replace them, generate on fal"): the same studio and
+   framing as slide 1, the car swapped (fal-ai/nano-banana-pro/edit) — one series. */
+// the car moved 6% right inside these files (studio extended left), clear of the longer headlines
+const studio = { width: 2560, height: 1440, tone: 'light', pos: '50% 50%', posWide: '50% 50%', posPortrait: '72% 50%', placePortrait: 'top', zoomPortrait: 1, scrim: undefined }
+const V22_IMAGES = {
+  'gen-911-white': {
+    id: 'gen-911-red',
+    image: asset('assets/hero-gen-911-red'),
+    alt: 'A Guards Red Porsche 911 lit in a dark graphite studio (generated placeholder image).',
+  },
+  gt2rs: {
+    ...studio,
+    id: 'gen-amg-silver',
+    image: asset('assets/hero-gen-amg-silver'),
+    alt: 'A silver Mercedes-AMG GT lit in a dark graphite studio (generated placeholder image).',
+  },
+  'gen-lexus-red': {
+    ...studio,
+    id: 'gen-mustang-blue',
+    image: asset('assets/hero-gen-mustang-blue'),
+    alt: 'A Grabber Blue 1969 Ford Mustang Mach 1 lit in a dark graphite studio (generated placeholder image).',
+  },
+}
+const heroSlidesV22 = heroSlidesV2.map((s) => (V22_IMAGES[s.id] ? { ...s, ...V22_IMAGES[s.id] } : s))
 
 export const heroSlides = V2_2 ? heroSlidesV22 : V2 ? heroSlidesV2 : heroSlidesV1
 

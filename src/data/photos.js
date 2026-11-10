@@ -16,7 +16,7 @@
  */
 
 import { asset } from './asset.js'
-import { V2 } from './version.js'
+import { V2, V2_2 } from './version.js'
 import { photosV2 } from './v2/photos.js'
 
 const photosV1 = {
@@ -90,7 +90,23 @@ const photosV1 = {
 
 }
 
-export const photos = V2 ? photosV2 : photosV1
+/* V2.2 (client ticket 2026-11-09: "About looks flat — a red Porsche and a blue
+   MB AMG"): both cars lit in the graphite studio, left of the panel, the studio
+   extended on every side for air (docs/ASSETS.md). V2 keeps the Land Cruiser. */
+const photosV22 = {
+  ...photosV2,
+  about: {
+    ...photosV2.about,
+    file: 'about-gen-911-amg',
+    variants: [1200, 4155],
+    width: 4155,
+    height: 2597,
+    alt: 'A red Porsche 911 and a blue Mercedes-AMG GT side by side in a dark graphite studio (generated placeholder image).',
+    focus: { mobile: '5% 58%', desktop: '0% 56%' }, // phones: both cars whole (they span 7–41% of the frame)
+  },
+}
+
+export const photos = V2_2 ? photosV22 : V2 ? photosV2 : photosV1
 
 const url = (p, w) =>
   w === p.variants[p.variants.length - 1] && !p.suffixLargest ? asset(`assets/${p.file}.webp`) : asset(`assets/${p.file}-${w}.webp`)

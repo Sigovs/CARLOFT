@@ -361,13 +361,12 @@
     animation: none;
   }
 
+  /* one still row on the tape (a wrap would spill off it); the full list stays in the markup */
   .brandbar__list {
-    flex: 1 1 100%;
-    flex-wrap: wrap;
-    justify-content: center;
-    min-width: 0;
-    gap: 10px;
-    padding: 16px var(--gutter);
+    flex: none;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    padding-inline: var(--gutter);
   }
 
   .brandbar__list--copy {
@@ -399,11 +398,7 @@
   align-items: center;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  :root[data-variant='v2_2'] .brandbar {
-    height: auto;
-  }
-}
+
 
 /* -----------------------------------------------------------------------------
    5 · Inventory on grey — "a gray background so the vehicle tiles don't get

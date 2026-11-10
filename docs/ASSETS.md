@@ -139,5 +139,8 @@ Client ticket "nov changes 9th.pdf" (AAN #48798). V2.2 is a layer on top of V2; 
 | asset | source | processing | cost |
 |---|---|---|---|
 | hero-gen-911-red (-960/-1600/-2560) | AI-EDITED (fal-ai/nano-banana-pro/edit) from hero-gen-911-white: the 911 repainted Guards Red, studio, framing and light kept | centre-cropped to 16:9 from 2752×1536, resized | $0.15 (+ $0.15 Carmine variant, not used) |
+| hero-gen-amg-silver (-960/-1600/-2560) | AI-EDITED (fal-ai/nano-banana-pro/edit) from hero-gen-911-red: car swapped for a silver Mercedes-AMG GT, same studio/framing | cropped 16:9; car moved 6% right (studio extended left) to clear the headline | $0.15 |
+| hero-gen-mustang-blue (-960/-1600/-2560) | AI-EDITED (fal-ai/nano-banana-pro/edit) from hero-gen-911-red: car swapped for a Grabber Blue 1969 Ford Mustang Mach 1 | cropped 16:9; ceiling softbox dimmed (under the header's type); car moved 6% right | $0.15 |
+| about-gen-911-amg (-1200 / 4155) | AI-GENERATED (fal-ai/nano-banana-pro): red Porsche 911 + blue Mercedes-AMG GT, graphite studio, cars left of the panel | low-chroma pixels neutralised (blue cast off the walls, paint kept); studio extended L 6% / R 45% / T 16% / B 23% for air; floor vignette | $0.15 (+ $0.15 variant not used) |
 | carloft-logo-horizontal / -horizontal-color / -vertical / -vertical-color / -name (.svg) | client vector masters, LOGO/ (Alex, 2026-11-09) | copied unchanged | — |
 | carloft-logo-*-glow.png | rendered from the masters in the browser (outer-contour neon) | currently switched off (Alex: "убери glow") | — |
