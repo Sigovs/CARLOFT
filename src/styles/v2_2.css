@@ -404,3 +404,48 @@
     height: auto;
   }
 }
+
+/* -----------------------------------------------------------------------------
+   5 · Inventory on grey — "a gray background so the vehicle tiles don't get
+   washed out" (client ticket 2026-11-09). The white studio photographs sat on
+   white cards on a white section: no edge. One neutral light grey (no blue
+   cast — rejected before) under the search band and the inventory as one light
+   block, so the white cards stand off it. Accent here only as a FILL (Search).
+   ----------------------------------------------------------------------------- */
+:root[data-variant='v2_2'] {
+  --c-inv-ground: #e4e4e1; /* neutral grey; ink #17191c on it 13.8:1, ink-2 #4e5157 6.3:1 */
+}
+
+:root[data-variant='v2_2'] :is(.search-band, .featured) {
+  --c-ink-3: #575a60;      /* meta ink: 4.1:1 → 5.4:1 on the grey (6.9:1 inside the white cards) */
+  background: var(--c-inv-ground);
+}
+
+/* one block: the hairline between the search band and the inventory */
+:root[data-variant='v2_2'] .featured {
+  border-top: 1px solid rgb(23 25 28 / 0.1);
+}
+
+/* the cards: white, lifted off the grey */
+:root[data-variant='v2_2'] .featured .card {
+  border-color: rgb(23 25 28 / 0.08);
+  box-shadow: 0 1px 2px rgb(23 25 28 / 0.06), 0 10px 28px -14px rgb(23 25 28 / 0.22);
+}
+
+/* the selects stay white fields on the grey */
+:root[data-variant='v2_2'] .search-band .select select {
+  background-color: #ffffff;
+}
+
+/* 1024–1279: the label takes its own row, so the four fields keep their words
+   ("Any make", not "Any …"). */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  :root[data-variant='v2_2'] .search {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+    row-gap: var(--s-3);
+  }
+
+  :root[data-variant='v2_2'] .search__title {
+    grid-column: 1 / -1;
+  }
+}
