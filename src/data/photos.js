@@ -97,12 +97,14 @@ const photosV22 = {
   ...photosV2,
   about: {
     ...photosV2.about,
-    file: 'about-gen-911-amg',
-    variants: [1200, 4155],
-    width: 4155,
-    height: 2597,
-    alt: 'A red Porsche 911 and a blue Mercedes-AMG GT side by side in a dark graphite studio (generated placeholder image).',
-    focus: { mobile: '5% 58%', desktop: '0% 56%' }, // phones: both cars whole (they span 7–41% of the frame)
+    // Alex's own frame (LOGO/about.jpg, 2026-11-09), the studio extended on every
+    // side for air (L 6% / R 40%, to 16:10): the cars sit at 11–38% of the width.
+    file: 'about-911-amg-studio',
+    variants: [1200, 2803],
+    width: 2803,
+    height: 1752,
+    alt: 'A red Porsche 911 and a blue Mercedes-AMG GT side by side in a dark studio.',
+    focus: { mobile: '8% 56%', desktop: '0% 56%' }, // phones: both cars whole
   },
 }
 
