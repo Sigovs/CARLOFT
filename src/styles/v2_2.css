@@ -261,9 +261,23 @@
    A slow transform-only loop, paused on hover; reduced motion: still, wrapped.
    ----------------------------------------------------------------------------- */
 .brandbar {
+  position: relative;
+  z-index: 2;                /* the tape crosses onto the search band below */
+  background: #0f0f10;       /* the hero's near-black: the tape's corners never show */
+  overflow-x: clip;          /* the tape is wider than the screen; vertically it may cross */
+  overflow-y: visible;
+}
+
+/* The tape: tilted across the seam (Alex: "at an angle"), wider than the
+   viewport so neither end shows a corner. */
+.brandbar__tape {
+  width: 112%;
+  margin-left: -6%;
   overflow: hidden;
   background: #0f0f10;
-  border-block: 1px solid rgb(255 255 255 / 0.22);
+  border-block: 1px solid rgb(255 255 255 / 0.28);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.35);
+  transform: rotate(-2.5deg);
 }
 
 .brandbar__track {

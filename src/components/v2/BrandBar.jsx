@@ -2,7 +2,8 @@
  * BrandBar — V2.2 (index_v2_2.html), client ticket 2026-11-09: "the scrolling
  * brand bar like Clutch"; Alex: "in a brutalist style" (refs: futuristic
  * brutalist graphic packs, Bauhaus shapes). The makes in the client's own order,
- * set as type (no trademark logos), each a small brutalist "badge": an index
+ * set as type (no trademark logos), on a tape tilted across the hero's lower
+ * edge (Alex: "at an angle"), each a small brutalist "badge": an index
  * number, a geometric glyph, the name — plain, outlined or inverted in a
  * repeating rhythm. Monochrome. The list is rendered twice for a seamless loop;
  * the copy is hidden from assistive tech. Pauses on hover; under reduced motion
@@ -52,9 +53,11 @@ function List({ copy = false }) {
 export default function BrandBar() {
   return (
     <section className="brandbar" aria-label="Makes">
-      <div className="brandbar__track">
-        <List />
-        <List copy />
+      <div className="brandbar__tape">
+        <div className="brandbar__track">
+          <List />
+          <List copy />
+        </div>
       </div>
     </section>
   )
