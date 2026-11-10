@@ -496,11 +496,11 @@
    ----------------------------------------------------------------------------- */
 :root[data-variant='v2_2'] .footer {
   --ft-w: 100vw;
-  padding-top: calc(var(--ft-w) / 3.556 + var(--s-5)); /* the links start below the frame, never on its floor */
+  padding-top: calc(var(--ft-w) / 3.429 + var(--s-5)); /* the links start below the frame, never on its floor */
 }
 
 :root[data-variant='v2_2'] .footer__bg {
-  aspect-ratio: 1920 / 540;
+  aspect-ratio: 1920 / 560;
 }
 
 :root[data-variant='v2_2'] .footer__bg img {
@@ -512,8 +512,8 @@
     linear-gradient(to bottom, transparent 0%, #000 6%, #000 80%, transparent 100%);
 }
 
-/* Phones: a tighter crop (2.6:1) — the five cars stay whole (they span 20–83% of
-   the frame, the crop keeps 13–87%) and read ~1.4× larger. */
+/* Phones: a tighter crop (2.6:1) — the cars stay whole (they span 26–72% of
+   the frame, the crop keeps 12–88%) and read ~1.3× larger. */
 @media (max-width: 767px) {
   :root[data-variant='v2_2'] .footer {
     padding-top: calc(var(--ft-w) / 2.6 + var(--s-5));
@@ -524,7 +524,7 @@
   }
 
   :root[data-variant='v2_2'] .footer__bg img {
-    object-position: 50% 62%;
+    object-position: 50% 40%;
   }
 }
 
