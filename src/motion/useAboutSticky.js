@@ -1,6 +1,7 @@
 import { gsap, useGSAP } from './gsap.js'
 import { MQ } from './media.js'
 import { EASE, SCRUB } from './tokens.js'
+import { V2_2 } from '../data/version.js'
 
 /**
  * About — sticky full-screen stage (client, 2026-09-30: "make About sticky").
@@ -31,7 +32,14 @@ export function useAboutSticky(rootRef) {
             defaults: { ease: EASE.scrub },
             scrollTrigger: { trigger: root, start: 'top top', end: 'bottom bottom', scrub: SCRUB.stage, invalidateOnRefresh: true },
           })
-          .fromTo(panel, { y: () => inner.offsetHeight }, { y: 0, duration: 0.55, ease: EASE.settle }, 0)
+          // V2.2 (Alex: the panel should not drive up from below): it stays on the
+          // stage's centre and only fades in there; V1/V2 keep the rise.
+          .fromTo(
+            panel,
+            V2_2 ? { opacity: 0 } : { y: () => inner.offsetHeight },
+            V2_2 ? { opacity: 1, duration: 0.3, ease: EASE.settle } : { y: 0, duration: 0.55, ease: EASE.settle },
+            0,
+          )
           .fromTo(img, { scale: 1.06, transformOrigin: '30% 60%' }, { scale: 1, duration: 1 }, 0)
 
         return () => {

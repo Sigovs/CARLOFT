@@ -448,7 +448,9 @@
 /* About: the panel on the vertical centre of the stage (Alex), not on its foot —
    static (tablet · reduced motion) and the sticky desktop stage alike. */
 @media (min-width: 768px) {
-  :root[data-variant='v2_2'] .about {
+  /* static layout only — on the staged (sticky) section this would centre the
+     stage inside its 190vh and open a gap above the photograph */
+  :root[data-variant='v2_2'] .about:not(.is-staged) {
     align-items: center;
   }
 
