@@ -421,10 +421,17 @@
   border-top: 1px solid rgb(23 25 28 / 0.1);
 }
 
-/* the cards: white, lifted off the grey */
+/* the cards: white on the grey, a hairline and a barely-there shadow at rest */
 :root[data-variant='v2_2'] .featured .card {
   border-color: rgb(23 25 28 / 0.08);
-  box-shadow: 0 1px 2px rgb(23 25 28 / 0.06), 0 10px 28px -14px rgb(23 25 28 / 0.22);
+  box-shadow: 0 1px 2px rgb(23 25 28 / 0.06);
+}
+
+/* The rail's viewport clips horizontally (the track slides); give the cards
+   room above and below so the hover shadow is not cut off. */
+:root[data-variant='v2_2'] .featured__viewport {
+  padding-block: 8px 48px;
+  margin-block: -8px -48px;
 }
 
 /* the selects stay white fields on the grey */
@@ -572,7 +579,7 @@
 }
 
 :root[data-variant='v2_2'] .featured .card:is(:hover, :has(.card__open:focus-visible)) {
-  box-shadow: 0 2px 4px rgb(23 25 28 / 0.06), 0 18px 40px -16px rgb(23 25 28 / 0.32);
+  box-shadow: 0 4px 10px rgb(23 25 28 / 0.1), 0 22px 44px -18px rgb(23 25 28 / 0.45);
 }
 
 /* Instagram: no "Placeholder" tag beside the handle (Alex). */
