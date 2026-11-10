@@ -9,7 +9,8 @@ import ServiceFinance from './components/ServiceFinance.jsx'
 import About from './components/About.jsx'
 import Reviews from './components/Reviews.jsx'
 import ReviewsEditorial from './components/v2/ReviewsEditorial.jsx'
-import { V2 } from './data/version.js'
+import { V2, V2_2 } from './data/version.js'
+import BrandBar from './components/v2/BrandBar.jsx'
 import Instagram from './components/Instagram.jsx'
 import Footer from './components/Footer.jsx'
 import { useInventoryFilters } from './hooks/useInventoryFilters.js'
@@ -46,6 +47,7 @@ export default function App() {
       <Header ref={headerRef} />
       <main id="main">
         <Hero />
+        {V2_2 ? <BrandBar /> : null}
         <InventorySearch filters={filters} setFilter={setFilter} onSearch={onSearch} />
         <FeaturedInventory results={results} active={active} clear={clear} countRef={countRef} filters={filters} setFilter={setFilter} />
         <SellConsign />

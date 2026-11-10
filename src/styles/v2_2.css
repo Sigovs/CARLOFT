@@ -251,3 +251,76 @@
     transition: none;
   }
 }
+
+/* -----------------------------------------------------------------------------
+   4 · Brand bar — "the scrolling brand bar like Clutch" (client ticket
+   2026-11-09). Under the hero, on the hero's own near-black so it reads as its
+   last line; the makes as wide grey caps in the display face, air between them,
+   no rules or separators. A slow linear loop (transform only), paused on hover;
+   reduced motion: still, wrapped, centred.
+   ----------------------------------------------------------------------------- */
+.brandbar {
+  overflow: hidden;
+  background: #0f0f10;
+  border-top: 1px solid rgb(255 255 255 / 0.08);
+}
+
+.brandbar__track {
+  display: flex;
+  width: max-content;
+  animation: brandbar-run 48s linear infinite;
+}
+
+.brandbar:hover .brandbar__track {
+  animation-play-state: paused;
+}
+
+.brandbar__list {
+  display: flex;
+  flex: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.brandbar__list li {
+  padding: clamp(20px, 2.4vw, 30px) clamp(24px, 3vw, 44px);
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-size: clamp(0.8125rem, 0.75rem + 0.3vw, 1rem);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #8f8f8b; /* 5.9:1 on #0f0f10 */
+}
+
+@keyframes brandbar-run {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brandbar__track {
+    width: 100%;
+    animation: none;
+  }
+
+  .brandbar__list {
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-width: 0;
+    padding-block: 10px;
+  }
+
+  .brandbar__list--copy {
+    display: none;
+  }
+
+  .brandbar__list li {
+    padding: 10px 16px;
+  }
+}
