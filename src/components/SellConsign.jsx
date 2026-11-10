@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import Icon from './Icon.jsx'
 import { useSellSequence } from '../motion/useSellSequence.js'
 import { photos, photoProps } from '../data/photos.js'
+import { V2_2 } from '../data/version.js'
 
 /**
  * SellConsign (#sell) — BRIEF §14.5, MOTION.md §4.1.
@@ -56,6 +57,13 @@ const pathways = [
   },
 ]
 
+/* V2.2 (Alex: the title should change on 02 / 03 too): one headline per step.
+   Shown only in the staged layout; the static page keeps the one h2. */
+const stepTitles = {
+  1: ['Sell it to us.', 'Get an offer.'],
+  2: ['Consign it.', 'We sell it.'],
+}
+
 const indexItems = [
   { phase: 0, num: '01', label: 'Overview' },
   { phase: 1, num: '02', label: 'Sell' },
@@ -94,10 +102,20 @@ export default function SellConsign() {
 
         <div className="sell__copy">
           <p className="eyebrow">Sell or consign</p>
-          <h2 id="sell-title" className="display sell__heading" data-motion="heading">
-            <span className="line-block">Make room </span>
-            <span className="line-block">for what’s next.</span>
-          </h2>
+          <div className={V2_2 ? 'sell__titles' : undefined}>
+            <h2 id="sell-title" className="display sell__heading" data-motion="heading">
+              <span className="line-block">Make room </span>
+              <span className="line-block">for what’s next.</span>
+            </h2>
+            {V2_2
+              ? Object.entries(stepTitles).map(([phase, lines]) => (
+                  <p key={phase} className="display sell__heading-alt" data-phase={phase} aria-hidden="true">
+                    <span className="line-block">{lines[0]} </span>
+                    <span className="line-block">{lines[1]}</span>
+                  </p>
+                ))
+              : null}
+          </div>
 
           <div className="sell__slot">
             <div className="sell__group sell__group--intro" data-phase="0" id="sell-phase-0">

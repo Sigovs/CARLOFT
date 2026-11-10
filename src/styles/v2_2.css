@@ -579,3 +579,64 @@
 :root[data-variant='v2_2'] .instagram__handle .tag {
   display: none;
 }
+
+/* Sell · Consign: the headline changes with the step (Alex) — 01 "Make room for
+   what's next." · 02 "Sell it to us. Get an offer." · 03 "Consign it. We
+   sell it." All three share one grid cell (the tallest sets the
+   height, nothing below moves) and cross-fade with the active group. The static
+   layout (phones, reduced motion) keeps the one h2. */
+:root[data-variant='v2_2'] .sell__titles {
+  display: grid;
+  margin-top: var(--gap-eyebrow);
+}
+
+:root[data-variant='v2_2'] .sell__titles > * {
+  grid-area: 1 / 1;
+  margin-top: 0;
+}
+
+:root[data-variant='v2_2'] .sell__heading-alt {
+  display: none;
+  margin-bottom: 0;
+}
+
+:root[data-variant='v2_2'] .sell.is-staged .sell__heading-alt {
+  display: block;
+  opacity: 0;
+  pointer-events: none;
+}
+
+:root[data-variant='v2_2'] .sell.is-staged :is(.sell__heading, .sell__heading-alt) {
+  transition: opacity var(--dur-s) var(--ease-out);
+}
+
+:root[data-variant='v2_2'] .sell.is-staged:has(.sell__group[data-phase='1'][data-active], .sell__group[data-phase='2'][data-active]) .sell__heading {
+  opacity: 0;
+}
+
+:root[data-variant='v2_2'] .sell.is-staged:has(.sell__group[data-phase='1'][data-active]) .sell__heading-alt[data-phase='1'],
+:root[data-variant='v2_2'] .sell.is-staged:has(.sell__group[data-phase='2'][data-active]) .sell__heading-alt[data-phase='2'] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-variant='v2_2'] .sell.is-staged :is(.sell__heading, .sell__heading-alt) {
+    transition: none;
+  }
+}
+
+/* Footer links: no underline on hover, the text just dims (Alex).
+   #9b9a96 on #0f0f10 6.6:1 — still AA. Keyboard focus keeps the ring. */
+:root[data-variant='v2_2'] .footer__link:is(:hover, :focus-visible) {
+  color: #9b9a96;
+  text-decoration: none;
+}
+
+/* Classics: the copy block on the stage's vertical centre (Alex), not near the
+   top — on the dark wall left of the car. */
+@media (min-width: 1024px) {
+  :root[data-variant='v2_2'] .classics__copy {
+    top: calc(var(--header-h) + (100% - var(--header-h)) / 2);
+    transform: translateY(-50%);
+  }
+}
