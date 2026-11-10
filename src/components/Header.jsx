@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import { brand, navLinks } from '../data/brand.js'
 import Icon from './Icon.jsx'
 import { lockScroll, unlockScroll } from '../motion/scroll.js'
-import { V2 } from '../data/version.js'
-import { logoLight } from '../data/v2/logo.js'
+import { V2, V2_2 } from '../data/version.js'
+import { logoLight, logoV22 } from '../data/v2/logo.js'
+import LogoMark from './v2/LogoMark.jsx'
 
 /**
  * Header — sticky, fixed height (--header-h), skin-only states.
@@ -133,7 +134,16 @@ export default function Header({ ref }) {
     <header className="header" data-header="top" ref={setRefs}>
       <div className="header__bar container">
         <a className="header__wordmark" href="#top" aria-label={`${brand.wordmark} — back to top`}>
-          {V2 ? <img className="header__logo" {...logoLight} alt="" decoding="async" /> : brand.wordmark}
+          {V2_2 ? (
+            <>
+              <LogoMark logo={logoV22.horizontal} className="header__mark header__mark--full" />
+              <LogoMark logo={logoV22.name} className="header__mark header__mark--name" />
+            </>
+          ) : V2 ? (
+            <img className="header__logo" {...logoLight} alt="" decoding="async" />
+          ) : (
+            brand.wordmark
+          )}
         </a>
 
         <nav className="header__nav" aria-label="Primary">

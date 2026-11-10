@@ -71,3 +71,158 @@
 :root[data-variant='v2_2'] :is(.header, #top, #sell, #classics, #service, #about, #reviews, #instagram, .footer) {
   --focus-ring: 2px solid var(--c-accent);
 }
+
+/* -----------------------------------------------------------------------------
+   2 · Logo — larger, a "shine", the car beside the name (client ticket
+   2026-11-09; Alex's masters in LOGO/: horizontal before the scroll, the name
+   alone in the scrolled bar, vertical in the footer).
+   Before the scroll the horizontal lock-up hangs just below the bar row, large,
+   on the photograph — in the row itself it would run into the centred menu at
+   1024–1279. From the first scroll the name alone sits in the bar, no plate.
+   The two cross-fade (opacity + transform only); the bar's layout never moves.
+   ----------------------------------------------------------------------------- */
+.logo-mark {
+  display: block;
+  aspect-ratio: var(--logo-ratio);
+  -webkit-mask: var(--logo) center / contain no-repeat;
+  mask: var(--logo) center / contain no-repeat;
+  mask-mode: luminance; /* white = shown, the black detail lines stay open */
+  /* chrome: a cool white with one darker band through the middle, and a narrow
+     light sweep parked off to the left until it runs */
+  background:
+    linear-gradient(105deg, transparent 0 44%, rgb(255 255 255 / 0.95) 50%, transparent 56% 100%) -120% 0 / 260% 100% no-repeat,
+    linear-gradient(180deg, #ffffff 0%, #eef0f2 34%, #aab0b6 50%, #f6f7f8 64%, #d2d6da 100%);
+}
+
+/* The light sweep: once as the page opens, again on hover / focus of the link. */
+@keyframes logo-sweep {
+  from {
+    background-position: -120% 0, 0 0;
+  }
+  to {
+    background-position: 220% 0, 0 0;
+  }
+}
+
+@keyframes logo-sweep-again {
+  from {
+    background-position: -120% 0, 0 0;
+  }
+  to {
+    background-position: 220% 0, 0 0;
+  }
+}
+
+:root[data-variant='v2_2'] .header__mark--full,
+:root[data-variant='v2_2'] .footer__mark {
+  animation: logo-sweep 1.6s cubic-bezier(0.45, 0, 0.2, 1) 0.6s both;
+}
+
+:root[data-variant='v2_2'] .header__wordmark:is(:hover, :focus-visible) .logo-mark,
+:root[data-variant='v2_2'] .footer__brand:hover .footer__mark {
+  animation: logo-sweep-again 1.2s cubic-bezier(0.45, 0, 0.2, 1) both;
+}
+
+/* The link: no plate, no hanging tab, in any state. */
+:root[data-variant='v2_2'] .header__wordmark,
+:root[data-variant='v2_2'] .header .header__wordmark:is(:hover, :focus-visible),
+:root[data-variant='v2_2'] .header[data-compact] .header__wordmark {
+  position: relative;
+  align-items: center;
+  width: var(--name-w);
+  padding: 0;
+  background: transparent;
+  /* lift the mark off any photograph */
+  filter: drop-shadow(0 2px 14px rgb(0 0 0 / 0.45));
+}
+
+:root[data-variant='v2_2'] .header__wordmark::after {
+  display: none;
+}
+
+/* on :root, not .header: the hero's top padding reads --full-h too */
+:root[data-variant='v2_2'] {
+  --name-h: 44px;                                   /* the name in the bar: 149px wide */
+  --name-w: calc(var(--name-h) * 865 / 255);
+  --full-h: 34px;                                   /* phones: in the bar row, 185px wide — ends 16px before the phone button at 390 */
+}
+
+@media (min-width: 1024px) {
+  :root[data-variant='v2_2'] {
+    --name-h: 40px;                                 /* 1024–1279: 136px wide, the menu keeps one line */
+    --full-h: clamp(60px, 5vw, 80px);               /* 326–435px wide, below the bar row */
+  }
+
+  :root[data-variant='v2_2'] .header__links a {
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root[data-variant='v2_2'] {
+    --name-h: 48px;                                 /* 163px wide */
+  }
+}
+
+:root[data-variant='v2_2'] .header__mark {
+  position: absolute;
+  left: 0;
+  transition:
+    opacity var(--dur-s) var(--ease-out),
+    transform var(--dur-s) var(--ease-out);
+}
+
+:root[data-variant='v2_2'] .header__mark--name {
+  top: calc(50% - var(--name-h) / 2);
+  height: var(--name-h);
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+:root[data-variant='v2_2'] .header__mark--full {
+  top: calc(50% - var(--full-h) / 2);
+  height: var(--full-h);
+  transform-origin: 0 0;
+}
+
+@media (min-width: 1024px) {
+  :root[data-variant='v2_2'] .header__mark--full {
+    top: calc(100% + 4px);                          /* just below the bar row, on the photograph */
+  }
+}
+
+/* Scrolled (or the mobile sheet open): the name alone, in the bar. */
+:root[data-variant='v2_2'] :is(.header[data-compact], .header:has(.header__sheet.is-open)) .header__mark--name {
+  opacity: 1;
+  transform: none;
+}
+
+:root[data-variant='v2_2'] :is(.header[data-compact], .header:has(.header__sheet.is-open)) .header__mark--full {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.92);
+  pointer-events: none;
+}
+
+/* Hero copy starts below the hanging lock-up. */
+@media (min-width: 1024px) {
+  :root[data-variant='v2_2'] .hero {
+    --hero-top: calc(var(--full-h) + 56px);
+  }
+}
+
+/* Footer: the vertical lock-up in the same chrome. */
+:root[data-variant='v2_2'] .footer__mark {
+  height: 112px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-variant='v2_2'] .logo-mark,
+  :root[data-variant='v2_2'] .header__wordmark:is(:hover, :focus-visible) .logo-mark,
+  :root[data-variant='v2_2'] .footer__brand:hover .footer__mark {
+    animation: none;
+  }
+
+  :root[data-variant='v2_2'] .header__mark {
+    transition: none;
+  }
+}

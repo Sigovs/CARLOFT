@@ -1,8 +1,9 @@
 import { brand, footerColumns, topicLabels } from '../data/brand.js'
 import { vehicleTitle, vehicles } from '../data/inventory.js'
 import { photos, photoProps } from '../data/photos.js'
-import { V2 } from '../data/version.js'
-import { logoLight } from '../data/v2/logo.js'
+import { V2, V2_2 } from '../data/version.js'
+import { logoLight, logoV22 } from '../data/v2/logo.js'
+import LogoMark from './v2/LogoMark.jsx'
 
 /**
  * Footer (#contact) — BRIEF §14.12. The destination of every
@@ -32,7 +33,16 @@ export default function Footer({ route }) {
         <div className="footer__grid">
           <div className="footer__brand">
             <h2 id="footer-title" className="footer__wordmark">
-              {V2 ? <img className="footer__logo" {...logoLight} alt={brand.wordmark} loading="lazy" decoding="async" /> : brand.wordmark}
+              {V2_2 ? (
+                <>
+                  <LogoMark logo={logoV22.vertical} className="footer__mark" />
+                  <span className="visually-hidden">{brand.wordmark}</span>
+                </>
+              ) : V2 ? (
+                <img className="footer__logo" {...logoLight} alt={brand.wordmark} loading="lazy" decoding="async" />
+              ) : (
+                brand.wordmark
+              )}
             </h2>
             <p className="small footer__descriptor">{brand.descriptor}</p>
           </div>

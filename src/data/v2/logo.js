@@ -8,6 +8,20 @@
 
 import { asset } from '../asset.js'
 
+/**
+ * V2.2 (index_v2_2.html, client ticket 2026-11-09: "logo larger, with a shine,
+ * the car beside the name"). Alex's vector masters from LOGO/ (2026-11-09):
+ * horizontal (car + name) before the scroll, the name alone in the scrolled bar,
+ * the vertical lock-up in the footer. Used as CSS luminance masks, so the fill
+ * is ours (the chrome + the light sweep in v2_2.css) and the black detail lines
+ * stay open. Light marks for dark grounds only.
+ */
+export const logoV22 = {
+  horizontal: { src: asset('assets/carloft-logo-horizontal.svg'), width: 1506, height: 277 },
+  name: { src: asset('assets/carloft-logo-name.svg'), width: 865, height: 255 },
+  vertical: { src: asset('assets/carloft-logo-vertical.svg'), width: 600, height: 454 },
+}
+
 export const logoLight = {
   src: asset('assets/carloft-logo-light.webp'),
   width: 612,
