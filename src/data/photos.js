@@ -97,8 +97,8 @@ const photosV22 = {
   ...photosV2,
   classics: {
     ...photosV2.classics,
-    // Alex's own frame (LOGO/musclecar sectionm.jpg, 2026-11-10): the orange '69
-    // Camaro SS lit in a dark steel warehouse; the hangar continued 18% on the
+    // Alex's own frame (LOGO/musclecar sectionm.jpg, 2026-11-10 00:23): the orange '69
+    // Camaro SS lit in a dark warehouse with tall windows; the hangar continued 18% on the
     // left (edge tone, darkened) so the car sits at 53–87% of the width, clear
     // of the copy.
     file: 'classics-muscle-loft',
@@ -106,7 +106,7 @@ const photosV22 = {
     suffixLargest: true,
     width: 2265,
     height: 1080,
-    alt: 'An orange 1969 Chevrolet Camaro SS lit in a dark industrial warehouse.',
+    alt: 'An orange 1969 Chevrolet Camaro SS lit in a dark warehouse with tall windows.',
     focus: { mobile: '72% 55%', desktop: '50% 50%' },
   },
   footer: {
