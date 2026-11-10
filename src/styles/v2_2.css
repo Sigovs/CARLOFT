@@ -76,10 +76,12 @@
    2 · Logo — larger, a "shine", the car beside the name (client ticket
    2026-11-09; Alex's masters in LOGO/: horizontal before the scroll, the name
    alone in the scrolled bar, vertical in the footer).
-   Before the scroll the horizontal lock-up hangs just below the bar row, large,
-   on the photograph — in the row itself it would run into the centred menu at
-   1024–1279. From the first scroll the name alone sits in the bar, no plate.
-   The two cross-fade (opacity + transform only); the bar's layout never moves.
+   Before the scroll: the VERTICAL lock-up, large, in the bar's logo slot from
+   its top edge, running down onto the photograph while the bar is still
+   transparent (the approved V2 composition, larger). Scrolled: the HORIZONTAL
+   lock-up in the bar (Alex, 2026-11-09). At 1024–1279 it cannot sit beside the
+   centred menu (157px of room, it needs ~220), so there the name alone stands in.
+   The marks cross-fade (opacity + transform only); the bar's layout never moves.
    ----------------------------------------------------------------------------- */
 .logo-mark {
   display: block;
@@ -140,27 +142,28 @@
   display: none;
 }
 
-/* on :root, not .header: the hero's top padding reads --full-h too */
+/* Sizes on :root (the hero's padding reads them too). */
 :root[data-variant='v2_2'] {
-  --name-h: 44px;                                   /* the name in the bar: 149px wide */
-  --name-w: calc(var(--name-h) * 865 / 255);
-  --full-h: 34px;                                   /* phones: in the bar row, 185px wide — ends 16px before the phone button at 390 */
+  --full-h: 64px;                                   /* phones, top: the vertical mark, 85px wide */
+  --full-top: 6px;
+  --bar-h: 34px;                                    /* phones, scrolled: the horizontal mark, 185px — 14px clear of the phone button */
+  --name-h: 40px;                                   /* 1024–1279, scrolled: the name, 136px */
+  --name-w: calc(var(--bar-h) * 1506 / 277);        /* the link's own box = the scrolled mark */
 }
 
 @media (min-width: 1024px) {
   :root[data-variant='v2_2'] {
-    --name-h: 40px;                                 /* 1024–1279: 136px wide, the menu keeps one line */
-    --full-h: clamp(60px, 5vw, 80px);               /* 326–435px wide, below the bar row */
-  }
-
-  :root[data-variant='v2_2'] .header__links a {
-    white-space: nowrap;
+    --full-h: 124px;                                /* 164px wide: clear of the centred menu at 1024 */
+    --full-top: 12px;
+    --name-w: calc(var(--name-h) * 865 / 255);
   }
 }
 
 @media (min-width: 1280px) {
   :root[data-variant='v2_2'] {
-    --name-h: 48px;                                 /* 163px wide */
+    --full-h: 144px;                                /* 190px wide (V2 was 148×113) */
+    --bar-h: 44px;                                  /* 239px wide, 14px of air in the 72px bar; 65px before the menu at 1280 */
+    --name-w: calc(var(--bar-h) * 1506 / 277);
   }
 }
 
@@ -172,41 +175,54 @@
     transform var(--dur-s) var(--ease-out);
 }
 
-:root[data-variant='v2_2'] .header__mark--name {
-  top: calc(50% - var(--name-h) / 2);
-  height: var(--name-h);
+:root[data-variant='v2_2'] :is(.header__mark--bar, .header__mark--name) {
   opacity: 0;
   transform: translateY(6px);
 }
 
+:root[data-variant='v2_2'] .header__mark--bar {
+  top: calc(50% - var(--bar-h) / 2);
+  height: var(--bar-h);
+}
+
+:root[data-variant='v2_2'] .header__mark--name {
+  top: calc(50% - var(--name-h) / 2);
+  height: var(--name-h);
+  visibility: hidden;                               /* only 1024–1279 */
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  :root[data-variant='v2_2'] .header__mark--bar {
+    visibility: hidden;
+  }
+
+  :root[data-variant='v2_2'] .header__mark--name {
+    visibility: visible;
+  }
+}
+
 :root[data-variant='v2_2'] .header__mark--full {
-  top: calc(50% - var(--full-h) / 2);
+  top: var(--full-top);
   height: var(--full-h);
   transform-origin: 0 0;
 }
 
-@media (min-width: 1024px) {
-  :root[data-variant='v2_2'] .header__mark--full {
-    top: calc(100% + 4px);                          /* just below the bar row, on the photograph */
-  }
-}
-
-/* Scrolled (or the mobile sheet open): the name alone, in the bar. */
-:root[data-variant='v2_2'] :is(.header[data-compact], .header:has(.header__sheet.is-open)) .header__mark--name {
+/* Scrolled (or the menu sheet open): the name alone. */
+:root[data-variant='v2_2'] :is(.header[data-compact], .header:has(.header__sheet.is-open)) :is(.header__mark--bar, .header__mark--name) {
   opacity: 1;
   transform: none;
 }
 
 :root[data-variant='v2_2'] :is(.header[data-compact], .header:has(.header__sheet.is-open)) .header__mark--full {
   opacity: 0;
-  transform: translateY(-10px) scale(0.92);
+  transform: translateY(-6px) scale(0.94);
   pointer-events: none;
 }
 
-/* Hero copy starts below the hanging lock-up. */
+/* Hero copy starts below the large mark. */
 @media (min-width: 1024px) {
   :root[data-variant='v2_2'] .hero {
-    --hero-top: calc(var(--full-h) + 56px);
+    --hero-top: calc(var(--full-top) + var(--full-h) - var(--header-h) + 40px);
   }
 }
 

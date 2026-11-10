@@ -11,8 +11,9 @@ import { asset } from '../asset.js'
 /**
  * V2.2 (index_v2_2.html, client ticket 2026-11-09: "logo larger, with a shine,
  * the car beside the name"). Alex's vector masters from LOGO/ (2026-11-09):
- * horizontal (car + name) before the scroll, the name alone in the scrolled bar,
- * the vertical lock-up in the footer. Used as CSS luminance masks, so the fill
+ * the vertical lock-up (car over name) large before the scroll and in the footer,
+ * the horizontal one in the scrolled bar (Alex, 2026-11-09); the name alone only
+ * where the horizontal one cannot sit beside the full menu (1024–1279). Used as CSS luminance masks, so the fill
  * is ours (the chrome + the light sweep in v2_2.css) and the black detail lines
  * stay open. Light marks for dark grounds only.
  */
