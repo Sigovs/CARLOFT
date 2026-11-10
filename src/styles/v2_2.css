@@ -413,11 +413,11 @@
    block, so the white cards stand off it. Accent here only as a FILL (Search).
    ----------------------------------------------------------------------------- */
 :root[data-variant='v2_2'] {
-  --c-inv-ground: #e4e4e1; /* neutral grey; ink #17191c on it 13.8:1, ink-2 #4e5157 6.3:1 */
+  --c-inv-ground: #cfcfcb; /* neutral grey, darker (Alex); ink #17191c on it 11.3:1, ink-2 #4e5157 5.1:1 */
 }
 
 :root[data-variant='v2_2'] :is(.search-band, .featured) {
-  --c-ink-3: #575a60;      /* meta ink: 4.1:1 → 5.4:1 on the grey (6.9:1 inside the white cards) */
+  --c-ink-3: #4a4d53;      /* meta ink: 5.4:1 on the grey (8.5:1 inside the white cards) */
   background: var(--c-inv-ground);
 }
 
