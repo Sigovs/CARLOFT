@@ -133,3 +133,11 @@ LAYOUT (own app tree: src/v3/). Copy, photography, colour and brand stay CAR LOF
 ratings or claims from the reference are carried over. Photography reused from V2 (all AI-generated
 placeholders except the inventory listings) plus:
 | v3-hero-showroom (-960/-1600/-2752) | AI-GENERATED (fal-ai/nano-banana-pro), dark showroom, car row right | studio extended left 22% / right 10% + floor below; saturation −15% | $0.15 |
+
+## V2.2 page — index_v2_2.html (2026-11-09)
+Client ticket "nov changes 9th.pdf" (AAN #48798). V2.2 is a layer on top of V2; V2 keeps its own assets.
+| asset | source | processing | cost |
+|---|---|---|---|
+| hero-gen-911-red (-960/-1600/-2560) | AI-EDITED (fal-ai/nano-banana-pro/edit) from hero-gen-911-white: the 911 repainted Guards Red, studio, framing and light kept | centre-cropped to 16:9 from 2752×1536, resized | $0.15 (+ $0.15 Carmine variant, not used) |
+| carloft-logo-horizontal / -horizontal-color / -vertical / -vertical-color / -name (.svg) | client vector masters, LOGO/ (Alex, 2026-11-09) | copied unchanged | — |
+| carloft-logo-*-glow.png | rendered from the masters in the browser (outer-contour neon) | currently switched off (Alex: "убери glow") | — |

@@ -34,7 +34,7 @@
  */
 
 import { asset } from './asset.js'
-import { V2 } from './version.js'
+import { V2, V2_2 } from './version.js'
 import { heroSlidesV2 } from './v2/hero.js'
 
 const heroSlidesV1 = [
@@ -122,7 +122,21 @@ const heroSlidesV1 = [
   },
 ]
 
-export const heroSlides = V2 ? heroSlidesV2 : heroSlidesV1
+/* V2.2 (client ticket 2026-11-09: "a red Porsche instead of the white car"): the
+   same studio frame with the 911 repainted Guards Red (fal-ai/nano-banana-pro/edit,
+   docs/ASSETS.md). Only V2.2 — index_v2.html keeps the white car. */
+const heroSlidesV22 = heroSlidesV2.map((s) =>
+  s.id === 'gen-911-white'
+    ? {
+        ...s,
+        id: 'gen-911-red',
+        image: asset('assets/hero-gen-911-red'),
+        alt: 'A Guards Red Porsche 911 lit in a dark graphite studio (generated placeholder image).',
+      }
+    : s,
+)
+
+export const heroSlides = V2_2 ? heroSlidesV22 : V2 ? heroSlidesV2 : heroSlidesV1
 
 export const heroSrcSet = (s) => (s.widths || [960, 1600, 2560]).map((w) => `${s.image}-${w}.webp ${w}w`).join(', ')
 export const heroSrc = (s) => `${s.image}-1600.webp`
