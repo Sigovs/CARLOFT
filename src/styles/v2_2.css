@@ -444,3 +444,23 @@
     grid-column: 1 / -1;
   }
 }
+
+/* About: the panel on the vertical centre of the stage (Alex), not on its foot —
+   static (tablet · reduced motion) and the sticky desktop stage alike. */
+@media (min-width: 768px) {
+  :root[data-variant='v2_2'] .about {
+    align-items: center;
+  }
+
+  :root[data-variant='v2_2'] .about__inner {
+    align-items: center;
+    padding-block: var(--s-8);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root[data-variant='v2_2'] .about.is-staged .about__inner {
+    align-items: center;
+    padding-block: 0;
+  }
+}
