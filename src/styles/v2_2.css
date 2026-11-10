@@ -547,3 +547,35 @@
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 240px);
   mask-image: linear-gradient(to bottom, transparent 0, #000 240px);
 }
+
+/* "View All Inventory": a filled ink button on the grey (Alex) — the scheme's
+   dark solid (the Miami Blue fill stays the one primary of the search band).
+   White on #17191c 17.6:1. */
+:root[data-variant='v2_2'] .featured a.btn--secondary {
+  --btn-bg: var(--c-ink);
+  --btn-fg: #ffffff;
+  --btn-border: var(--c-ink);
+}
+
+:root[data-variant='v2_2'] .featured a.btn--secondary:is(:hover, :focus-visible, :active) {
+  --btn-bg: #2b2e33;
+  --btn-fg: #ffffff;
+  --btn-border: #2b2e33;
+}
+
+/* Car tiles: a light shadow on hover / keyboard focus (Alex) — the tile lifts
+   off the grey; the shadow eases in, no movement. */
+:root[data-variant='v2_2'] .featured .card {
+  transition:
+    border-color var(--dur-xs) var(--ease-out),
+    box-shadow var(--dur-s) var(--ease-out);
+}
+
+:root[data-variant='v2_2'] .featured .card:is(:hover, :has(.card__open:focus-visible)) {
+  box-shadow: 0 2px 4px rgb(23 25 28 / 0.06), 0 18px 40px -16px rgb(23 25 28 / 0.32);
+}
+
+/* Instagram: no "Placeholder" tag beside the handle (Alex). */
+:root[data-variant='v2_2'] .instagram__handle .tag {
+  display: none;
+}
