@@ -79,8 +79,8 @@
    Before the scroll: the VERTICAL lock-up with the name in the Miami Blue
    gradient (Alex's master, LOGO/ 22:12 — "logo vert до скролла"), large, in the
    bar's logo slot with air above, running down onto the transparent bar's photo.
-   Scrolled: the white horizontal lock-up in the bar; at 1024–1279, beside the
-   full centred menu, the name alone.
+   Scrolled: the horizontal lock-up, same Miami Blue gradient name, in the bar;
+   at 1024–1279, beside the full centred menu, the name alone in that gradient.
    The marks cross-fade (opacity + transform only); the bar's layout never moves.
    ----------------------------------------------------------------------------- */
 .logo-mark {
@@ -101,6 +101,12 @@
   mask: var(--logo) center / contain no-repeat;
   mask-mode: luminance; /* white = shown, the black detail lines stay open */
   background: #f4f6f7;  /* plain white mark — no fill effects inside (Alex) */
+}
+
+/* The name-only master has no colours of its own: it takes the masters' gradient
+   (#14F3FF → #0090C4, the same direction) so every header state matches. */
+.header__mark--name .logo-mark__ink {
+  background: linear-gradient(40deg, #14f3ff 20%, #0090c4 90%);
 }
 
 /* A master with its own colours is drawn as it is: no mask, no white fill. */

@@ -137,7 +137,7 @@ export default function Header({ ref }) {
           {V2_2 ? (
             <>
               <LogoMark logo={logoV22.verticalColor} className="header__mark header__mark--full" />
-              <LogoMark logo={logoV22.horizontal} className="header__mark header__mark--bar" />
+              <LogoMark logo={logoV22.horizontalColor} className="header__mark header__mark--bar" />
               <LogoMark logo={logoV22.name} className="header__mark header__mark--name" />
             </>
           ) : V2 ? (
