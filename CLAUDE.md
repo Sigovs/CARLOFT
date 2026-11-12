@@ -108,11 +108,19 @@ American muscle; consignment; service/restoration/paint/body; finance).
   Cadillac), grey inventory ground, About with a red Porsche + blue MB AMG, footer cars that pop.
   **Accent = `#14f3ff`** (Alex). Contrast: dark ink on it 13.7:1; on dark grounds 13.6:1; on white / light
   grey ~1.1–1.4:1 → on light sections it is only ever a FILL with dark text, never text, icon or outline.
+- **V2.2 state (2026-11-10):** all 7 ticket points done + Alex's tweaks; live at
+  https://sigovs.github.io/CARLOFT/index_v2_2.html (deployed from `v2` @ 7733ba9). Alex's own images in
+  `LOGO/` are the sources for About, footer and Classics (processed: dark ground extended for air, car
+  never under the copy). Brand bar = brutalist tape tilted −2.5°, grey/dark pills; inventory on #cfcfcb with
+  white cards + hover shadow; Sell headline changes per step; seamless About→Reviews and Instagram→footer.
   **Logo (V2.2, Alex — final): VERTICAL before the scroll** (`LOGO/logo vert.svg`, name in the Miami Blue
   gradient, drawn as is); once scrolled the horizontal with the same gradient name (car right). Never a
   white version in the header.
   No glow (Alex: "убери glow" — tried as a neon halo, removed); no effects inside the mark either. **Rejected:** chrome gradient / light sweep INSIDE
   the logo ("какой shine внутри?!"), and a logo hanging below an empty header slot.
+- **2026-11-12 — V4 (`index_v4.html`)** (Alex: "делай из v3 v4"): a copy of the V3 app tree in `src/v4/`
+  (AppV4, useV4Motion, v4.css — class names keep the `v3-` prefix, each page loads only its own CSS).
+  **V3 is frozen**; the next work on the Clutch-layout line goes into V4.
 - **Rejected pattern:** rule/bar decorations in eyebrows ("без этих долбаных полосочек") — labels are
   number + word only. Italic serif accent words in headings rejected as "Claude slop" — one heading
   voice, no italics. Photo edges into the ground: long eased fades, never a short cut ("как топором").
