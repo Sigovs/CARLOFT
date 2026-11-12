@@ -12,7 +12,11 @@
    fails). As text on dark 5.0:1 (#0f0f10), 4.8:1 (#141415). */
 :root[data-round='v2_3'] {
   --c-accent: #008cc1;
-  --c-accent-hover: #1fa6d9;
+  /* White labels on the blue buttons (Alex, 2026-11-12). White on #008cc1 is
+     3.8:1, under the 4.5:1 AA asks of 15px text; the hover deepens the fill to
+     #0079a8 (4.9:1) rather than lightening it. */
+  --c-accent-ink: #ffffff;
+  --c-accent-hover: #0079a8;
   /* text in the accent on the light inventory grey: #008cc1 there is 2.4:1, under
      the 3:1 a large title needs — a half-step deeper, 3.1:1 */
   --c-accent-deep: #007aa9;
