@@ -74,3 +74,18 @@
 :root[data-round='v2_3'] .footer__mark .logo-mark__ink {
   background: var(--c-accent);
 }
+
+/* Brand bar: the names only (client, read by Alex: "remove everything around the
+   names") — no index numbers, no glyphs; the air between the names carries the rhythm. */
+:root[data-round='v2_3'] :is(.brandbar__n, .brandbar__glyph) {
+  display: none;
+}
+
+:root[data-round='v2_3'] .brandbar__list {
+  gap: clamp(40px, 4vw, 64px);
+  padding-inline: clamp(20px, 2vw, 32px);
+}
+
+:root[data-round='v2_3'] .brandbar__item {
+  padding-inline: 0;
+}
