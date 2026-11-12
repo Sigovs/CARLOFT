@@ -106,8 +106,11 @@ American muscle; consignment; service/restoration/paint/body; finance).
   use), larger logo with "shine" and the car to the right of the wordmark (`LOGO/logo vert.svg`), red Porsche
   hero, scrolling brand bar (MB, Porsche, Toyota, Land Rover, Chevrolet, Ford, Mazda, Audi, Honda, BMW,
   Cadillac), grey inventory ground, About with a red Porsche + blue MB AMG, footer cars that pop.
-  **Accent = `#14f3ff`** (Alex). Contrast: dark ink on it 13.7:1; on dark grounds 13.6:1; on white / light
-  grey ~1.1–1.4:1 → on light sections it is only ever a FILL with dark text, never text, icon or outline.
+  **Accent = Miami Blue = the client's "Malibu Blue" = `#008CC1`** (Alex, 2026-11-12; was #14f3ff). One
+  colour for the whole site incl. the logo name. Dark label on fills (5.2:1; white is 3.8:1, fails); as text on
+  dark 5.0:1; on the light inventory grey it is 2.4:1 → titles there use `#007aa9` (3.1:1).
+  **Design system:** https://claude.ai/artifact/AfbzuQ163BfXn2QGDeq4zt — type roles are LOCKED there; a font or
+  heading change is a change to the system first, then the site.
 - **V2.2 state (2026-11-10):** all 7 ticket points done + Alex's tweaks; live at
   https://sigovs.github.io/CARLOFT/index_v2_2.html (deployed from `v2` @ 7733ba9). Alex's own images in
   `LOGO/` are the sources for About, footer and Classics (processed: dark ground extended for air, car

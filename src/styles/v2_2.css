@@ -7,7 +7,8 @@
    ============================================================================= */
 
 /* -----------------------------------------------------------------------------
-   1 · Accent — Miami Blue #14f3ff (client ticket 2026-11-09, value from Alex).
+   1 · Accent — Miami Blue (= the client's "Malibu Blue") #008cc1 (Alex, 2026-11-12;
+   was #14f3ff).
    Used the way Clutch uses its lime: ONE filled primary per section (dark label),
    section labels and active states as text on DARK grounds, the focus ring.
    Never on headings, menu, grounds, secondaries or the footer.
@@ -15,8 +16,8 @@
    grey 1.1–1.4:1 → on light sections it appears ONLY as a fill with a dark label.
    ----------------------------------------------------------------------------- */
 :root[data-variant='v2_2'] {
-  --c-accent: #14f3ff;
-  --c-accent-hover: #8af9ff;
+  --c-accent: #008cc1;        /* 5.0:1 on #0f0f10, 4.8:1 on #141415 */
+  --c-accent-hover: #1fa6d9;
   --c-accent-ink: #0b0b0c;
 }
 
@@ -104,9 +105,9 @@
 }
 
 /* The name-only master has no colours of its own: it takes the masters' gradient
-   (#14F3FF → #0090C4, the same direction) so every header state matches. */
+   (Miami Blue #008cc1, as the masters now are) so every header state matches. */
 .header__mark--name .logo-mark__ink {
-  background: linear-gradient(40deg, #14f3ff 20%, #0090c4 90%);
+  background: #008cc1;
 }
 
 /* A master with its own colours is drawn as it is: no mask, no white fill. */
@@ -620,10 +621,10 @@
 
 /* Section title — the label IS the title (Inventory, Sell & Consign): the h3 size
    of the type scale, Archivo 800, in Miami Blue. On dark grounds the accent itself;
-   on the light inventory grey the deep Miami Blue (#14f3ff there is 1.1:1 —
-   unreadable; #00648a is 4.2:1, AA for large type, the logo gradient's own family). */
+   on the light inventory grey a half-step deeper Miami Blue (#008cc1 there is
+   2.4:1, under the 3:1 a large title needs; #007aa9 is 3.1:1). */
 :root[data-variant='v2_2'] {
-  --c-accent-deep: #00648a;
+  --c-accent-deep: #007aa9;
 }
 
 :root[data-variant='v2_2'] .section-title {
