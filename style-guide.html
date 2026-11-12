@@ -8,7 +8,7 @@
 <title>CAR LOFT Style Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Inter+Tight:wght@300..800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Inter+Tight:wght@300..800&family=Newsreader:opsz,wght@6..72,300..600&display=swap">
 <style>
 /* Layout: the site's own graphite world — a cinematic cover, then plates of
    evidence (real swatches, real type at real size, real components), each with
@@ -34,6 +34,7 @@
   --line-strong: rgba(255, 255, 255, 0.22);
   --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --sans: "Inter Tight", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --serif: "Newsreader", Georgia, serif;
   --wrap: 1180px;
 }
 
@@ -307,14 +308,16 @@ a.chip:hover { border-color: var(--ink-d); color: var(--ink-d); }
 .spec__data dt, .spec__data dd { margin: 0; }
 .spec__data dt { color: var(--ink-d3); }
 
-.t-h1 { font-family: var(--display); font-weight: 800; font-stretch: 115%; font-size: clamp(42px, 4.4vw, 64px); line-height: 1.02; letter-spacing: -0.03em; }
-.t-h1c { font-family: var(--display); font-weight: 800; font-stretch: 96%; font-size: clamp(44px, 5vw, 72px); line-height: 1; letter-spacing: -0.03em; }
+.t-h1 { font-family: var(--display); font-weight: 800; font-stretch: 115%; font-size: clamp(40px, 6.06vw, 87px); line-height: 0.86; letter-spacing: -0.045em; }
+.t-h1c { font-family: var(--display); font-weight: 800; font-stretch: 96%; font-size: clamp(38px, 4.4vw, 63px); line-height: 1; letter-spacing: -0.03em; }
 .t-h2 { font-family: var(--display); font-weight: 800; font-stretch: 104%; font-size: clamp(26px, 2.2vw, 32px); line-height: 1.12; letter-spacing: -0.02em; color: var(--blue); }
-.t-h3 { font-weight: 600; font-size: clamp(18px, 1.4vw, 20px); line-height: 1.25; letter-spacing: -0.01em; }
+.t-h2l { font-family: var(--display); font-weight: 800; font-stretch: 104%; font-size: clamp(32px, 3.05vw, 44px); line-height: 1.06; letter-spacing: -0.025em; }
+.t-h3 { font-family: var(--display); font-weight: 700; font-stretch: 104%; font-size: clamp(18px, 1.4vw, 20px); line-height: 1.25; letter-spacing: -0.01em; }
 .t-lead { font-size: clamp(17px, 1.3vw, 19px); line-height: 1.5; color: var(--ink-d2); max-width: 44ch; }
 .t-body { font-size: clamp(16px, 1.2vw, 17px); line-height: 1.6; color: var(--ink-d2); max-width: 52ch; }
-.t-eyebrow { font-size: 14px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--blue); }
-.t-small { font-size: 15px; line-height: 1.5; color: var(--ink-d2); }
+.t-eyebrow { font-family: var(--display); font-stretch: 110%; font-size: 14px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--blue); }
+.t-small { font-family: var(--display); font-stretch: 104%; font-size: 15px; line-height: 1.6; color: var(--ink-d); }
+.t-quote { font-family: var(--serif); font-size: clamp(24px, 2.6vw, 38px); line-height: 1.3; letter-spacing: -0.01em; max-width: 30ch; }
 .t-make { font-family: var(--display); font-weight: 800; font-stretch: 125%; font-size: clamp(14px, 1.3vw, 18px); letter-spacing: 0.06em; text-transform: uppercase; }
 
 @media (max-width: 980px) {
@@ -322,7 +325,7 @@ a.chip:hover { border-color: var(--ink-d); color: var(--ink-d); }
   .spec__say { grid-auto-flow: column; justify-content: start; align-items: baseline; gap: 12px; }
 }
 
-.fonts { margin-top: 36px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.fonts { margin-top: 36px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .font {
   padding: 28px;
   border: 1px solid var(--line);
@@ -334,7 +337,7 @@ a.chip:hover { border-color: var(--ink-d); color: var(--ink-d); }
 .font__glyph { font-size: clamp(64px, 8vw, 104px); line-height: 0.9; }
 .font__name { font-weight: 700; font-size: 18px; }
 .font__role { color: var(--ink-d3); font-size: 14px; }
-@media (max-width: 760px) { .fonts { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 900px) { .fonts { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- components ---------- */
 .plates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
@@ -356,7 +359,8 @@ a.chip:hover { border-color: var(--ink-d); color: var(--ink-d); }
   padding: 0 24px;
   border: 1px solid transparent;
   border-radius: 2px;
-  font: 600 15px/1 var(--sans);
+  font: 600 15px/1 var(--display);
+  font-stretch: 104%;
   text-decoration: none;
   white-space: nowrap;
   transition: background-color 0.2s ease;
@@ -379,6 +383,61 @@ a.chip:hover { border-color: var(--ink-d); color: var(--ink-d); }
 
 .title-demo { display: grid; gap: 10px; }
 
+.pill-link { display: inline-flex; align-items: center; gap: 12px; min-height: 40px; padding: 0 16px; border: 1px solid var(--blue); border-radius: 999px; color: var(--blue); font: 600 15px/1 var(--display); font-stretch: 104%; text-decoration: none; transition: background-color 0.2s ease, color 0.2s ease; }
+.pill-link svg { width: 16px; height: 16px; transition: transform 0.25s ease; }
+.pill-link:hover { background: var(--blue); color: var(--white); }
+.pill-link:hover svg { transform: translateX(3px); }
+
+.rv-ctrl { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.rv-lines { display: flex; align-items: center; gap: 12px; }
+.rv-lines i { display: block; height: 1px; width: 36px; background: rgba(255, 255, 255, 0.25); }
+.rv-lines i.on { width: 72px; background: var(--ink-d); }
+.rv-count { font-size: 14px; letter-spacing: 0.16em; color: var(--ink-d2); font-variant-numeric: tabular-nums; }
+.rv-arrows { display: flex; gap: 12px; }
+.round { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); color: var(--ink-d); background: transparent; }
+.round:hover { border-color: var(--ink-d); }
+.round svg { width: 16px; height: 16px; }
+
+.hero-ctrl { display: inline-flex; align-items: center; gap: 8px; padding: 4px 8px; border-radius: 999px; background: var(--white); color: var(--ink); }
+.hero-ctrl .round { border-color: transparent; color: var(--ink); background: var(--white); }
+.hero-ctrl .round:hover { border-color: rgba(23, 25, 28, 0.2); }
+.hero-ctrl span { font: 600 14px/1 var(--display); font-stretch: 104%; padding-inline: 10px; font-variant-numeric: tabular-nums; }
+
+.steps { display: grid; gap: 0; width: min(100%, 300px); }
+.steps__row { display: flex; gap: 32px; }
+.steps__row span { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font: 500 14px/1 var(--display); font-stretch: 104%; letter-spacing: 0.01em; color: var(--ink-d3); }
+.steps__row span b { font-weight: 500; color: var(--ink-d3); }
+.steps__row span.on { color: var(--ink-d); }
+.steps__row span.on b { color: var(--blue); }
+.steps__track { height: 1px; background: var(--line); position: relative; }
+.steps__track::after { content: ""; position: absolute; left: 0; top: 0; height: 1px; width: 52%; background: var(--ink-d); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips span { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border: 1px solid #8e9197; border-radius: 999px; font: 600 15px/1 var(--display); font-stretch: 104%; color: var(--ink); }
+.chips span.on { background: var(--ink); border-color: var(--ink); color: var(--white); }
+
+.field { position: relative; width: 192px; }
+.field select { width: 100%; min-height: 48px; padding: 0 40px 0 16px; border: 1px solid #8e9197; border-radius: 2px; background: var(--white); color: var(--ink); font: 400 15px/1 var(--sans); appearance: none; -webkit-appearance: none; }
+.field svg { position: absolute; right: 14px; top: 50%; width: 14px; height: 14px; transform: translateY(-50%); pointer-events: none; color: var(--ink); }
+
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tags span { display: inline-flex; align-items: center; min-height: 28px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255, 255, 255, 0.06); font: 600 15px/1 var(--display); font-stretch: 104%; color: var(--ink-d2); }
+
+.rows { width: 100%; max-width: 480px; border-top: 1px solid var(--line); }
+.rows div { display: grid; grid-template-columns: 44px minmax(0, 1fr); padding: 16px 0 20px; border-bottom: 1px solid var(--line); }
+.rows small { font-size: 15px; color: var(--ink-d3); }
+.rows b { display: block; font: 700 20px/1.25 var(--display); font-stretch: 104%; letter-spacing: -0.01em; }
+.rows p { color: var(--ink-d2); font-size: 15px; }
+
+.foot-cols { display: flex; gap: 48px; flex-wrap: wrap; }
+.foot-cols div { display: grid; gap: 10px; align-content: start; }
+.foot-cols h4 { font: 700 14px/1.2 var(--display); font-stretch: 110%; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-d2); margin-bottom: 4px; }
+.foot-cols a { font: 400 15px/1.6 var(--display); font-stretch: 104%; color: var(--ink-d); text-decoration: none; }
+.foot-cols a:hover { color: var(--ink-d3); }
+
+.tiles { display: grid; grid-template-columns: repeat(3, 96px); gap: 12px; }
+.tiles i { display: block; aspect-ratio: 1; border-radius: 12px; background: linear-gradient(135deg, #2a2a2c, #1b1b1c); border: 1px solid var(--line); }
+
 .card {
   width: min(100%, 340px);
   background: var(--white);
@@ -392,11 +451,11 @@ a.chip:hover { border-color: var(--ink-d); color: var(--ink-d); }
 .card:hover { box-shadow: 0 4px 10px rgba(23, 25, 28, 0.1), 0 22px 44px -18px rgba(23, 25, 28, 0.45); }
 .card__media { position: relative; aspect-ratio: 3 / 2; background: #f4f4f2; }
 .card__media img { width: 100%; height: 100%; object-fit: cover; }
-.card__tag { position: absolute; top: 12px; left: 12px; background: var(--white); border-radius: 999px; padding: 4px 10px; font-size: 13px; font-weight: 600; }
+.card__tag { position: absolute; top: 12px; left: 12px; display: inline-flex; align-items: center; min-height: 28px; background: var(--white); border-radius: 999px; padding: 0 12px; font: 600 15px/1 var(--display); font-stretch: 104%; }
 .card__body { padding: 16px 18px 18px; display: grid; gap: 10px; }
-.card__title { font-weight: 600; font-size: 19px; line-height: 1.25; }
+.card__title { font-family: var(--display); font-stretch: 104%; font-weight: 700; font-size: 20px; line-height: 1.25; letter-spacing: -0.01em; }
 .card__meta { display: flex; flex-wrap: wrap; gap: 8px; }
-.card__meta span { background: #ececea; border-radius: 999px; padding: 3px 9px; font-size: 13px; color: #4a4d53; }
+.card__meta span { background: #ececea; border-radius: 999px; padding: 3px 9px; font-size: 13px; color: #4e5157; }
 .card__price { border-top: 1px solid rgba(23, 25, 28, 0.08); padding-top: 12px; display: flex; justify-content: space-between; align-items: baseline; }
 .card__price small { color: #4a4d53; font-size: 13px; margin-right: 6px; }
 
@@ -513,6 +572,7 @@ a.chip:hover { border-color: var(--ink-d); color: var(--ink-d); }
             <li>Main buttons (Explore Inventory, Search Vehicles, Sell Your Vehicle)</li>
             <li>The phone button in the header</li>
             <li>Section titles: Featured inventory, Sell or consign</li>
+            <li>Eyebrow labels and the "See all reviews" link on dark</li>
             <li>The CAR LOFT logo, header and footer</li>
           </ul>
           <div class="accent__pair">
@@ -547,31 +607,36 @@ a.chip:hover { border-color: var(--ink-d); color: var(--ink-d); }
       <div class="sec__head">
         <div>
           <p class="sec__num"><b>03</b>Text styles</p>
-          <h2>Eight styles, shown at their real size.</h2>
+          <h2>Ten styles, shown at their real size.</h2>
         </div>
-        <p class="sec__intro">Two typefaces only: Archivo for headlines, Inter Tight for everything you read. Sizes are for a desktop screen and scale down on phones (shown as desktop → phone).</p>
+        <p class="sec__intro">Three typefaces: Archivo for headlines, titles, labels, buttons and the menu; Inter Tight for paragraphs; Newsreader for review quotes. Sizes are measured on the live site at a 1440px desktop and a 390px phone (shown as desktop → phone).</p>
       </div>
 
       <div class="specimens">
         <div class="spec">
           <div class="spec__say"><b>H1</b><span>Hero headline</span></div>
           <p class="spec__sample t-h1">Good cars. Real people.</p>
-          <dl class="spec__data"><div><dt>Font</dt><dd>Archivo Extra Bold</dd></div><div><dt>Size</dt><dd>64 → 42px</dd></div><div><dt>Where</dt><dd>Hero slides</dd></div></dl>
+          <dl class="spec__data"><div><dt>Font</dt><dd>Archivo Extra Bold</dd></div><div><dt>Size</dt><dd>87 → 40px</dd></div><div><dt>Where</dt><dd>Hero slides</dd></div></dl>
         </div>
         <div class="spec">
           <div class="spec__say"><b>H1</b><span>Classics headline</span></div>
           <p class="spec__sample t-h1c">Classic cars. Timeless character.</p>
-          <dl class="spec__data"><div><dt>Font</dt><dd>Archivo Extra Bold</dd></div><div><dt>Size</dt><dd>72 → 44px</dd></div><div><dt>Where</dt><dd>Classics, on the photo</dd></div></dl>
+          <dl class="spec__data"><div><dt>Font</dt><dd>Archivo Extra Bold</dd></div><div><dt>Size</dt><dd>63 → 38px</dd></div><div><dt>Where</dt><dd>Classics, on the photo</dd></div></dl>
         </div>
         <div class="spec">
           <div class="spec__say"><b>H2</b><span>Section title</span></div>
           <p class="spec__sample t-h2">Featured inventory</p>
-          <dl class="spec__data"><div><dt>Font</dt><dd>Archivo Extra Bold</dd></div><div><dt>Size</dt><dd>32 → 26px</dd></div><div><dt>Colour</dt><dd>Miami Blue</dd></div></dl>
+          <dl class="spec__data"><div><dt>Font</dt><dd>Archivo Extra Bold</dd></div><div><dt>Size</dt><dd>32 → 26px</dd></div><div><dt>Colour</dt><dd>Blue: Inventory, Sell</dd></div><div><dt></dt><dd>White: Reviews, Instagram</dd></div></dl>
+        </div>
+        <div class="spec">
+          <div class="spec__say"><b>H2 large</b><span>Chapter headline</span></div>
+          <p class="spec__sample t-h2l">Keep it running. Bring it back.</p>
+          <dl class="spec__data"><div><dt>Font</dt><dd>Archivo Extra Bold</dd></div><div><dt>Size</dt><dd>44 → 32px</dd></div><div><dt>Where</dt><dd>Service, Finance, About</dd></div></dl>
         </div>
         <div class="spec">
           <div class="spec__say"><b>H3</b><span>Card and step title</span></div>
           <p class="spec__sample t-h3">Porsche 911 Targa 4S</p>
-          <dl class="spec__data"><div><dt>Font</dt><dd>Inter Tight Semibold</dd></div><div><dt>Size</dt><dd>20 → 18px</dd></div><div><dt>Where</dt><dd>Cards, Sell steps</dd></div></dl>
+          <dl class="spec__data"><div><dt>Font</dt><dd>Archivo Bold</dd></div><div><dt>Size</dt><dd>20 → 18px</dd></div><div><dt>Where</dt><dd>Cards, Sell steps, services</dd></div></dl>
         </div>
         <div class="spec">
           <div class="spec__say"><b>Lead</b><span>Intro paragraph</span></div>
@@ -586,18 +651,24 @@ a.chip:hover { border-color: var(--ink-d); color: var(--ink-d); }
         <div class="spec">
           <div class="spec__say"><b>Eyebrow</b><span>Small label</span></div>
           <p class="spec__sample t-eyebrow">Service &amp; restoration</p>
-          <dl class="spec__data"><div><dt>Font</dt><dd>Inter Tight Semibold</dd></div><div><dt>Size</dt><dd>14px, caps</dd></div><div><dt>Where</dt><dd>Above some headings</dd></div></dl>
+          <dl class="spec__data"><div><dt>Font</dt><dd>Archivo Bold, wide</dd></div><div><dt>Size</dt><dd>14px, caps</dd></div><div><dt>Colour</dt><dd>Blue on dark</dd></div><div><dt></dt><dd>Grey on the search band</dd></div></dl>
         </div>
         <div class="spec">
           <div class="spec__say"><b>Small</b><span>Small text</span></div>
           <p class="spec__sample t-small">Inventory · Classics · Sell · Consign · (818) 464-6908</p>
-          <dl class="spec__data"><div><dt>Font</dt><dd>Inter Tight Regular</dd></div><div><dt>Size</dt><dd>15px</dd></div><div><dt>Where</dt><dd>Footer, captions</dd></div></dl>
+          <dl class="spec__data"><div><dt>Font</dt><dd>Archivo Regular</dd></div><div><dt>Size</dt><dd>15px</dd></div><div><dt>Where</dt><dd>Footer links</dd></div></dl>
+        </div>
+        <div class="spec">
+          <div class="spec__say"><b>Quote</b><span>Review quote</span></div>
+          <p class="spec__sample t-quote">Straightforward from the first call to the keys.</p>
+          <dl class="spec__data"><div><dt>Font</dt><dd>Newsreader Regular</dd></div><div><dt>Size</dt><dd>38 → 24px</dd></div><div><dt>Where</dt><dd>Reviews</dd></div></dl>
         </div>
       </div>
 
       <div class="fonts">
-        <div class="font"><p class="font__glyph" style="font-family:var(--display);font-weight:800;font-stretch:115%;letter-spacing:-0.04em">Aa</p><p class="font__name">Archivo</p><p class="font__role">Headlines (H1, H2) and the make names in the brand bar</p></div>
-        <div class="font"><p class="font__glyph" style="font-weight:500;letter-spacing:-0.03em">Aa</p><p class="font__name">Inter Tight</p><p class="font__role">Everything else: H3, lead, body text, labels, buttons, menu</p></div>
+        <div class="font"><p class="font__glyph" style="font-family:var(--display);font-weight:800;font-stretch:115%;letter-spacing:-0.04em">Aa</p><p class="font__name">Archivo</p><p class="font__role">Headlines and titles (H1, H2, H3), eyebrows, buttons, menu, footer links, the brand bar</p></div>
+        <div class="font"><p class="font__glyph" style="font-weight:500;letter-spacing:-0.03em">Aa</p><p class="font__name">Inter Tight</p><p class="font__role">Paragraphs: lead and body text</p></div>
+        <div class="font"><p class="font__glyph" style="font-family:var(--serif);font-weight:400;letter-spacing:-0.02em">Aa</p><p class="font__name">Newsreader</p><p class="font__role">Review quotes only</p></div>
       </div>
     </div>
   </section>
@@ -608,9 +679,9 @@ a.chip:hover { border-color: var(--ink-d); color: var(--ink-d); }
       <div class="sec__head">
         <div>
           <p class="sec__num"><b>04</b>Building blocks</p>
-          <h2>Buttons, titles and cards, as they appear on the site.</h2>
+          <h2>Every control on the site, as it appears there.</h2>
         </div>
-        <p class="sec__intro">Each section uses one blue button for its main action. Hover over the examples to see how they react.</p>
+        <p class="sec__intro">Each section uses one blue button for its main action. The rest are the links, sliders, filters and lists the page is built from. Hover over the examples to see how they react.</p>
       </div>
 
       <div class="plates">
@@ -639,6 +710,71 @@ a.chip:hover { border-color: var(--ink-d); color: var(--ink-d); }
             <div class="title-demo"><p class="t-h2">Sell or consign</p><p class="t-body" style="font-size:15px">Selling your car? We can buy it outright, or consign it and handle the sale for you.</p></div>
           </div>
           <div class="plate__cap"><b>Section title (H2)</b><span>The title is the label: nothing above it, Miami Blue.</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate__stage plate__stage--dark">
+            <a class="pill-link" href="#components">See all reviews <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+          <div class="plate__cap"><b>Link pill</b><span>A secondary link on dark: Miami Blue outline and text; fills blue on hover. Reviews.</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate__stage plate__stage--dark">
+            <div class="rv-ctrl">
+              <div class="rv-lines" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
+              <span class="rv-count">01 / 04</span>
+              <div class="rv-arrows"><button class="round" type="button" aria-label="Previous"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 3 5 8l5 5"/></svg></button><button class="round" type="button" aria-label="Next"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m6 3 5 5-5 5"/></svg></button></div>
+            </div>
+          </div>
+          <div class="plate__cap"><b>Review slider controls</b><span>A line per review (the current one long and white), the count, and round arrow buttons.</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate__stage plate__stage--dark">
+            <div class="hero-ctrl"><button class="round" type="button" aria-label="Previous"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 3 5 8l5 5"/></svg></button><span>01 / 03</span><button class="round" type="button" aria-label="Next"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m6 3 5 5-5 5"/></svg></button></div>
+          </div>
+          <div class="plate__cap"><b>Hero slider control</b><span>A white pill with the slide count and arrows, bottom left of the hero.</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate__stage plate__stage--dark">
+            <div class="steps"><div class="steps__row"><span><b>01</b> Overview</span><span class="on"><b>02</b> Sell</span><span><b>03</b> Consign</span></div><div class="steps__track"></div></div>
+          </div>
+          <div class="plate__cap"><b>Step tabs</b><span>Sell &amp; Consign and Service &amp; Finance: the current step's number in Miami Blue, a line that fills as you scroll.</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate__stage plate__stage--light">
+            <div class="chips"><span class="on">All</span><span>Ford</span><span>Land Rover</span><span>Porsche</span></div>
+          </div>
+          <div class="plate__cap"><b>Filter chips</b><span>Make filters in Featured inventory; the selected one fills black.</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate__stage plate__stage--light">
+            <label class="field"><select aria-label="Make"><option>Any make</option></select><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></label>
+            <label class="field"><select aria-label="Price"><option>Any price</option></select><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></label>
+          </div>
+          <div class="plate__cap"><b>Search fields</b><span>White fields with a grey border on the search band; the label is the first option.</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate__stage plate__stage--dark">
+            <div class="tags"><span>Buy</span><span>Sell</span><span>Consign</span><span>Restore</span></div>
+          </div>
+          <div class="plate__cap"><b>Tags</b><span>Short facts under a paragraph (Classics, Service, About). Not clickable.</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate__stage plate__stage--dark">
+            <div class="rows"><div><small>01</small><span><b>Repairs</b><p>Diagnostics, maintenance and mechanical repair.</p></span></div><div><small>02</small><span><b>Paint &amp; Body</b><p>Collision repair, paintwork and refinishing.</p></span></div></div>
+          </div>
+          <div class="plate__cap"><b>Numbered list</b><span>Services in Service &amp; Finance: a number, an H3 and one line, divided by hairlines.</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate__stage plate__stage--dark">
+            <div class="foot-cols"><div><h4>Shop</h4><a href="#components">Inventory</a><a href="#components">Classics</a></div><div><h4>Visit</h4><a href="#components">(818) 464-6908</a><a href="#components">info@carloft.com</a></div></div>
+          </div>
+          <div class="plate__cap"><b>Footer columns</b><span>A grey heading and links; a link dims on hover, no underline.</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate__stage plate__stage--dark">
+            <div class="tiles" aria-hidden="true"><i></i><i></i><i></i></div>
+          </div>
+          <div class="plate__cap"><b>Instagram tiles</b><span>Square photos with 12px rounded corners, the only rounded images on the site.</span></div>
         </div>
         <div class="plate plate--wide">
           <div class="brandbar"><div class="brandbar__track t-make">
