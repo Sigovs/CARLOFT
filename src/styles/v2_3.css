@@ -68,3 +68,9 @@
 :root[data-round='v2_3'] .classics__heading {
   margin-top: 0;
 }
+
+/* Footer logo: the whole mark in Malibu Blue — car and name (client, 2026-11-12).
+   The white vertical master is the mask; its black detail lines stay open. */
+:root[data-round='v2_3'] .footer__mark .logo-mark__ink {
+  background: var(--c-accent);
+}
