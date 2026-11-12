@@ -31,7 +31,7 @@ export default defineConfig(({ mode }) => ({
   base: mode === 'pages' ? '/CARLOFT/' : '/',
   plugins: [brandMeta(), react()],
   // Pages: index.html (V1), index_v2.html (V2, the client's mockup — frozen),
-  // index_v2_2.html (V2.2, the next round on top of V2), index_v3.html (V3, Clutch layout — frozen)
+  // index_v2_2.html (V2.2, on top of V2 — published, frozen), index_v2_3.html (V2.3, on top of V2.2), index_v3.html (V3, Clutch layout — frozen)
   // and index_v4.html (V4, a copy of V3 to iterate on).
   build: {
     rollupOptions: {
@@ -39,6 +39,7 @@ export default defineConfig(({ mode }) => ({
         main: resolve(import.meta.dirname, 'index.html'),
         v2: resolve(import.meta.dirname, 'index_v2.html'),
         v2_2: resolve(import.meta.dirname, 'index_v2_2.html'),
+        v2_3: resolve(import.meta.dirname, 'index_v2_3.html'),
         v3: resolve(import.meta.dirname, 'index_v3.html'),
         v4: resolve(import.meta.dirname, 'index_v4.html'),
       },

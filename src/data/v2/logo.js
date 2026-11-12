@@ -31,6 +31,13 @@ export const logoV22 = {
   vertical: { src: asset('assets/carloft-logo-vertical.svg'), width: 600, height: 454, glow: { src: asset('assets/carloft-logo-vertical-glow.png'), padX: 9.458, padY: 12.5 } },
 }
 
+/* V2.3: the same masters with the name in Miami Blue #008CC1 (Alex, 2026-11-12). */
+export const logoV23 = {
+  ...logoV22,
+  verticalColor: { ...logoV22.verticalColor, src: asset('assets/carloft-logo-vertical-v23.svg') },
+  horizontalColor: { ...logoV22.horizontalColor, src: asset('assets/carloft-logo-horizontal-v23.svg') },
+}
+
 export const logoLight = {
   src: asset('assets/carloft-logo-light.webp'),
   width: 612,

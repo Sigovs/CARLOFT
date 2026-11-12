@@ -7,7 +7,7 @@ import {
   vehicles,
 } from '../data/inventory.js'
 import Icon from './Icon.jsx'
-import { V2_2 } from '../data/version.js'
+import { V2_3 } from '../data/version.js'
 import { brand } from '../data/brand.js'
 import VehicleDialog from './VehicleDialog.jsx'
 import { useInventoryRail } from '../motion/useInventoryRail.js'
@@ -56,8 +56,8 @@ export default function FeaturedInventory({ results, active, clear, countRef, fi
       <div className="container">
         <div className="featured__head">
           <div className="stack">
-            {V2_2 ? (
-              /* V2.2 (client, 2026-11-12): the section title IS the label — h3 size, Miami Blue. */
+            {V2_3 ? (
+              /* V2.3 (client, 2026-11-12): the section title IS the label — h3 size, Miami Blue. */
               <h2 id="featured-title" className="h3 featured__heading section-title" data-motion="heading">
                 Featured inventory
               </h2>

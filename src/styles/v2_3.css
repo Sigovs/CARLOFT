@@ -1,0 +1,66 @@
+/* =============================================================================
+   v2_3.css — index_v2_3.html only (<html data-version="v2" data-variant="v2_2"
+   data-round="v2_3">). Alex, 2026-11-12: the published V2.2 is the base; the
+   client round of 12 November is built here, on top of it. Every rule is scoped
+   to :root[data-round='v2_3'] and comes after v2_2.css, so it wins over V2.2 at
+   equal specificity and never reaches V1, V2 or V2.2.
+   Design system: https://claude.ai/artifact/AfbzuQ163BfXn2QGDeq4zt
+   ============================================================================= */
+
+/* Accent — Miami Blue = the client's "Malibu Blue" = #008CC1 (Alex), one colour for
+   the whole site, the logo name included. Dark label on fills: 5.2:1 (white 3.8:1
+   fails). As text on dark 5.0:1 (#0f0f10), 4.8:1 (#141415). */
+:root[data-round='v2_3'] {
+  --c-accent: #008cc1;
+  --c-accent-hover: #1fa6d9;
+  /* text in the accent on the light inventory grey: #008cc1 there is 2.4:1, under
+     the 3:1 a large title needs — a half-step deeper, 3.1:1 */
+  --c-accent-deep: #007aa9;
+}
+
+/* The name-only mark (1024–1279px, scrolled bar) in the same blue as the masters. */
+:root[data-round='v2_3'] .header__mark--name .logo-mark__ink {
+  background: #008cc1;
+}
+
+/* Section title — the label IS the title (Inventory, Sell & Consign): the h3 size,
+   Archivo 800, Miami Blue; the deep blue on the light inventory grey. */
+:root[data-round='v2_3'] .section-title {
+  color: var(--c-accent);
+}
+
+:root[data-round='v2_3'] .featured .section-title {
+  color: var(--c-accent-deep);
+}
+
+:root[data-round='v2_3'] .sell .section-title {
+  margin-top: 0;
+}
+
+/* Brand bar: straight across the screen, not at an angle; hairlines above and
+   below; no boxes, borders or pills around the makes (client). */
+:root[data-round='v2_3'] .brandbar__tape {
+  width: 100%;
+  margin-left: 0;
+  border-color: rgb(255 255 255 / 0.16);
+  box-shadow: none;
+  transform: none;
+}
+
+:root[data-round='v2_3'] :is(.brandbar__item, .brandbar__item--outline, .brandbar__item--solid) {
+  padding-inline: 14px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #f2f2f0;
+}
+
+/* Classics: the headline reads "Classic cars. …" — the identical label above it
+   would repeat it, so it is hidden (the motion still finds it). */
+:root[data-round='v2_3'] .classics__eyebrow {
+  display: none;
+}
+
+:root[data-round='v2_3'] .classics__heading {
+  margin-top: 0;
+}

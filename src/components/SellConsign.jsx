@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import Icon from './Icon.jsx'
 import { useSellSequence } from '../motion/useSellSequence.js'
 import { photos, photoProps } from '../data/photos.js'
-import { V2_2 } from '../data/version.js'
+import { V2_2, V2_3 } from '../data/version.js'
 
 /**
  * SellConsign (#sell) — BRIEF §14.5, MOTION.md §4.1.
@@ -57,6 +57,13 @@ const pathways = [
   },
 ]
 
+/* V2.2 (Alex: the title should change on 02 / 03 too): one headline per step.
+   Shown only in the staged layout; the static page keeps the one h2. */
+const stepTitles = {
+  1: ['Sell it to us.', 'Get an offer.'],
+  2: ['Consign it.', 'We sell it.'],
+}
+
 const indexItems = [
   { phase: 0, num: '01', label: 'Overview' },
   { phase: 1, num: '02', label: 'Sell' },
@@ -94,19 +101,29 @@ export default function SellConsign() {
         </div>
 
         <div className="sell__copy">
-          {V2_2 ? (
-            /* V2.2 (client, 2026-11-12): the section title IS the label — same type as
-               Inventory's; "Make room for what's next." removed. */
+          {V2_3 ? (
+            /* V2.3 (client, 2026-11-12): the section title IS the label — the same type as
+               Inventory's; "Make room for what's next." and the per-step headlines removed. */
             <h2 id="sell-title" className="h3 sell__heading section-title" data-motion="heading">
               Sell or consign
             </h2>
           ) : (
             <>
               <p className="eyebrow">Sell or consign</p>
-              <h2 id="sell-title" className="display sell__heading" data-motion="heading">
-                <span className="line-block">Make room </span>
-                <span className="line-block">for what’s next.</span>
-              </h2>
+              <div className={V2_2 ? 'sell__titles' : undefined}>
+                <h2 id="sell-title" className="display sell__heading" data-motion="heading">
+                  <span className="line-block">Make room </span>
+                  <span className="line-block">for what’s next.</span>
+                </h2>
+                {V2_2
+                  ? Object.entries(stepTitles).map(([phase, lines]) => (
+                      <p key={phase} className="display sell__heading-alt" data-phase={phase} aria-hidden="true">
+                        <span className="line-block">{lines[0]} </span>
+                        <span className="line-block">{lines[1]}</span>
+                      </p>
+                    ))
+                  : null}
+              </div>
             </>
           )}
 

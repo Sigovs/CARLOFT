@@ -1,6 +1,6 @@
 import { memo, useRef } from 'react'
 import Icon from './Icon.jsx'
-import { V2_2 } from '../data/version.js'
+import { V2_3 } from '../data/version.js'
 import { useClassicsSequence } from '../motion/useClassicsSequence.js'
 import { photos, photoProps } from '../data/photos.js'
 
@@ -49,7 +49,7 @@ function Classics({ headerRef }) {
             <p className="eyebrow classics__eyebrow">Classic cars</p>
             <h2 id="classics-title" className="display-peak classics__heading">
               <span className="line-mask">
-                <span className="line classics__line--1">{V2_2 ? 'Classic cars.' : 'American muscle.'}</span>
+                <span className="line classics__line--1">{V2_3 ? 'Classic cars.' : 'American muscle.'}</span>
               </span>{' '}
               <span className="line-mask">
                 <span className="line classics__line--2">Timeless character.</span>

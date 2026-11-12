@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { brand, navLinks } from '../data/brand.js'
 import Icon from './Icon.jsx'
 import { lockScroll, unlockScroll } from '../motion/scroll.js'
-import { V2, V2_2 } from '../data/version.js'
-import { logoLight, logoV22 } from '../data/v2/logo.js'
+import { V2, V2_2, V2_3 } from '../data/version.js'
+import { logoLight, logoV22, logoV23 } from '../data/v2/logo.js'
 import LogoMark from './v2/LogoMark.jsx'
 
 /**
@@ -136,8 +136,8 @@ export default function Header({ ref }) {
         <a className="header__wordmark" href="#top" aria-label={`${brand.wordmark} — back to top`}>
           {V2_2 ? (
             <>
-              <LogoMark logo={logoV22.verticalColor} className="header__mark header__mark--full" />
-              <LogoMark logo={logoV22.horizontalColor} className="header__mark header__mark--bar" />
+              <LogoMark logo={(V2_3 ? logoV23 : logoV22).verticalColor} className="header__mark header__mark--full" />
+              <LogoMark logo={(V2_3 ? logoV23 : logoV22).horizontalColor} className="header__mark header__mark--bar" />
               <LogoMark logo={logoV22.name} className="header__mark header__mark--name" />
             </>
           ) : V2 ? (

@@ -106,7 +106,12 @@ American muscle; consignment; service/restoration/paint/body; finance).
   use), larger logo with "shine" and the car to the right of the wordmark (`LOGO/logo vert.svg`), red Porsche
   hero, scrolling brand bar (MB, Porsche, Toyota, Land Rover, Chevrolet, Ford, Mazda, Audi, Honda, BMW,
   Cadillac), grey inventory ground, About with a red Porsche + blue MB AMG, footer cars that pop.
-  **Accent = Miami Blue = the client's "Malibu Blue" = `#008CC1`** (Alex, 2026-11-12; was #14f3ff). One
+- **2026-11-12 — V2.3 (`index_v2_3.html`)** (Alex: "take the published V2.2 as the base, make v2_3"). **V2.2 is
+  frozen as published** (7733ba9, https://sigovs.github.io/CARLOFT/index_v2_2.html). V2.3 is a layer on top of
+  V2.2: `data-round="v2_3"`, `src/styles/v2_3.css`, flag `V2_3`, logos `carloft-logo-*-v23.svg`. It holds the
+  client round of 12 Nov: section titles (Featured inventory, Sell or consign), straight brand bar without boxes,
+  "Classic cars. Timeless character.", blue footer logo, and the accent below. Never edit V2.2 for V2.3 work.
+  **V2.3 accent = Miami Blue = the client's "Malibu Blue" = `#008CC1`** (Alex, 2026-11-12; V2.2 keeps #14f3ff). One
   colour for the whole site incl. the logo name. Dark label on fills (5.2:1; white is 3.8:1, fails); as text on
   dark 5.0:1; on the light inventory grey it is 2.4:1 → titles there use `#007aa9` (3.1:1).
   **Design system:** https://claude.ai/artifact/AfbzuQ163BfXn2QGDeq4zt — type roles are LOCKED there; a font or

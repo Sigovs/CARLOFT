@@ -1,8 +1,8 @@
 import { brand, footerColumns, topicLabels } from '../data/brand.js'
 import { vehicleTitle, vehicles } from '../data/inventory.js'
 import { photos, photoProps } from '../data/photos.js'
-import { V2, V2_2 } from '../data/version.js'
-import { logoLight, logoV22 } from '../data/v2/logo.js'
+import { V2, V2_2, V2_3 } from '../data/version.js'
+import { logoLight, logoV22, logoV23 } from '../data/v2/logo.js'
 import LogoMark from './v2/LogoMark.jsx'
 
 /**
@@ -35,7 +35,7 @@ export default function Footer({ route }) {
             <h2 id="footer-title" className="footer__wordmark">
               {V2_2 ? (
                 <>
-                  <LogoMark logo={logoV22.verticalColor} className="footer__mark" />
+                  <LogoMark logo={V2_3 ? logoV23.verticalColor : logoV22.vertical} className="footer__mark" />
                   <span className="visually-hidden">{brand.wordmark}</span>
                 </>
               ) : V2 ? (

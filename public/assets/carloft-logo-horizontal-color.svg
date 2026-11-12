@@ -42,12 +42,12 @@
 <path d="M1173.13 152.231L1173.27 152.75L1172.55 153.89L1172.43 153.459C1172.68 152.955 1172.83 152.704 1173.13 152.231Z" fill="#020202" fill-opacity="0.117647"/>
 <defs>
 <linearGradient id="paint0_linear_32_390" x1="595.914" y1="329" x2="835.727" y2="37.1841" gradientUnits="userSpaceOnUse">
-<stop stop-color="#008CC1"/>
-<stop offset="1" stop-color="#008CC1"/>
+<stop stop-color="#14F3FF"/>
+<stop offset="1" stop-color="#0090C4"/>
 </linearGradient>
 <linearGradient id="paint1_linear_32_390" x1="191.116" y1="293.628" x2="407.963" y2="55.2309" gradientUnits="userSpaceOnUse">
-<stop stop-color="#008CC1"/>
-<stop offset="1" stop-color="#008CC1"/>
+<stop stop-color="#14F3FF"/>
+<stop offset="1" stop-color="#0090C4"/>
 </linearGradient>
 </defs>
 </svg>
