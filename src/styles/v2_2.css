@@ -268,16 +268,13 @@
   overflow-y: visible;
 }
 
-/* The tape: tilted across the seam (Alex: "at an angle"), wider than the
-   viewport so neither end shows a corner. */
+/* The bar runs straight across the screen (client, 2026-11-12: "straight, not at
+   an angle" — the tilted tape is retired), hairlines above and below. */
 .brandbar__tape {
-  width: 112%;
-  margin-left: -6%;
+  width: 100%;
   overflow: hidden;
   background: #0f0f10;
-  border-block: 1px solid rgb(255 255 255 / 0.28);
-  box-shadow: 0 10px 30px rgb(0 0 0 / 0.35);
-  transform: translateY(-18px) rotate(-2.5deg); /* raised a little (Alex): less of it over the search band */
+  border-block: 1px solid rgb(255 255 255 / 0.16);
 }
 
 .brandbar__track {
@@ -587,51 +584,6 @@
   display: none;
 }
 
-/* Sell · Consign: the headline changes with the step (Alex) — 01 "Make room for
-   what's next." · 02 "Sell it to us. Get an offer." · 03 "Consign it. We
-   sell it." All three share one grid cell (the tallest sets the
-   height, nothing below moves) and cross-fade with the active group. The static
-   layout (phones, reduced motion) keeps the one h2. */
-:root[data-variant='v2_2'] .sell__titles {
-  display: grid;
-  margin-top: var(--gap-eyebrow);
-}
-
-:root[data-variant='v2_2'] .sell__titles > * {
-  grid-area: 1 / 1;
-  margin-top: 0;
-}
-
-:root[data-variant='v2_2'] .sell__heading-alt {
-  display: none;
-  margin-bottom: 0;
-}
-
-:root[data-variant='v2_2'] .sell.is-staged .sell__heading-alt {
-  display: block;
-  opacity: 0;
-  pointer-events: none;
-}
-
-:root[data-variant='v2_2'] .sell.is-staged :is(.sell__heading, .sell__heading-alt) {
-  transition: opacity var(--dur-s) var(--ease-out);
-}
-
-:root[data-variant='v2_2'] .sell.is-staged:has(.sell__group[data-phase='1'][data-active], .sell__group[data-phase='2'][data-active]) .sell__heading {
-  opacity: 0;
-}
-
-:root[data-variant='v2_2'] .sell.is-staged:has(.sell__group[data-phase='1'][data-active]) .sell__heading-alt[data-phase='1'],
-:root[data-variant='v2_2'] .sell.is-staged:has(.sell__group[data-phase='2'][data-active]) .sell__heading-alt[data-phase='2'] {
-  opacity: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  :root[data-variant='v2_2'] .sell.is-staged :is(.sell__heading, .sell__heading-alt) {
-    transition: none;
-  }
-}
-
 /* Footer links: no underline on hover, the text just dims (Alex).
    #9b9a96 on #0f0f10 6.6:1 — still AA. Keyboard focus keeps the ring. */
 :root[data-variant='v2_2'] .footer__link:is(:hover, :focus-visible) {
@@ -659,4 +611,51 @@
   :root[data-variant='v2_2'] .classics__media::after {
     background: linear-gradient(90deg, rgb(15 15 16 / 0.72) 0%, rgb(15 15 16 / 0.5) 30%, rgb(15 15 16 / 0) 48%);
   }
+}
+
+
+/* -----------------------------------------------------------------------------
+   Client round 2026-11-12 (Kirsten). Section titles, brand bar, Classics, footer.
+   ----------------------------------------------------------------------------- */
+
+/* Section title — the label IS the title (Inventory, Sell & Consign): the h3 size
+   of the type scale, Archivo 800, in Miami Blue. On dark grounds the accent itself;
+   on the light inventory grey the deep Miami Blue (#14f3ff there is 1.1:1 —
+   unreadable; #00648a is 4.2:1, AA for large type, the logo gradient's own family). */
+:root[data-variant='v2_2'] {
+  --c-accent-deep: #00648a;
+}
+
+:root[data-variant='v2_2'] .section-title {
+  color: var(--c-accent);
+}
+
+:root[data-variant='v2_2'] .featured .section-title {
+  color: var(--c-accent-deep);
+}
+
+:root[data-variant='v2_2'] .sell .section-title {
+  margin-top: 0;
+}
+
+/* Brand bar: no boxes, no borders, no pills around the makes (client) — index,
+   glyph and name as plain type on the bar. */
+:root[data-variant='v2_2'] .brandbar__item,
+:root[data-variant='v2_2'] .brandbar__item--outline,
+:root[data-variant='v2_2'] .brandbar__item--solid {
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: #f2f2f0;
+  padding-inline: 14px;
+}
+
+/* Classics: the headline now reads "Classic cars. …" — the identical label above
+   it would repeat it, so it goes (the motion still finds it). */
+:root[data-variant='v2_2'] .classics__eyebrow {
+  display: none;
+}
+
+:root[data-variant='v2_2'] .classics__heading {
+  margin-top: 0;
 }

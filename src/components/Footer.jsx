@@ -35,7 +35,7 @@ export default function Footer({ route }) {
             <h2 id="footer-title" className="footer__wordmark">
               {V2_2 ? (
                 <>
-                  <LogoMark logo={logoV22.vertical} className="footer__mark" />
+                  <LogoMark logo={logoV22.verticalColor} className="footer__mark" />
                   <span className="visually-hidden">{brand.wordmark}</span>
                 </>
               ) : V2 ? (
