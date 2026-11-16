@@ -71,10 +71,23 @@ const uniq = (a) => [...new Set(a)]
 export const MAKES = uniq(stock.map((v) => v.make)).sort()
 export const BODIES = uniq(stock.map((v) => v.body)).sort()
 export const TRANSMISSIONS = ['Automatic', 'Manual']
-export const PRICE_STEPS = [50000, 100000, 200000, 500000]
-export const YEAR_STEPS = [2000, 2015, 2020, 2024]
+/* Price slider stops — not linear: the stock runs from $17k to $1.65M, so the low end
+   gets the fine steps. The slider moves over the index; the value is PRICE_STOPS[i]. */
+export const PRICE_STOPS = [0, 20000, 40000, 60000, 80000, 100000, 125000, 150000, 200000, 250000, 300000, 400000, 500000, 750000, 1000000, 2000000]
+export const YEAR_MIN = Math.min(...stock.map((v) => v.year))
+export const YEAR_MAX = Math.max(...stock.map((v) => v.year))
 
-export const EMPTY = { make: [], body: [], transmission: '', maxPrice: '', minYear: '', sort: 'newest' }
+/* Mileage: one thumb, "up to" — stops for the low-mile end; the last stop = any. */
+export const MILE_STOPS = [1000, 2500, 5000, 10000, 15000, 25000, 50000, 100000]
+export const DRIVES = uniq(stock.map((v) => v.drive)).sort()
+/* the colours the photographs show — the swatch is a cue, the word carries the meaning */
+export const COLORS = [
+  ['Black', '#141414'], ['Grey', '#6e7073'], ['Silver', '#c3c5c8'], ['White', '#ffffff'], ['Red', '#c4161c'],
+  ['Orange', '#f07a1a'], ['Yellow', '#f2cc0c'], ['Green', '#3f6b3a'], ['Blue', '#2c3f9e'],
+].filter(([c]) => stock.some((v) => v.color === c))
+
+/* price / year / mileage: '' = no bound */
+export const EMPTY = { make: [], body: [], drive: [], color: [], transmission: '', priceMin: '', priceMax: '', yearMin: '', yearMax: '', mileMax: '', sort: 'newest' }
 
 export const SORTS = [
   { value: 'newest', label: 'Newest arrivals' },
@@ -89,9 +102,14 @@ export function searchStock(f) {
     (v) =>
       (!f.make.length || f.make.includes(v.make)) &&
       (!f.body.length || f.body.includes(v.body)) &&
+      (!f.drive.length || f.drive.includes(v.drive)) &&
+      (!f.color.length || f.color.includes(v.color)) &&
+      (!f.mileMax || v.mileage <= Number(f.mileMax)) &&
       (!f.transmission || v.transmission === f.transmission) &&
-      (!f.maxPrice || v.price <= Number(f.maxPrice)) &&
-      (!f.minYear || v.year >= Number(f.minYear)),
+      (!f.priceMin || v.price >= Number(f.priceMin)) &&
+      (!f.priceMax || v.price <= Number(f.priceMax)) &&
+      (!f.yearMin || v.year >= Number(f.yearMin)) &&
+      (!f.yearMax || v.year <= Number(f.yearMax)),
   )
   const by = {
     newest: (a, b) => b.added - a.added,
@@ -103,8 +121,11 @@ export function searchStock(f) {
   return list.sort(by)
 }
 
-export const activeCount = (f) =>
-  f.make.length + f.body.length + (f.transmission ? 1 : 0) + (f.maxPrice ? 1 : 0) + (f.minYear ? 1 : 0)
+/** filters other than make (the make chips sit in the bar, the rest in the panel) */
+export const panelCount = (f) =>
+  f.body.length + f.drive.length + f.color.length + (f.transmission ? 1 : 0) + (f.mileMax ? 1 : 0) +
+  (f.priceMin || f.priceMax ? 1 : 0) + (f.yearMin || f.yearMax ? 1 : 0)
+export const activeCount = (f) => f.make.length + panelCount(f)
 
 /** Similar listings for the VDP: same body first, then same make, never itself. */
 export function similarTo(v, n = 3) {

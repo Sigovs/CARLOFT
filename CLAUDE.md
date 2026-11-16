@@ -138,6 +138,12 @@ American muscle; consignment; service/restoration/paint/body; finance).
   (`data-page`, `src/v5pages/`, `src/components/v5/`, `src/styles/stock.css`, data `src/data/v5/stock.js`, 21 simulated
   cars). Grey ground, white panels, ink titles, Miami Blue only on the one filled ask. Home V5 cards link to the VDP,
   Inventory / View All → SRP; inner pages: solid bar from the start, links go back to index_v5.html sections.
+  **SRP/VDP decisions (Alex, 2026-11-16):** no filter sidebar ("hello from 2000") and never a box with its own inner
+  scroll; make chips row + Filters + a designed sort menu (never the native select list); the rest in a right
+  slide-in panel — price / year / mileage as range sliders, body / transmission / drivetrain as pills, colour as
+  swatches with words. VDP: info ON the page (payment estimator, trade-in form, all photos — as on the other dealer
+  VDPs), no tiles that send you away; CARFAX = the official "Vehicle History Reports" logo, centred, no arrow.
+  **V5 cards and panels: 12px radius** (buttons stay rectangles).
 - **2026-11-12 — V4 (`index_v4.html`)** (Alex: "делай из v3 v4"): a copy of the V3 app tree in `src/v4/`
   (AppV4, useV4Motion, v4.css — class names keep the `v3-` prefix, each page loads only its own CSS).
   **V3 is frozen**; the next work on the Clutch-layout line goes into V4.
