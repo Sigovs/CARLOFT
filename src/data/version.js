@@ -21,3 +21,11 @@ export const V2_2 = V2 && document.documentElement.dataset.variant === 'v2_2'
  * src/styles/v2_3.css, scoped to :root[data-round='v2_3']. V2.2 stays as published.
  */
 export const V2_3 = V2_2 && document.documentElement.dataset.round === 'v2_3'
+
+/**
+ * V5 — index_v5.html (Alex, 2026-11-16: "make the next one, v5"). A layer ON TOP of
+ * V2.3 (the page also sets data-round="v2_3"): the client liked V2.2's colour, so V5
+ * brings back the V2.2 Miami Blue (#14f3ff, the gradient logo) and adds the 16 Nov
+ * header round. Rules live in src/styles/v5.css, scoped to :root[data-release='v5'].
+ */
+export const V5 = V2_3 && document.documentElement.dataset.release === 'v5'

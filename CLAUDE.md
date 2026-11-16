@@ -126,6 +126,13 @@ American muscle; consignment; service/restoration/paint/body; finance).
   white version in the header.
   No glow (Alex: "убери glow" — tried as a neon halo, removed); no effects inside the mark either. **Rejected:** chrome gradient / light sweep INSIDE
   the logo ("какой shine внутри?!"), and a logo hanging below an empty header slot.
+- **2026-11-16 — V5 (`index_v5.html`)** (Alex: "делай следующий v5"): a layer on top of the published V2.3
+  (`data-release="v5"`, `src/styles/v5.css`, flag `V5`, `logoV5`). **V2.3 frozen.** Client: they liked V2.2's
+  colour → the accent is the V2.2 Miami Blue **#14f3ff** again (dark labels on fills; the logo name in the
+  #14F3FF → #0090C4 gradient = the client's "shine"; footer mark in the same gradient). The #008CC1 round is
+  rejected. Menu links in Miami Blue (hover white). Scrolled bar: car 1.5× larger in the horizontal lock-up
+  (`carloft-logo-horizontal-v5.svg`, 1386×255) and a 2px Miami Blue line under the bar. Inventory title on the
+  light grey stays #007aa9 (#14f3ff there is 1.3:1).
 - **2026-11-12 — V4 (`index_v4.html`)** (Alex: "делай из v3 v4"): a copy of the V3 app tree in `src/v4/`
   (AppV4, useV4Motion, v4.css — class names keep the `v3-` prefix, each page loads only its own CSS).
   **V3 is frozen**; the next work on the Clutch-layout line goes into V4.

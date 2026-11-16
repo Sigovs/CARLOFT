@@ -1,0 +1,80 @@
+/* =============================================================================
+   v5.css — index_v5.html only (<html data-version="v2" data-variant="v2_2"
+   data-round="v2_3" data-release="v5">). Alex, 2026-11-16: the published V2.3 is
+   the base; the client liked V2.2's colour, so V5 brings the V2.2 Miami Blue back
+   and carries the client round of 16 November (the header). Every rule is scoped
+   to :root[data-release='v5'] and comes after v2_3.css, so it wins over V2.3 at
+   equal specificity and never reaches V1, V2, V2.2 or V2.3.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   1 · Accent — the V2.2 Miami Blue #14f3ff again (client: "the blue should be the
+   Miami blue"). Filled actions carry a near-black label (13.7:1); white on
+   #14f3ff would be 1.4:1. As text on the dark grounds 13.6:1.
+   ----------------------------------------------------------------------------- */
+:root[data-release='v5'] {
+  --c-accent: #14f3ff;
+  --c-accent-hover: #8af9ff;
+  --c-accent-ink: #0b0b0c;
+  /* the light inventory grey cannot carry #14f3ff (1.3:1) — the inventory title keeps
+     the deep blue set by V2.3 (#007aa9, 3.1:1) */
+}
+
+/* 2 · The logo's "shine" — the V2.2 gradient, #14F3FF → #0090C4. The colour masters
+   already carry it (src/data/v2/logo.js, logoV5); the name-only mark (1024–1279,
+   scrolled) and the footer mark take the same gradient, same direction. */
+:root[data-release='v5'] :is(.header__mark--name, .footer__mark) .logo-mark__ink {
+  background: linear-gradient(40deg, #14f3ff 20%, #0090c4 90%);
+}
+
+/* -----------------------------------------------------------------------------
+   3 · Menu in Miami Blue (client). Over the hero and in the dark scrolled bar alike;
+   hover and focus go to white, the short rule under the word follows.
+   ----------------------------------------------------------------------------- */
+:root[data-release='v5'] .header .header__link {
+  color: var(--c-accent);
+}
+
+:root[data-release='v5'] .header .header__link:is(:hover, :focus-visible) {
+  color: var(--c-on-dark);
+}
+
+/* Below 1024 the menu is the "Menu" toggle and the sheet: the same blue. */
+:root[data-release='v5'] .header .header__menu-btn,
+:root[data-release='v5'] .header .header__sheet-link {
+  color: var(--c-accent);
+}
+
+/* -----------------------------------------------------------------------------
+   4 · Scrolled bar (client): the car larger — the horizontal lock-up with the car
+   drawn 1.5× (assets/carloft-logo-horizontal-v5.svg, 1386 × 255) — and a heavier
+   line under the bar: 2px in Miami Blue instead of the 1px hairline. The bar's
+   height is unchanged (border-box), so nothing below it moves.
+   ----------------------------------------------------------------------------- */
+:root[data-release='v5'] {
+  --bar-h: 34px;                                    /* phones: 185px wide, clear of the phone button */
+  --name-w: calc(var(--bar-h) * 1386 / 255);
+}
+
+@media (min-width: 768px) {
+  :root[data-release='v5'] {
+    --bar-h: 38px;                                  /* 207px wide */
+  }
+}
+
+@media (min-width: 1280px) {
+  :root[data-release='v5'] {
+    --bar-h: 46px;                                  /* 250px wide */
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  :root[data-release='v5'] {
+    --name-w: calc(var(--name-h) * 865 / 255);
+  }
+}
+
+:root[data-release='v5'] .header.header[data-compact][data-header] {
+  border-bottom-width: 2px;
+  --h-border: var(--c-accent);
+}

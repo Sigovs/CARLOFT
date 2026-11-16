@@ -38,6 +38,13 @@ export const logoV23 = {
   horizontalColor: { ...logoV22.horizontalColor, src: asset('assets/carloft-logo-horizontal-v23.svg') },
 }
 
+/* V5: the V2.2 masters (name in the #14F3FF → #0090C4 gradient — the client's "shine")
+   with the car drawn 1.5× larger in the horizontal lock-up (client, 2026-11-16). */
+export const logoV5 = {
+  ...logoV22,
+  horizontalColor: { src: asset('assets/carloft-logo-horizontal-v5.svg'), width: 1386, height: 255, image: true },
+}
+
 export const logoLight = {
   src: asset('assets/carloft-logo-light.webp'),
   width: 612,
