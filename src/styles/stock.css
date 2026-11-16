@@ -95,11 +95,6 @@
   margin-top: var(--s-4);
 }
 
-.stock-note {
-  max-width: 46ch;
-  color: var(--c-ink-3);
-}
-
 /* ---------- SRP: filters beside the results ---------- */
 .srp {
   display: grid;
@@ -643,12 +638,6 @@
   transform: translateX(var(--arrow-nudge));
 }
 
-.vdp__summary .stock-note {
-  margin-top: var(--s-4);
-  padding-top: var(--s-4);
-  border-top: 1px solid var(--stock-line);
-}
-
 /* details */
 .vdp-details {
   padding-top: clamp(var(--s-7), 6vw, var(--s-9));
@@ -768,7 +757,6 @@
 .vdp-carfax {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: var(--s-4);
   margin-top: var(--s-4);
   padding: var(--s-3) var(--s-4);
@@ -779,9 +767,17 @@
   transition: border-color var(--dur-xs) var(--ease-out);
 }
 
+.vdp-carfax__badge {
+  flex: none;
+  width: 116px;
+  height: auto;
+}
+
 .vdp-carfax__text {
   display: grid;
+  flex: 1;
   gap: 2px;
+  min-width: 0;
 }
 
 .vdp-carfax__label,
@@ -823,4 +819,42 @@
 .vdp-carfax:focus-visible {
   outline: var(--focus-ring);
   outline-offset: 3px;
+}
+
+/* Description — same two columns as Vehicle details, text to a reading measure */
+.vdp-desc__body {
+  display: grid;
+  gap: var(--s-4);
+  align-content: start;
+  max-width: 64ch;
+}
+
+.vdp-desc__body .lead {
+  color: var(--c-ink);
+}
+
+.vdp-desc__tag {
+  justify-self: start;
+  padding: var(--s-1) var(--s-3);
+  border: 1px dashed rgb(23 25 28 / 0.3);
+  border-radius: 999px;
+  color: var(--c-ink-3);
+}
+
+/* the two sections read as one block: less air between them than around them */
+.vdp-desc + .vdp-details {
+  padding-top: clamp(var(--s-6), 4vw, var(--s-8));
+}
+
+/* Financing and trade-ins — the outline secondary (ink line, ink label; fills ink on hover) */
+.stock a.btn--secondary.vdp__outline {
+  --btn-bg: transparent;
+  --btn-fg: var(--c-ink);
+  --btn-border: var(--c-ink);
+}
+
+.stock a.btn--secondary.vdp__outline:is(:hover, :focus-visible, :active) {
+  --btn-bg: var(--c-ink);
+  --btn-fg: #ffffff;
+  --btn-border: var(--c-ink);
 }

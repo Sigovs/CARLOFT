@@ -54,11 +54,6 @@ export function TitleText({ v }) {
   )
 }
 
-/** The sample-data notice — every inner page says what is real and what is not. */
-export function SampleNote({ children }) {
-  return <p className="stock-note small">{children}</p>
-}
-
 /** A listing card — the home page's card (white on the grey), as a link to the VDP. */
 export function StockCard({ v, eager = false }) {
   const p = v.photos[0]

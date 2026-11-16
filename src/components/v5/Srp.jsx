@@ -2,7 +2,7 @@ import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import Icon from '../Icon.jsx'
 import { brand } from '../../data/brand.js'
 import { lockScroll, unlockScroll } from '../../motion/scroll.js'
-import { StockPage, Crumbs, SampleNote, StockCard } from './StockPage.jsx'
+import { StockPage, Crumbs, StockCard } from './StockPage.jsx'
 import {
   BODIES,
   EMPTY,
@@ -103,9 +103,6 @@ export default function Srp() {
             <h1 id="srp-title" className="h2 stock-head__title">
               Inventory
             </h1>
-            <SampleNote>
-              Sample listings for the mockup — studio photographs; mileage, prices and stock numbers are placeholders.
-            </SampleNote>
           </div>
         </div>
       </section>

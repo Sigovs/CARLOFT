@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import Icon from '../Icon.jsx'
 import { brand } from '../../data/brand.js'
-import { StockPage, Crumbs, SampleNote, StockCard, TitleText } from './StockPage.jsx'
+import { asset } from '../../data/asset.js'
+import { StockPage, Crumbs, StockCard, TitleText } from './StockPage.jsx'
 import { HOME_URL, SRP_URL, fmtMiles, fmtPrice, similarTo, stockById, stockTitle } from '../../data/v5/stock.js'
 
 const pad = (n) => String(n).padStart(2, '0')
@@ -81,24 +82,46 @@ export default function Vdp() {
                   <Icon name="phone" className="icon--static" />
                   Call {brand.contact.phone.value}
                 </a>
+                {/* secondary ask (Alex): an outline button, not a text link */}
+                <a className="btn btn--secondary vdp__outline" href={`${HOME_URL}#finance`}>
+                  Financing and trade-ins
+                  <Icon name="arrow-right" />
+                </a>
               </div>
               {/* CARFAX (Alex, 2026-11-16). A placeholder row in our own type — not CARFAX's
                   badge: the live badge and report link come from the dealer's CARFAX account by
                   VIN, and neither the account nor the VINs exist yet. Until then it asks for it. */}
               <a className="vdp-carfax" href={`#contact?topic=carfax&id=${encodeURIComponent(v.id)}`}>
+                {/* CARFAX's own dealer badge (partnerstatic.carfax.com/img/valuebadge/showme.svg) */}
+                <img className="vdp-carfax__badge" src={asset('assets/carfax-show-me.svg')} width="301" height="105" alt="Show me the CARFAX" />
                 <span className="vdp-carfax__text">
-                  <span className="vdp-carfax__label small">Vehicle history</span>
-                  <span className="vdp-carfax__title">CARFAX report</span>
-                  <span className="vdp-carfax__note small">Placeholder — linked by VIN on the live site</span>
+                  <span className="vdp-carfax__title">Vehicle history report</span>
                 </span>
                 <Icon name="arrow-right" className="vdp-carfax__arrow" />
               </a>
-              <a className="vdp__finance small" href={`${HOME_URL}#finance`}>
-                Financing and trade-ins
-                <Icon name="arrow-right" />
-              </a>
-              <SampleNote>Sample listing — studio photographs; mileage, price and stock number are placeholders.</SampleNote>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Description (Alex, 2026-11-16). Only what the data and the photographs show; the
+          dealer's own text (condition, options, records, ownership) replaces the second
+          paragraph — nothing here may describe a real car's history (content provenance). */}
+      <section className="vdp-details vdp-desc" aria-labelledby="vdp-desc-title">
+        <div className="container vdp-details__grid">
+          <h2 id="vdp-desc-title" className="h3 section-title">
+            Description
+          </h2>
+          <div className="vdp-desc__body">
+            <p className="lead">
+              {v.year} {title} in {v.color.toLowerCase()} — a {v.body.toLowerCase()} with{' '}
+              {v.drive.toLowerCase()}, photographed in our studio from every side.
+            </p>
+            <p className="body">
+              The dealer&rsquo;s description goes here: condition inside and out, options and
+              equipment, service records, ownership history, and what comes with the car — keys,
+              books, covers, warranty.
+            </p>
           </div>
         </div>
       </section>
