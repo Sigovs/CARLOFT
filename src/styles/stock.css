@@ -826,7 +826,11 @@
   display: grid;
   gap: var(--s-4);
   align-content: start;
-  max-width: 64ch;
+}
+
+/* the full width of the column, as the details table under it (Alex) */
+.vdp-desc__body :is(.lead, .body) {
+  max-width: none;
 }
 
 .vdp-desc__body .lead {
