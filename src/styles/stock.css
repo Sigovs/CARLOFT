@@ -762,3 +762,65 @@
 .stock-make {
   white-space: nowrap;
 }
+
+/* CARFAX row in the VDP summary — a placeholder in the site's own type (no CARFAX
+   badge until the dealer's account and the VINs exist). Quieter than the asks above. */
+.vdp-carfax {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-top: var(--s-4);
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid rgb(23 25 28 / 0.14);
+  border-radius: var(--radius);
+  color: var(--c-ink);
+  text-decoration: none;
+  transition: border-color var(--dur-xs) var(--ease-out);
+}
+
+.vdp-carfax__text {
+  display: grid;
+  gap: 2px;
+}
+
+.vdp-carfax__label,
+.vdp-carfax__note {
+  color: var(--c-ink-3);
+}
+
+.vdp-carfax__label {
+  font-size: var(--fs-eyebrow);
+}
+
+.vdp-carfax__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-body);
+  font-weight: 800;
+  font-stretch: 104%;
+  line-height: 1.25;
+}
+
+.vdp-carfax__note {
+  font-size: var(--fs-eyebrow);
+}
+
+.vdp-carfax__arrow {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  transition: transform var(--dur-s) var(--ease-out);
+}
+
+.vdp-carfax:is(:hover, :focus-visible) {
+  border-color: var(--c-ink);
+}
+
+.vdp-carfax:is(:hover, :focus-visible) .vdp-carfax__arrow {
+  transform: translateX(var(--arrow-nudge));
+}
+
+.vdp-carfax:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 3px;
+}

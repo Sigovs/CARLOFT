@@ -18,6 +18,10 @@ import LogoMark from './v2/LogoMark.jsx'
 export default function Footer({ route }) {
   const topicKey = route?.target === 'contact' ? route.params.get('topic') : null
   let topic = topicKey ? topicLabels[topicKey] : null
+  if (topicKey === 'carfax' && V5) {
+    const s = stockById(route.params.get('id'))
+    if (s) topic = `CARFAX report — ${s.year} ${stockTitle(s)} (sample listing)`
+  }
   if (topicKey === 'car') {
     const id = route.params.get('id')
     const s = V5 ? stockById(id) : null

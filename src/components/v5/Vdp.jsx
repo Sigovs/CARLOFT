@@ -82,6 +82,17 @@ export default function Vdp() {
                   Call {brand.contact.phone.value}
                 </a>
               </div>
+              {/* CARFAX (Alex, 2026-11-16). A placeholder row in our own type — not CARFAX's
+                  badge: the live badge and report link come from the dealer's CARFAX account by
+                  VIN, and neither the account nor the VINs exist yet. Until then it asks for it. */}
+              <a className="vdp-carfax" href={`#contact?topic=carfax&id=${encodeURIComponent(v.id)}`}>
+                <span className="vdp-carfax__text">
+                  <span className="vdp-carfax__label small">Vehicle history</span>
+                  <span className="vdp-carfax__title">CARFAX report</span>
+                  <span className="vdp-carfax__note small">Placeholder — linked by VIN on the live site</span>
+                </span>
+                <Icon name="arrow-right" className="vdp-carfax__arrow" />
+              </a>
               <a className="vdp__finance small" href={`${HOME_URL}#finance`}>
                 Financing and trade-ins
                 <Icon name="arrow-right" />

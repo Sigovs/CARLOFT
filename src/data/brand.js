@@ -95,4 +95,5 @@ export const topicLabels = {
   finance: 'Financing',
   visit: 'Planning a visit',
   car: 'An illustrative listing',
+  carfax: 'A CARFAX vehicle history report',
 }
