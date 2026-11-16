@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { brand, navLinks } from '../data/brand.js'
 import Icon from './Icon.jsx'
 import { lockScroll, unlockScroll } from '../motion/scroll.js'
-import { V2, V2_2, V2_3, V5 } from '../data/version.js'
+import { V2, V2_2, V2_3, V5, PAGE } from '../data/version.js'
+import { HOME_URL, pageHref } from '../data/v5/stock.js'
 import { logoLight, logoV22, logoV23, logoV5 } from '../data/v2/logo.js'
 import LogoMark from './v2/LogoMark.jsx'
 
@@ -27,6 +28,11 @@ import LogoMark from './v2/LogoMark.jsx'
  */
 /** Distance (px) above the header's bottom edge at which it turns solid on exit. */
 const HEADER_LEAD = 120
+
+/** V5 inner pages (SRP, VDP): no hero under the bar — solid and compact from the start. */
+const SOLID = V5 && PAGE !== 'home'
+/** V5: Inventory goes to the SRP; on the inner pages the other links go home. */
+const hrefFor = (href) => (V5 ? pageHref(href, PAGE) : href)
 
 export default function Header({ ref }) {
   const headerRef = useRef(null)
@@ -67,7 +73,7 @@ export default function Header({ ref }) {
     if (!header) return
     let compact = null
     const update = () => {
-      const next = window.scrollY > 8
+      const next = SOLID || window.scrollY > 8
       if (next === compact) return
       compact = next
       if (next) header.setAttribute('data-compact', '')
@@ -131,9 +137,9 @@ export default function Header({ ref }) {
   }, [open])
 
   return (
-    <header className="header" data-header="top" ref={setRefs}>
+    <header className="header" data-header={SOLID ? 'scrolled' : 'top'} ref={setRefs}>
       <div className="header__bar container">
-        <a className="header__wordmark" href="#top" aria-label={`${brand.wordmark} — back to top`}>
+        <a className="header__wordmark" href={SOLID ? HOME_URL : '#top'} aria-label={SOLID ? `${brand.wordmark} — home` : `${brand.wordmark} — back to top`}>
           {V2_2 ? (
             <>
               <LogoMark logo={(V5 ? logoV5 : V2_3 ? logoV23 : logoV22).verticalColor} className="header__mark header__mark--full" />
@@ -151,7 +157,7 @@ export default function Header({ ref }) {
           <ul className="header__links">
             {navLinks.map((l) => (
               <li key={l.href}>
-                <a className="header__link" href={l.href}>
+                <a className="header__link" href={hrefFor(l.href)} aria-current={V5 && PAGE === 'srp' && l.href === '#inventory' ? 'page' : undefined}>
                   {l.label}
                 </a>
               </li>
@@ -188,7 +194,7 @@ export default function Header({ ref }) {
           <ul className="header__sheet-links">
             {navLinks.map((l) => (
               <li key={l.href}>
-                <a className="header__sheet-link" href={l.href} onClick={() => setOpen(false)}>
+                <a className="header__sheet-link" href={hrefFor(l.href)} onClick={() => setOpen(false)}>
                   {l.label}
                   <Icon name="arrow-right" />
                 </a>

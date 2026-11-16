@@ -147,3 +147,9 @@ Client ticket "nov changes 9th.pdf" (AAN #48798). V2.2 is a layer on top of V2; 
 | footer-loft (-1200 / -1920) | supplied by Alex (LOGO/footer image.jpg, 2026-11-09 23:42): five lit cars at varied angles in a dark industrial loft | cropped to a 1920×560 band (car row at 38–72%, reflections below) | — |
 | carloft-logo-horizontal / -horizontal-color / -vertical / -vertical-color / -name (.svg) | client vector masters, LOGO/ (Alex, 2026-11-09) | copied unchanged | — |
 | carloft-logo-*-glow.png | rendered from the masters in the browser (outer-contour neon) | currently switched off (Alex: "убери glow") | — |
+
+## V5 stock (SRP / VDP mockup, 2026-11-16)
+
+| Asset | Source | Notes |
+|---|---|---|
+| public/assets/stock/<id>-<n>-960/1600.webp (21 cars, 1–4 frames each) | DU PONT REGESTRY/assets/source/<listing>/ (8-frame sets) and DU PONT REGESTRY/_____TEST FINAL/assets/source/<listing>/ | one white studio set; **only frames with no number plate** (the rear plates read "duPont REGISTRY") and never the branded cover frame; 3:2 centre crop; Maybach, CT5, GT3 2024 sources are 1024px → 960 only. Script: scratchpad make_stock.py. Year/make/model from the folder names; mileage, price, transmission, stock no. are placeholders (src/data/v5/stock.js). |

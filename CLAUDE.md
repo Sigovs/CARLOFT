@@ -134,6 +134,10 @@ American muscle; consignment; service/restoration/paint/body; finance).
   (`carloft-logo-horizontal-v5.svg`, 1386×255) and a 2px Miami Blue line under the bar. Inventory title on the
   light grey: ink #17191c, not a second blue (#14f3ff there is 1.3:1; #007aa9 read as "a different blue").
   Header taller with air below the content (Alex: "чуть пошире, space снизу"): +14px desktop, +8px phone (`--header-air`).
+  **SRP + VDP (2026-11-16, Alex: "делаем SRP, VDP, симулируем машины")**: `inventory_v5.html` + `vehicle_v5.html?id=`
+  (`data-page`, `src/v5pages/`, `src/components/v5/`, `src/styles/stock.css`, data `src/data/v5/stock.js`, 21 simulated
+  cars). Grey ground, white panels, ink titles, Miami Blue only on the one filled ask. Home V5 cards link to the VDP,
+  Inventory / View All → SRP; inner pages: solid bar from the start, links go back to index_v5.html sections.
 - **2026-11-12 — V4 (`index_v4.html`)** (Alex: "делай из v3 v4"): a copy of the V3 app tree in `src/v4/`
   (AppV4, useV4Motion, v4.css — class names keep the `v3-` prefix, each page loads only its own CSS).
   **V3 is frozen**; the next work on the Clutch-layout line goes into V4.

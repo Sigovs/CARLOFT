@@ -41,6 +41,8 @@ export default defineConfig(({ mode }) => ({
         v2_2: resolve(import.meta.dirname, 'index_v2_2.html'),
         v2_3: resolve(import.meta.dirname, 'index_v2_3.html'),
         v5: resolve(import.meta.dirname, 'index_v5.html'),
+        v5_srp: resolve(import.meta.dirname, 'inventory_v5.html'),
+        v5_vdp: resolve(import.meta.dirname, 'vehicle_v5.html'),
         v3: resolve(import.meta.dirname, 'index_v3.html'),
         v4: resolve(import.meta.dirname, 'index_v4.html'),
       },

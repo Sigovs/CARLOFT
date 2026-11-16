@@ -1,7 +1,8 @@
 import { brand, footerColumns, topicLabels } from '../data/brand.js'
 import { vehicleTitle, vehicles } from '../data/inventory.js'
 import { photos, photoProps } from '../data/photos.js'
-import { V2, V2_2, V2_3 } from '../data/version.js'
+import { V2, V2_2, V2_3, V5, PAGE } from '../data/version.js'
+import { pageHref, stockById, stockTitle } from '../data/v5/stock.js'
 import { logoLight, logoV22, logoV23 } from '../data/v2/logo.js'
 import LogoMark from './v2/LogoMark.jsx'
 
@@ -18,8 +19,11 @@ export default function Footer({ route }) {
   const topicKey = route?.target === 'contact' ? route.params.get('topic') : null
   let topic = topicKey ? topicLabels[topicKey] : null
   if (topicKey === 'car') {
-    const v = vehicles.find((x) => x.id === route.params.get('id'))
-    if (v) topic = `${vehicleTitle(v)} (illustrative listing)`
+    const id = route.params.get('id')
+    const s = V5 ? stockById(id) : null
+    const v = s ? null : vehicles.find((x) => x.id === id)
+    if (s) topic = `${s.year} ${stockTitle(s)} (sample listing)`
+    else if (v) topic = `${vehicleTitle(v)} (illustrative listing)`
   }
   const year = new Date().getFullYear()
   const c = brand.contact
@@ -53,7 +57,7 @@ export default function Footer({ route }) {
               <ul className="footer__links">
                 {col.links.map((l) => (
                   <li key={l.label}>
-                    <a className="footer__link" href={l.href}>
+                    <a className="footer__link" href={V5 ? pageHref(l.href, PAGE) : l.href}>
                       {l.label}
                     </a>
                   </li>

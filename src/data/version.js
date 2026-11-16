@@ -29,3 +29,10 @@ export const V2_3 = V2_2 && document.documentElement.dataset.round === 'v2_3'
  * header round. Rules live in src/styles/v5.css, scoped to :root[data-release='v5'].
  */
 export const V5 = V2_3 && document.documentElement.dataset.release === 'v5'
+
+/**
+ * Which V5 page: 'home' (index_v5.html), 'srp' (inventory_v5.html) or 'vdp'
+ * (vehicle_v5.html) — <html data-page>. The header and footer link back to the home
+ * page's sections from the inner pages, and the bar is solid there from the start.
+ */
+export const PAGE = (typeof document !== 'undefined' && document.documentElement.dataset.page) || 'home'

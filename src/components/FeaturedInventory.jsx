@@ -7,7 +7,8 @@ import {
   vehicles,
 } from '../data/inventory.js'
 import Icon from './Icon.jsx'
-import { V2_3 } from '../data/version.js'
+import { V2_3, V5 } from '../data/version.js'
+import { HOME_TO_STOCK, SRP_URL, vdpUrl } from '../data/v5/stock.js'
 import { brand } from '../data/brand.js'
 import VehicleDialog from './VehicleDialog.jsx'
 import { useInventoryRail } from '../motion/useInventoryRail.js'
@@ -113,7 +114,7 @@ export default function FeaturedInventory({ results, active, clear, countRef, fi
                 </button>
               )}
               {/* CTA to the full inventory page (brand.inventoryUrl). */}
-              <a className="btn btn--secondary" href={brand.inventoryUrl}>
+              <a className="btn btn--secondary" href={V5 ? SRP_URL : brand.inventoryUrl}>
                 View All Inventory
                 <Icon name="arrow-right" />
               </a>
@@ -175,10 +176,17 @@ function VehicleCard({ vehicle: v, onOpen }) {
       </div>
       <div className="card__body">
         <h3 className="title card__title">
-          {/* Stretched button: the whole card opens the dialog, one tab stop. */}
-          <button type="button" className="card__open" onClick={onOpen} aria-haspopup="dialog">
-            {vehicleTitle(v)}
-          </button>
+          {V5 && HOME_TO_STOCK[v.id] ? (
+            /* V5: the card is a link to the vehicle's own page (VDP). */
+            <a className="card__open" href={vdpUrl(HOME_TO_STOCK[v.id])}>
+              {vehicleTitle(v)}
+            </a>
+          ) : (
+            /* Stretched button: the whole card opens the dialog, one tab stop. */
+            <button type="button" className="card__open" onClick={onOpen} aria-haspopup="dialog">
+              {vehicleTitle(v)}
+            </button>
+          )}
         </h3>
         <ul className="card__meta small tabular" aria-label="Details">
           {meta.map((m) => (
