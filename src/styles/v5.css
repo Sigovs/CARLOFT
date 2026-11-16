@@ -16,8 +16,14 @@
   --c-accent: #14f3ff;
   --c-accent-hover: #8af9ff;
   --c-accent-ink: #0b0b0c;
-  /* the light inventory grey cannot carry #14f3ff (1.3:1) — the inventory title keeps
-     the deep blue set by V2.3 (#007aa9, 3.1:1) */
+}
+
+/* "Featured inventory" on the light grey: #14f3ff there is 1.3:1 and the V2.3 deep blue
+   (#007aa9) reads as a second, different blue — the client's complaint. The title takes
+   the ink of the card titles below it (#17191c, 11:1); Miami Blue stays on the grey only
+   as the filled "Search Vehicles" action. */
+:root[data-release='v5'] .featured .section-title {
+  color: #17191c;
 }
 
 /* 2 · The logo's "shine" — the V2.2 gradient, #14F3FF → #0090C4. The colour masters

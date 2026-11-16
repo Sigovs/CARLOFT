@@ -132,7 +132,7 @@ American muscle; consignment; service/restoration/paint/body; finance).
   #14F3FF → #0090C4 gradient = the client's "shine"; footer mark in the same gradient). The #008CC1 round is
   rejected. Menu links in Miami Blue (hover white). Scrolled bar: car 1.5× larger in the horizontal lock-up
   (`carloft-logo-horizontal-v5.svg`, 1386×255) and a 2px Miami Blue line under the bar. Inventory title on the
-  light grey stays #007aa9 (#14f3ff there is 1.3:1).
+  light grey: ink #17191c, not a second blue (#14f3ff there is 1.3:1; #007aa9 read as "a different blue").
 - **2026-11-12 — V4 (`index_v4.html`)** (Alex: "делай из v3 v4"): a copy of the V3 app tree in `src/v4/`
   (AppV4, useV4Motion, v4.css — class names keep the `v3-` prefix, each page loads only its own CSS).
   **V3 is frozen**; the next work on the Clutch-layout line goes into V4.
