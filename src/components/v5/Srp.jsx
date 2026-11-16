@@ -108,7 +108,7 @@ export default function Srp() {
       </section>
 
       <div className="container srp">
-        <aside id="srp-filters" className={`srp__filters${open ? ' is-open' : ''}`} aria-label="Filters" data-lenis-prevent>
+        <aside id="srp-filters" className={`srp__filters${open ? ' is-open' : ''}`} aria-label="Filters">
           <div className="srp__filters-head">
             <h2 className="eyebrow">Filters</h2>
             {n > 0 ? (
@@ -118,19 +118,19 @@ export default function Srp() {
             ) : null}
           </div>
 
-          <Group title="Make">
+          <Group title="Make" value={f.make.join(', ')} open>
             {MAKES.map((m) => (
               <Check key={m} label={m} count={countBy('make', m)} checked={f.make.includes(m)} onChange={() => toggle('make', m)} />
             ))}
           </Group>
 
-          <Group title="Body type">
+          <Group title="Body type" value={f.body.join(', ')}>
             {BODIES.map((b) => (
               <Check key={b} label={b} count={countBy('body', b)} checked={f.body.includes(b)} onChange={() => toggle('body', b)} />
             ))}
           </Group>
 
-          <Group title="Transmission">
+          <Group title="Transmission" value={f.transmission}>
             <div className="srp__seg" role="group" aria-label="Transmission">
               {['', ...TRANSMISSIONS].map((t) => (
                 <button
@@ -146,7 +146,7 @@ export default function Srp() {
             </div>
           </Group>
 
-          <Group title="Price">
+          <Group title="Price" value={f.maxPrice ? `Up to ${fmtPrice(Number(f.maxPrice))}` : ''}>
             <Select label="Max price" value={f.maxPrice} onChange={(v) => set('maxPrice', v)}>
               <option value="">Any price</option>
               {PRICE_STEPS.map((p) => (
@@ -157,7 +157,7 @@ export default function Srp() {
             </Select>
           </Group>
 
-          <Group title="Year">
+          <Group title="Year" value={f.minYear ? `${f.minYear}+` : ''}>
             <Select label="Year from" value={f.minYear} onChange={(v) => set('minYear', v)}>
               <option value="">Any year</option>
               {YEAR_STEPS.map((y) => (
@@ -236,12 +236,26 @@ export default function Srp() {
   )
 }
 
-function Group({ title, children }) {
+/**
+ * A filter group as a collapsible row (Alex: "no scroll inside the search — make it
+ * collapsible"). Native <details>: keyboard and screen readers for free. The row shows
+ * what is chosen, so a closed group still tells you what it filters.
+ */
+function Group({ title, value, open = false, children }) {
   return (
-    <fieldset className="srp__group">
-      <legend className="srp__legend">{title}</legend>
-      {children}
-    </fieldset>
+    <details className="srp__group" open={open}>
+      <summary className="srp__summary">
+        <span className="srp__summary-text">
+          <span className="srp__legend">{title}</span>
+          {value ? <span className="srp__chosen small">{value}</span> : null}
+        </span>
+        <Icon name="chevron-down" className="srp__chev icon--static" />
+      </summary>
+      <fieldset className="srp__fields">
+        <legend className="visually-hidden">{title}</legend>
+        {children}
+      </fieldset>
+    </details>
   )
 }
 

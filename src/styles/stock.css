@@ -114,15 +114,8 @@
   padding: var(--s-5);
 }
 
-@media (min-width: 1024px) {
-  .srp__filters {
-    position: sticky;
-    top: var(--stock-sticky);
-    max-height: calc(100vh - var(--stock-sticky) - var(--s-5));
-    overflow-y: auto;
-    overscroll-behavior: contain;
-  }
-}
+/* no sticky box with its own scroll (Alex: "scroll inside the search is awful") — the
+   groups collapse instead, and the panel moves with the page */
 
 .srp__filters-head {
   display: flex;
@@ -152,22 +145,75 @@
 }
 
 .srp__group {
-  margin: 0;
-  padding: var(--s-4) 0 var(--s-5);
-  border: 0;
   border-top: 1px solid var(--stock-line);
-  min-width: 0;
 }
 
 .srp__filters-head + .srp__group {
   margin-top: var(--s-3);
 }
 
+.srp__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 52px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.srp__summary::-webkit-details-marker {
+  display: none;
+}
+
+.srp__summary:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.srp__summary-text {
+  display: grid;
+  flex: 1;
+  gap: 2px;
+  min-width: 0;
+  padding-block: var(--s-3);
+}
+
+.srp__chosen {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--c-ink);
+}
+
+.srp__group[open] .srp__chosen {
+  display: none;          /* open: the choices themselves show it */
+}
+
+.srp__chev {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  color: var(--c-ink);
+  transition: transform var(--dur-s) var(--ease-out);
+}
+
+.srp__group[open] .srp__chev {
+  transform: rotate(180deg);
+}
+
+.srp__summary:hover .srp__legend {
+  color: var(--c-ink);
+}
+
+.srp__fields {
+  min-width: 0;
+  margin: 0;
+  padding: 0 0 var(--s-4);
+  border: 0;
+}
+
 .srp__legend {
-  float: left;            /* lets the legend sit inside the fieldset's padding */
-  width: 100%;
-  margin-bottom: var(--s-3);
-  padding: 0;
+  flex: none;
   font-family: var(--font-display);
   font-size: var(--fs-eyebrow);
   font-weight: 700;
@@ -177,9 +223,6 @@
   color: var(--c-ink-3);
 }
 
-.srp__legend + * {
-  clear: both;
-}
 
 /* checkbox rows — 44px targets */
 .srp__check {
@@ -1013,6 +1056,12 @@
   .vdp-next__arrow,
   .vdp-next__media > img,
   .vdp-next__mosaic img {
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .srp__chev {
     transition: none;
   }
 }
