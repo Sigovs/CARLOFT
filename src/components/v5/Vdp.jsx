@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import Icon from '../Icon.jsx'
 import { brand } from '../../data/brand.js'
 import { asset } from '../../data/asset.js'
+import { photos, photoProps } from '../../data/photos.js'
 import { StockPage, Crumbs, StockCard, TitleText } from './StockPage.jsx'
 import { HOME_URL, SRP_URL, fmtMiles, fmtPrice, similarTo, stockById, stockTitle } from '../../data/v5/stock.js'
 
@@ -92,11 +93,9 @@ export default function Vdp() {
                   badge: the live badge and report link come from the dealer's CARFAX account by
                   VIN, and neither the account nor the VINs exist yet. Until then it asks for it. */}
               <a className="vdp-carfax" href={`#contact?topic=carfax&id=${encodeURIComponent(v.id)}`}>
-                {/* CARFAX's own dealer badge (partnerstatic.carfax.com/img/valuebadge/showme.svg) */}
-                <img className="vdp-carfax__badge" src={asset('assets/carfax-show-me.svg')} width="301" height="105" alt="Show me the CARFAX" />
-                <span className="vdp-carfax__text">
-                  <span className="vdp-carfax__title">Vehicle history report</span>
-                </span>
+                {/* the CARFAX logo with "Vehicle History Reports" (Wikimedia Commons, Carfaxlogo3.svg — Alex's reference) */}
+                <img className="vdp-carfax__badge" src={asset('assets/carfax-logo.svg')} width="151" height="36" alt="CARFAX Vehicle History Reports" />
+                <span className="vdp-carfax__text visually-hidden">See the vehicle history report</span>
                 <Icon name="arrow-right" className="vdp-carfax__arrow" />
               </a>
             </div>
@@ -142,6 +141,72 @@ export default function Vdp() {
         </div>
       </section>
 
+      {/* Sell · Finance · All photos under the details (Alex, 2026-11-16): three ways on
+          from this car — the home page's Sell and Finance chapters, and every photograph. */}
+      <section className="vdp-next" aria-label="More for this car">
+        <div className="container">
+          <ul className="vdp-next__grid">
+            <li>
+              <NextTile
+                href={`${HOME_URL}#sell`}
+                label="Sell"
+                title="Sell or trade in"
+                text="Get an offer on your car, or put it toward this one."
+                media={<img {...photoProps(photos.sell)} alt="" loading="lazy" decoding="async" />}
+              />
+            </li>
+            <li>
+              <NextTile
+                href={`${HOME_URL}#finance`}
+                label="Finance"
+                title="Finance this car"
+                text="Talk to us about terms and monthly payments."
+                media={<img {...photoProps(photos.finance)} alt="" loading="lazy" decoding="async" />}
+              />
+            </li>
+            <li>
+              <NextTile
+                href="#photos"
+                label="Photos"
+                title="All photos"
+                text={`${v.photos.length} studio ${v.photos.length === 1 ? 'photograph' : 'photographs'} of this car.`}
+                media={
+                  <span className={`vdp-next__mosaic vdp-next__mosaic--${Math.min(v.photos.length, 4)}`}>
+                    {v.photos.slice(0, 4).map((p) => (
+                      <img key={p.src} src={p.src} width="960" height="640" alt="" loading="lazy" decoding="async" />
+                    ))}
+                  </span>
+                }
+              />
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="photos" className="vdp-photos" aria-labelledby="vdp-photos-title">
+        <div className="container">
+          <h2 id="vdp-photos-title" className="h3 section-title">
+            All photos
+          </h2>
+          <ul className="vdp-photos__grid">
+            {v.photos.map((p, k) => (
+              <li key={p.src}>
+                <img
+                  src={p.src}
+                  srcSet={p.srcSet}
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  width="960"
+                  height="640"
+                  alt={`${v.year} ${title}, photograph ${k + 1} of ${v.photos.length}.`}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       <section className="vdp-similar" aria-labelledby="vdp-similar-title">
         <div className="container">
           <div className="vdp-similar__head">
@@ -163,6 +228,21 @@ export default function Vdp() {
         </div>
       </section>
     </StockPage>
+  )
+}
+
+/** A tile under the details: picture, label, title, one line, the arrow — the whole tile is the link. */
+function NextTile({ href, label, title, text, media }) {
+  return (
+    <a className="vdp-next__tile" href={href}>
+      <span className="vdp-next__media">{media}</span>
+      <span className="vdp-next__body">
+        <span className="eyebrow vdp-next__label">{label}</span>
+        <span className="title vdp-next__title">{title}</span>
+        <span className="small vdp-next__text">{text}</span>
+      </span>
+      <Icon name="arrow-right" className="vdp-next__arrow" />
+    </a>
   )
 }
 

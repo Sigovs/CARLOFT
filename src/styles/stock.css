@@ -404,6 +404,7 @@
 
 .vdp__grid {
   display: grid;
+  grid-template-columns: minmax(0, 1fr); /* never wider than the screen, whatever sits inside */
   gap: var(--s-5);
   margin-top: var(--s-4);
 }
@@ -757,7 +758,8 @@
 .vdp-carfax {
   display: flex;
   align-items: center;
-  gap: var(--s-4);
+  justify-content: space-between;
+  gap: var(--s-3);
   margin-top: var(--s-4);
   padding: var(--s-3) var(--s-4);
   border: 1px solid rgb(23 25 28 / 0.14);
@@ -769,7 +771,7 @@
 
 .vdp-carfax__badge {
   flex: none;
-  width: 116px;
+  width: 168px;
   height: auto;
 }
 
@@ -861,4 +863,156 @@
   --btn-bg: var(--c-ink);
   --btn-fg: #ffffff;
   --btn-border: var(--c-ink);
+}
+
+
+/* ---------- Sell · Finance · All photos (under the details) ---------- */
+.vdp-next {
+  padding-top: clamp(var(--s-6), 4vw, var(--s-8));
+}
+
+.vdp-next__grid {
+  display: grid;
+  gap: var(--column-gap);
+}
+
+@media (min-width: 768px) {
+  .vdp-next__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.vdp-next__tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid rgb(23 25 28 / 0.08);
+  border-radius: var(--radius);
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgb(23 25 28 / 0.06);
+  color: var(--c-ink);
+  text-decoration: none;
+  transition: box-shadow var(--dur-s) var(--ease-out);
+}
+
+.vdp-next__tile:is(:hover, :focus-visible) {
+  box-shadow: 0 4px 10px rgb(23 25 28 / 0.1), 0 22px 44px -18px rgb(23 25 28 / 0.45);
+}
+
+.vdp-next__tile:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.vdp-next__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #1b1b1c;
+}
+
+.vdp-next__media > img,
+.vdp-next__mosaic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-m) var(--ease-out);
+}
+
+.vdp-next__mosaic {
+  display: grid;
+  height: 100%;
+  gap: 4px;
+  background: #ffffff;
+}
+
+.vdp-next__mosaic--2 { grid-template-columns: 1fr 1fr; }
+.vdp-next__mosaic--3 { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; }
+.vdp-next__mosaic--3 img:first-child { grid-row: span 2; }
+.vdp-next__mosaic--4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+
+.vdp-next__mosaic img {
+  min-height: 0;
+  background: #f4f4f3;
+}
+
+.vdp-next__body {
+  display: grid;
+  gap: var(--s-1);
+  padding: var(--pad-card);
+  padding-right: calc(var(--pad-card) + 32px);
+}
+
+.vdp-next__label {
+  color: var(--c-ink-3);
+}
+
+.vdp-next__title {
+  margin-top: var(--s-1);
+}
+
+.vdp-next__text {
+  color: var(--c-ink-2);
+}
+
+.vdp-next__arrow {
+  position: absolute;
+  right: var(--pad-card);
+  bottom: var(--pad-card);
+  width: 20px;
+  height: 20px;
+  transition: transform var(--dur-s) var(--ease-out);
+}
+
+.vdp-next__tile:is(:hover, :focus-visible) .vdp-next__arrow {
+  transform: translateX(var(--arrow-nudge));
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .vdp-next__tile:hover :is(.vdp-next__media > img, .vdp-next__mosaic img) {
+    transform: scale(var(--hover-scale));
+  }
+}
+
+/* ---------- All photos ---------- */
+.vdp-photos {
+  padding-top: clamp(var(--s-7), 6vw, var(--s-9));
+}
+
+.vdp-photos__grid {
+  display: grid;
+  gap: var(--s-3);
+  margin-top: var(--s-5);
+}
+
+@media (min-width: 768px) {
+  .vdp-photos__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.vdp-photos__grid li {
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: #f4f4f3;
+}
+
+.vdp-photos__grid img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vdp-next__tile,
+  .vdp-next__arrow,
+  .vdp-next__media > img,
+  .vdp-next__mosaic img {
+    transition: none;
+  }
 }
