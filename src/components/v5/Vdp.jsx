@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import Icon from '../Icon.jsx'
 import { brand } from '../../data/brand.js'
 import { asset } from '../../data/asset.js'
-import { photos, photoProps } from '../../data/photos.js'
 import { StockPage, Crumbs, StockCard, TitleText } from './StockPage.jsx'
 import { HOME_URL, SRP_URL, fmtMiles, fmtPrice, similarTo, stockById, stockTitle } from '../../data/v5/stock.js'
 
@@ -140,47 +139,10 @@ export default function Vdp() {
         </div>
       </section>
 
-      {/* Sell · Finance · All photos under the details (Alex, 2026-11-16): three ways on
-          from this car — the home page's Sell and Finance chapters, and every photograph. */}
-      <section className="vdp-next" aria-label="More for this car">
-        <div className="container">
-          <ul className="vdp-next__grid">
-            <li>
-              <NextTile
-                href={`${HOME_URL}#sell`}
-                label="Sell"
-                title="Sell or trade in"
-                text="Get an offer on your car, or put it toward this one."
-                media={<img {...photoProps(photos.sell)} alt="" loading="lazy" decoding="async" />}
-              />
-            </li>
-            <li>
-              <NextTile
-                href={`${HOME_URL}#finance`}
-                label="Finance"
-                title="Finance this car"
-                text="Talk to us about terms and monthly payments."
-                media={<img {...photoProps(photos.finance)} alt="" loading="lazy" decoding="async" />}
-              />
-            </li>
-            <li>
-              <NextTile
-                href="#photos"
-                label="Photos"
-                title="All photos"
-                text={`${v.photos.length} studio ${v.photos.length === 1 ? 'photograph' : 'photographs'} of this car.`}
-                media={
-                  <span className={`vdp-next__mosaic vdp-next__mosaic--${Math.min(v.photos.length, 4)}`}>
-                    {v.photos.slice(0, 4).map((p) => (
-                      <img key={p.src} src={p.src} width="960" height="640" alt="" loading="lazy" decoding="async" />
-                    ))}
-                  </span>
-                }
-              />
-            </li>
-          </ul>
-        </div>
-      </section>
+      {/* Finance and trade-in ON the page, no click away (Alex, 2026-11-16: "как на других
+          дилерских — информация сразу, без перехода"; TWINS / PRESTIGE / MAX VDPs). */}
+      <PaymentEstimator v={v} />
+      <TradeIn v={v} />
 
       <section id="photos" className="vdp-photos" aria-labelledby="vdp-photos-title">
         <div className="container">
@@ -227,21 +189,6 @@ export default function Vdp() {
         </div>
       </section>
     </StockPage>
-  )
-}
-
-/** A tile under the details: picture, label, title, one line, the arrow — the whole tile is the link. */
-function NextTile({ href, label, title, text, media }) {
-  return (
-    <a className="vdp-next__tile" href={href}>
-      <span className="vdp-next__media">{media}</span>
-      <span className="vdp-next__body">
-        <span className="eyebrow vdp-next__label">{label}</span>
-        <span className="title vdp-next__title">{title}</span>
-        <span className="small vdp-next__text">{text}</span>
-      </span>
-      <Icon name="arrow-right" className="vdp-next__arrow" />
-    </a>
   )
 }
 
@@ -321,5 +268,143 @@ function Gallery({ v }) {
         </ul>
       ) : null}
     </div>
+  )
+}
+
+/* ---------- payment estimator ---------- */
+const TERMS = [36, 48, 60, 72, 84]
+const SAMPLE_APR = 7.9 // placeholder rate — the dealer's lender rates replace it
+const round1000 = (n) => Math.round(n / 1000) * 1000
+const toNum = (s) => Math.max(0, Number(String(s).replace(/[^0-9.]/g, '')) || 0)
+
+function monthly(principal, apr, months) {
+  if (principal <= 0) return 0
+  const r = apr / 100 / 12
+  if (!r) return principal / months
+  return (principal * r) / (1 - (1 + r) ** -months)
+}
+
+function PaymentEstimator({ v }) {
+  const [price, setPrice] = useState(String(v.price))
+  const [down, setDown] = useState(String(round1000(v.price * 0.2)))
+  const [trade, setTrade] = useState('0')
+  const [term, setTerm] = useState(60)
+  const [apr, setApr] = useState(String(SAMPLE_APR))
+  const financed = Math.max(0, toNum(price) - toNum(down) - toNum(trade))
+  const pay = monthly(financed, toNum(apr), term)
+
+  return (
+    <section className="vdp-tool" aria-labelledby="vdp-pay-title">
+      <div className="container vdp-details__grid">
+        <div className="vdp-tool__head">
+          <h2 id="vdp-pay-title" className="h3 section-title">
+            Estimate your payment
+          </h2>
+        </div>
+        <div className="vdp-tool__panel vdp-pay">
+          <div className="vdp-pay__fields">
+            <Money label="Vehicle price" value={price} onChange={setPrice} />
+            <Money label="Down payment" value={down} onChange={setDown} />
+            <Money label="Trade-in value" value={trade} onChange={setTrade} />
+            <Field label="Term">
+              {(id) => (
+                <div className="select">
+                  <select id={id} value={term} onChange={(e) => setTerm(Number(e.target.value))}>
+                    {TERMS.map((t) => (
+                      <option key={t} value={t}>
+                        {t} months
+                      </option>
+                    ))}
+                  </select>
+                  <Icon name="chevron-down" className="select__chevron icon--static" />
+                </div>
+              )}
+            </Field>
+            <Field label="APR, %">
+              {(id) => <input id={id} className="vdp-input" inputMode="decimal" value={apr} onChange={(e) => setApr(e.target.value)} />}
+            </Field>
+          </div>
+          <div className="vdp-pay__result" aria-live="polite">
+            <p className="eyebrow vdp-pay__label">Estimated payment</p>
+            <p className="vdp-pay__value tabular">
+              {fmtPrice(Math.round(pay))}
+              <span>/mo</span>
+            </p>
+            <p className="small vdp-pay__financed tabular">
+              {fmtPrice(financed)} financed over {term} months
+            </p>
+            <a className="btn vdp-pay__cta" href={`${HOME_URL}#finance`}>
+              Apply for financing
+              <Icon name="arrow-right" />
+            </a>
+            <p className="small vdp-pay__fine">
+              Estimate only, not a credit offer. The rate shown is a sample; terms depend on approved
+              credit. Tax, title and fees are not included.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ---------- trade-in ---------- */
+function TradeIn({ v }) {
+  const onSubmit = (e) => {
+    e.preventDefault()
+    window.location.hash = `#contact?topic=sell&id=${encodeURIComponent(v.id)}`
+  }
+  return (
+    <section className="vdp-tool" aria-labelledby="vdp-trade-title">
+      <div className="container vdp-details__grid">
+        <div className="vdp-tool__head">
+          <h2 id="vdp-trade-title" className="h3 section-title">
+            Value your trade
+          </h2>
+          <p className="body vdp-tool__lede">Tell us about your car and we come back with an offer you can put toward this one.</p>
+        </div>
+        <form className="vdp-tool__panel vdp-trade" onSubmit={onSubmit}>
+          <Field label="Year">{(id) => <input id={id} className="vdp-input" inputMode="numeric" placeholder="2019" />}</Field>
+          <Field label="Make">{(id) => <input id={id} className="vdp-input" placeholder="Porsche" />}</Field>
+          <Field label="Model">{(id) => <input id={id} className="vdp-input" placeholder="Cayenne" />}</Field>
+          <Field label="Mileage">{(id) => <input id={id} className="vdp-input" inputMode="numeric" placeholder="32,000" />}</Field>
+          <button type="submit" className="btn btn--secondary vdp-trade__cta">
+            Get my offer
+            <Icon name="arrow-right" />
+          </button>
+        </form>
+      </div>
+    </section>
+  )
+}
+
+function Field({ label, children }) {
+  const id = useId()
+  return (
+    <div className="vdp-field">
+      <label htmlFor={id} className="vdp-field__label small">
+        {label}
+      </label>
+      {children(id)}
+    </div>
+  )
+}
+
+function Money({ label, value, onChange }) {
+  return (
+    <Field label={label}>
+      {(id) => (
+        <div className="vdp-money">
+          <span aria-hidden="true">$</span>
+          <input
+            id={id}
+            className="vdp-input tabular"
+            inputMode="numeric"
+            value={Number(toNum(value)).toLocaleString('en-US')}
+            onChange={(e) => onChange(e.target.value)}
+          />
+        </div>
+      )}
+    </Field>
   )
 }
