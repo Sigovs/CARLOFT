@@ -94,13 +94,15 @@
    ----------------------------------------------------------------------------- */
 :root[data-release='v5'] {
   --header-air: 8px;
-  --header-h: calc(64px + var(--header-air));
+  /* plain px, never calc(): the motion layer reads --header-h with parseFloat
+     (src/motion/lines.js headerHeight) to place every pin under the bar */
+  --header-h: 72px;                                 /* 64 + 8 */
 }
 
 @media (min-width: 1024px) {
   :root[data-release='v5'] {
     --header-air: 14px;
-    --header-h: calc(72px + var(--header-air));
+    --header-h: 86px;                               /* 72 + 14 */
   }
 }
 
@@ -112,4 +114,9 @@
    the row — and everything centred in it — does not grow into the new air. */
 :root[data-release='v5'] .header .header__wordmark {
   height: calc(var(--header-h) - var(--header-air));
+}
+
+/* Home inventory cards are links to the VDP in V5 (a button before): no underline. */
+:root[data-release='v5'] .featured .card__open {
+  text-decoration: none;
 }
