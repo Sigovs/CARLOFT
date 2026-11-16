@@ -758,7 +758,7 @@
 .vdp-carfax {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center; /* the logo alone, centred (Alex) */
   gap: var(--s-3);
   margin-top: var(--s-4);
   padding: var(--s-3) var(--s-4);

@@ -96,7 +96,6 @@ export default function Vdp() {
                 {/* the CARFAX logo with "Vehicle History Reports" (Wikimedia Commons, Carfaxlogo3.svg — Alex's reference) */}
                 <img className="vdp-carfax__badge" src={asset('assets/carfax-logo.svg')} width="151" height="36" alt="CARFAX Vehicle History Reports" />
                 <span className="vdp-carfax__text visually-hidden">See the vehicle history report</span>
-                <Icon name="arrow-right" className="vdp-carfax__arrow" />
               </a>
             </div>
           </div>
