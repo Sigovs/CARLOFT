@@ -84,3 +84,32 @@
   border-bottom-width: 2px;
   --h-border: var(--c-accent);
 }
+
+/* -----------------------------------------------------------------------------
+   5 · A slightly taller bar with air below its content (Alex, 2026-11-16: "чуть-чуть
+   пошире, добавь space снизу"). The bar's content box keeps its height — logo, menu
+   and phone sit exactly where they were — and the extra height is padding at the
+   bottom. --header-h grows with it, so every sticky offset, the hero's pull-up and the
+   menu sheet follow.
+   ----------------------------------------------------------------------------- */
+:root[data-release='v5'] {
+  --header-air: 8px;
+  --header-h: calc(64px + var(--header-air));
+}
+
+@media (min-width: 1024px) {
+  :root[data-release='v5'] {
+    --header-air: 14px;
+    --header-h: calc(72px + var(--header-air));
+  }
+}
+
+:root[data-release='v5'] .header {
+  padding-bottom: var(--header-air);
+}
+
+/* The logo link is as tall as --header-h by default; it keeps the old bar height so
+   the row — and everything centred in it — does not grow into the new air. */
+:root[data-release='v5'] .header .header__wordmark {
+  height: calc(var(--header-h) - var(--header-air));
+}
