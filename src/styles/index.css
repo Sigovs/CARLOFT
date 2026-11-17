@@ -14,3 +14,4 @@
 @import './v2_3.css'; /* index_v2_3.html, on top of V2.2, scoped to [data-round='v2_3'] */
 @import './stock.css'; /* V5 SRP + VDP (inventory_v5.html, vehicle_v5.html) — classes only they use */
 @import './v5.css'; /* index_v5.html, on top of V2.3, scoped to [data-release='v5'] */
+@import './v6.css'; /* the _v6 pages, on top of V5, scoped to [data-edition='v6'] */

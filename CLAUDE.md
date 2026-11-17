@@ -155,6 +155,14 @@ American muscle; consignment; service/restoration/paint/body; finance).
   summary (Save in localStorage, Share = share sheet / copy link, Text to phone = number field; mockup sends nothing). No focus ring on script-focused
   jump targets (tabindex -1) — it drew a Miami Blue stripe over the footer.
   **V5 cards and panels: 12px radius** (buttons stay rectangles).
+- **2026-11-17 — V6 (`index_v6.html`, `inventory_v6.html`, `vehicle_v6.html`)** (Alex: "делай в 6 для всего"): client
+  round on the SRP + VDP, a layer on top of V5 (`data-edition="v6"`, flag `V6`, `src/styles/v6.css`, `src/components/v6/`,
+  search in `src/data/v6/search.js`; stock.js URLs follow the flag). **The _v5 pages are frozen.** SRP: every filter a
+  designed dropdown (never the native list) — Make, Model (grouped under make, "Ford GT" when picked), Year from/to,
+  Mileage, Body, Transmission, Drivetrain, Exterior color; **no price filter** (price stays in the sort); no sliders,
+  bubbles or swatches. Every list is built from the stock with a count per option — the dealer feed carries its own
+  spellings ("8-Speed Automatic"), so no list is fixed. The make chips row stays, synced with the Make dropdown.
+  VDP: **Specs before Description** (section renamed "Specs"; the V5 component branches on `V6`).
 - **2026-11-12 — V4 (`index_v4.html`)** (Alex: "делай из v3 v4"): a copy of the V3 app tree in `src/v4/`
   (AppV4, useV4Motion, v4.css — class names keep the `v3-` prefix, each page loads only its own CSS).
   **V3 is frozen**; the next work on the Clutch-layout line goes into V4.

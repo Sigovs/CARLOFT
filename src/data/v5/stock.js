@@ -12,6 +12,7 @@
  */
 
 import { asset } from '../asset.js'
+import { V6 } from '../version.js'
 
 const N = {
   'porsche-918-spyder-2015': 3, 'porsche-911-gt2rs-2018': 4, 'porsche-911-sport-classic-2023': 4,
@@ -143,9 +144,11 @@ export const HOME_TO_STOCK = {
   gt350: 'ford-mustang-gt350-2020', cayman: 'porsche-718-cayman-gts-2022',
   'range-rover': 'land-rover-range-rover-2024', g63: 'mercedes-amg-g63-2025',
 }
-export const SRP_URL = 'inventory_v5.html'
-export const HOME_URL = 'index_v5.html'
-export const vdpUrl = (id) => `vehicle_v5.html?id=${encodeURIComponent(id)}`
+/* V6 pages link to V6 pages; V5 stays on its own three */
+const ED = V6 ? 'v6' : 'v5'
+export const SRP_URL = `inventory_${ED}.html`
+export const HOME_URL = `index_${ED}.html`
+export const vdpUrl = (id) => `vehicle_${ED}.html?id=${encodeURIComponent(id)}`
 
 /** A header / footer link from an inner page: the home page's section, or the SRP. */
 export function pageHref(href, page) {

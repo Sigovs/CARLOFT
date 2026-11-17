@@ -31,7 +31,7 @@ export default defineConfig(({ mode }) => ({
   base: mode === 'pages' ? '/CARLOFT/' : '/',
   plugins: [brandMeta(), react()],
   // Pages: index.html (V1), index_v2.html (V2, the client's mockup — frozen),
-  // index_v2_2.html (V2.2, on top of V2 — published, frozen), index_v2_3.html (V2.3, on top of V2.2 — published, frozen), index_v5.html (V5, on top of V2.3), index_v3.html (V3, Clutch layout — frozen)
+  // index_v2_2.html (V2.2, on top of V2 — published, frozen), index_v2_3.html (V2.3, on top of V2.2 — published, frozen), index_v5.html (V5, on top of V2.3; + inventory/vehicle_v5), index_v6.html (V6, on top of V5; + inventory/vehicle_v6), index_v3.html (V3, Clutch layout — frozen)
   // and index_v4.html (V4, a copy of V3 to iterate on).
   build: {
     rollupOptions: {
@@ -43,6 +43,9 @@ export default defineConfig(({ mode }) => ({
         v5: resolve(import.meta.dirname, 'index_v5.html'),
         v5_srp: resolve(import.meta.dirname, 'inventory_v5.html'),
         v5_vdp: resolve(import.meta.dirname, 'vehicle_v5.html'),
+        v6: resolve(import.meta.dirname, 'index_v6.html'),
+        v6_srp: resolve(import.meta.dirname, 'inventory_v6.html'),
+        v6_vdp: resolve(import.meta.dirname, 'vehicle_v6.html'),
         v3: resolve(import.meta.dirname, 'index_v3.html'),
         v4: resolve(import.meta.dirname, 'index_v4.html'),
       },

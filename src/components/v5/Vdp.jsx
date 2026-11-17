@@ -6,6 +6,7 @@ import { StockPage, Crumbs, StockCard, TitleText } from './StockPage.jsx'
 import AskDrawer from './AskDrawer.jsx'
 import CarBar from './CarBar.jsx'
 import SaveShare from './SaveShare.jsx'
+import { V6 } from '../../data/version.js'
 import { HOME_URL, SRP_URL, fmtMiles, fmtPrice, similarTo, stockById, stockTitle } from '../../data/v5/stock.js'
 
 const pad = (n) => String(n).padStart(2, '0')
@@ -58,6 +59,52 @@ export default function Vdp() {
     ['Drivetrain', v.drive],
     ['Stock number', `${v.stockNo} (sample)`],
   ]
+
+  const descBlock = (
+    <>
+      {/* Description (Alex, 2026-11-16). Only what the data and the photographs show; the
+          dealer's own text (condition, options, records, ownership) replaces the second
+          paragraph — nothing here may describe a real car's history (content provenance). */}
+      <section className="vdp-details vdp-desc" aria-labelledby="vdp-desc-title">
+        <div className="container vdp-details__grid">
+          <h2 id="vdp-desc-title" className="h3 section-title">
+            Description
+          </h2>
+          <div className="vdp-desc__body">
+            <p className="lead">
+              {v.year} {title} in {v.color.toLowerCase()} — a {v.body.toLowerCase()} with{' '}
+              {v.drive.toLowerCase()}, photographed in our studio from every side.
+            </p>
+            <p className="body">
+              The dealer&rsquo;s description goes here: condition inside and out, options and
+              equipment, service records, ownership history, and what comes with the car — keys,
+              books, covers, warranty.
+            </p>
+          </div>
+        </div>
+      </section>
+    </>
+  )
+
+  const specsBlock = (
+    <>
+      <section className={`vdp-details${V6 ? ' vdp-specs-first' : ''}`} aria-labelledby="vdp-details-title">
+        <div className="container vdp-details__grid">
+          <h2 id="vdp-details-title" className="h3 section-title">
+            {V6 ? 'Specs' : 'Vehicle details'}
+          </h2>
+          <dl className="vdp-specs">
+            {facts.map(([k, val]) => (
+              <div key={k} className="vdp-specs__row">
+                <dt className="small">{k}</dt>
+                <dd className="tabular">{val}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+    </>
+  )
 
   return (
     <StockPage>
@@ -113,43 +160,9 @@ export default function Vdp() {
         </div>
       </section>
 
-      {/* Description (Alex, 2026-11-16). Only what the data and the photographs show; the
-          dealer's own text (condition, options, records, ownership) replaces the second
-          paragraph — nothing here may describe a real car's history (content provenance). */}
-      <section className="vdp-details vdp-desc" aria-labelledby="vdp-desc-title">
-        <div className="container vdp-details__grid">
-          <h2 id="vdp-desc-title" className="h3 section-title">
-            Description
-          </h2>
-          <div className="vdp-desc__body">
-            <p className="lead">
-              {v.year} {title} in {v.color.toLowerCase()} — a {v.body.toLowerCase()} with{' '}
-              {v.drive.toLowerCase()}, photographed in our studio from every side.
-            </p>
-            <p className="body">
-              The dealer&rsquo;s description goes here: condition inside and out, options and
-              equipment, service records, ownership history, and what comes with the car — keys,
-              books, covers, warranty.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="vdp-details" aria-labelledby="vdp-details-title">
-        <div className="container vdp-details__grid">
-          <h2 id="vdp-details-title" className="h3 section-title">
-            Vehicle details
-          </h2>
-          <dl className="vdp-specs">
-            {facts.map(([k, val]) => (
-              <div key={k} className="vdp-specs__row">
-                <dt className="small">{k}</dt>
-                <dd className="tabular">{val}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </section>
+      {/* V6 (client, 2026-11-17: "switch around Specs and Description"): the facts first, then the dealer's text */}
+      {V6 ? specsBlock : descBlock}
+      {V6 ? descBlock : specsBlock}
 
       {/* Finance and trade-in ON the page, no click away (Alex, 2026-11-16: "как на других
           дилерских — информация сразу, без перехода"; TWINS / PRESTIGE / MAX VDPs). */}

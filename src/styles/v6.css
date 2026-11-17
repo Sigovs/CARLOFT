@@ -1,0 +1,305 @@
+/* ==========================================================================
+   v6.css — the _v6 pages (<html data-edition="v6">), on top of V5.
+   Client round of 17 November (Alex: "делай в 6 для всего"). _v5 never moves.
+   ========================================================================== */
+
+/* ---------- SRP filters: one grid of dropdowns in the V5 accordion ----------
+   Make, Model, Year, Mileage / Body type, Transmission, Drivetrain, Exterior color.
+   Four across on a desktop, two on a tablet, one on a phone. */
+:root[data-edition='v6'] .v6f__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-5) var(--s-3);
+  padding: var(--s-5);
+}
+
+/* phones: two across too, Year and Exterior color take the whole row (Make Model ·
+   Year · Mileage Body · Transmission Drivetrain · Exterior color) — half the height
+   of one column, and the longest label gets the full width */
+@media (max-width: 559px) {
+  :root[data-edition='v6'] .v6f__field:nth-child(3),
+  :root[data-edition='v6'] .v6f__field:nth-child(8) {
+    grid-column: 1 / -1;
+  }
+}
+
+/* the accordion's one column never grows to its content (a long label must not
+   push the panel past the screen) */
+:root[data-edition='v6'] .srp-filters {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 560px) {
+  :root[data-edition='v6'] .v6f__grid {
+    column-gap: var(--s-5);
+  }
+}
+
+@media (min-width: 768px) {
+  :root[data-edition='v6'] .v6f__grid {
+    gap: var(--s-6) var(--s-5);
+    padding: var(--s-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root[data-edition='v6'] .v6f__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding: clamp(var(--s-6), 3vw, var(--s-7));
+  }
+}
+
+:root[data-edition='v6'] .v6f__field {
+  display: grid;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+:root[data-edition='v6'] .v6f__label {
+  white-space: nowrap;
+  cursor: default;
+}
+
+/* phones: half-width columns — the labels track tighter so "Exterior color" and
+   "Transmission" stay on one line and every field sits on the same line as its pair */
+@media (max-width: 559px) {
+  :root[data-edition='v6'] .v6f__grid {
+    padding-inline: var(--s-4);
+  }
+
+  :root[data-edition='v6'] .v6f__label {
+    overflow: hidden;
+    text-overflow: ellipsis; /* the last guard on the narrowest phones: never two labels touching */
+    letter-spacing: 0.05em;
+  }
+}
+
+/* Year: From and To side by side, a gap between (never glued) */
+:root[data-edition='v6'] .v6f__pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-2);
+}
+
+/* once the accordion has finished opening, a dropdown may hang out of it over the
+   results (while it folds, the clip keeps it tidy) */
+:root[data-edition='v6'] .srp-filters.is-settled .srp-filters__clip {
+  overflow: visible;
+}
+
+:root[data-edition='v6'] .srp-filters {
+  position: relative;
+  z-index: 6; /* over the result cards */
+}
+
+/* ---------- the dropdown ---------- */
+.dd {
+  position: relative;
+  min-width: 0;
+}
+
+.dd__button {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  width: 100%;
+  height: 48px;
+  padding: 0 var(--s-3) 0 var(--s-4);
+  border: 1px solid var(--c-line-strong);
+  border-radius: var(--radius);
+  background: #ffffff;
+  font: inherit;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--c-ink);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--dur-xs) var(--ease-out);
+}
+
+.dd__button.is-empty {
+  font-weight: 400;
+  color: var(--c-ink-2);
+}
+
+.dd__button:hover,
+.dd.is-open .dd__button {
+  border-color: var(--c-ink);
+}
+
+.dd__button:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.dd__value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dd__chev {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  transition: transform var(--dur-s) var(--ease-out);
+}
+
+.dd.is-open .dd__chev {
+  transform: rotate(180deg);
+}
+
+.dd__menu {
+  position: absolute;
+  top: calc(100% + var(--s-2));
+  left: 0;
+  z-index: 30;
+  min-width: 100%;
+  width: max-content;
+  max-width: min(340px, calc(100vw - 2 * var(--gutter)));
+  max-height: min(360px, 60vh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 6px;
+  border: 1px solid rgb(23 25 28 / 0.08);
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgb(23 25 28 / 0.08), 0 24px 48px -16px rgb(23 25 28 / 0.35);
+}
+
+.dd__menu[hidden] {
+  display: none;
+}
+
+/* the right-hand columns open their menus leftwards, so they stay on the page */
+.v6f__pair .dd + .dd .dd__menu {
+  right: 0;
+  left: auto;
+}
+
+@media (max-width: 559px) {
+  .v6f__field:is(:nth-child(2), :nth-child(5), :nth-child(7)) .dd__menu {
+    right: 0;
+    left: auto;
+  }
+}
+
+@media (min-width: 560px) and (max-width: 1023px) {
+  .v6f__field:nth-child(2n) .dd__menu {
+    right: 0;
+    left: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .v6f__field:nth-child(4n) .dd__menu {
+    right: 0;
+    left: auto;
+  }
+}
+
+.dd__menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dd__group + .dd__group,
+.dd__option + .dd__group {
+  margin-top: var(--s-1);
+  padding-top: var(--s-1);
+  border-top: 1px solid var(--stock-line, rgb(23 25 28 / 0.1));
+}
+
+.dd__group-name {
+  display: block;
+  padding: var(--s-2) var(--s-3) var(--s-1);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--c-ink-3);
+}
+
+.dd__option {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 44px;
+  padding: 0 var(--s-3);
+  border-radius: 8px;
+  font-size: var(--fs-small);
+  color: var(--c-ink-2);
+  cursor: pointer;
+}
+
+.dd__option.is-active {
+  background: #f1f1ef;
+  color: var(--c-ink);
+}
+
+.dd__option[aria-selected='true'] {
+  font-weight: 600;
+  color: var(--c-ink);
+}
+
+.dd__option[aria-disabled='true'] {
+  color: #9a9da2;
+  cursor: default;
+}
+
+.dd__label {
+  flex: 1;
+  min-width: 0;
+}
+
+.dd__count {
+  flex: none;
+  margin-left: var(--s-4);
+  font-weight: 400;
+  color: var(--c-ink-3);
+}
+
+.dd__option[aria-disabled='true'] .dd__count {
+  color: inherit;
+}
+
+.dd__check {
+  flex: none;
+}
+
+/* the multi-select tick box */
+.dd__box {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--c-line-strong);
+  border-radius: 4px;
+  background: #ffffff;
+}
+
+.dd__option[aria-selected='true'] .dd__box {
+  border-color: var(--c-ink);
+  background: var(--c-ink)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E")
+    center / 12px no-repeat;
+}
+
+.dd__option[aria-disabled='true'] .dd__box {
+  border-color: #c9cbce;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dd__chev {
+    transition: none;
+  }
+}
+
+/* ---------- VDP: Specs before Description (client, 2026-11-17) ----------
+   the two still read as one block: the V5 tighter gap, now from Specs to Description */
+:root[data-edition='v6'] .vdp-specs-first + .vdp-desc {
+  padding-top: clamp(var(--s-6), 4vw, var(--s-8));
+}

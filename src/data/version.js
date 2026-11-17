@@ -31,6 +31,14 @@ export const V2_3 = V2_2 && document.documentElement.dataset.round === 'v2_3'
 export const V5 = V2_3 && document.documentElement.dataset.release === 'v5'
 
 /**
+ * V6 — index_v6.html, inventory_v6.html, vehicle_v6.html (Alex, 2026-11-17: the client
+ * round on the SRP + VDP — "делай в 6 для всего"). A layer ON TOP of V5 (the pages also
+ * set data-release="v5"); V6 changes branch on this flag, live in src/components/v6/ or in
+ * src/styles/v6.css, scoped to :root[data-edition='v6']. The _v5 pages never move.
+ */
+export const V6 = V5 && document.documentElement.dataset.edition === 'v6'
+
+/**
  * Which V5 page: 'home' (index_v5.html), 'srp' (inventory_v5.html) or 'vdp'
  * (vehicle_v5.html) — <html data-page>. The header and footer link back to the home
  * page's sections from the inner pages, and the bar is solid there from the start.
