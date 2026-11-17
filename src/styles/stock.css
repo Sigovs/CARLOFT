@@ -396,102 +396,156 @@
   margin-top: var(--s-2);
 }
 
-/* ---------- the filter panel ---------- */
-.srp-panel {
-  position: fixed;
-  inset: 0;
-  z-index: calc(var(--z-header) + 10);
-  pointer-events: none;
-}
-
-.srp-panel.is-open {
-  pointer-events: auto;
-}
-
-.srp-panel__scrim {
-  position: absolute;
-  inset: 0;
-  border: 0;
-  background: rgb(10 10 11 / 0.5);
-  opacity: 0;
-  cursor: pointer;
-  transition: opacity var(--dur-m) var(--ease-out);
-}
-
-.srp-panel.is-open .srp-panel__scrim {
-  opacity: 1;
-}
-
-.srp-panel__sheet {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  width: min(440px, 100%);
-  background: #ffffff;
-  box-shadow: -24px 0 48px -24px rgb(10 10 11 / 0.5);
-  transform: translateX(100%);
-  transition: transform var(--dur-m) var(--ease-out);
-}
-
-.srp-panel.is-open .srp-panel__sheet {
-  transform: none;
-}
-
-/* closed: out of sight entirely (no shadow at the screen's edge), after the slide */
-.srp-panel:not(.is-open) {
+/* ---------- the filters: an accordion under the head row, across the page ----------
+   It folds open in place (grid rows 0fr → 1fr); nothing slides over the page and
+   nothing scrolls inside it. Three rows — sliders, pills, colours — split by hairlines. */
+.srp-filters {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-m) var(--ease-out), visibility 0s linear var(--dur-m);
   visibility: hidden;
-  transition: visibility 0s linear var(--dur-m);
 }
 
-.srp-panel__head {
+.srp-filters.is-open {
+  grid-template-rows: 1fr;
+  transition: grid-template-rows var(--dur-m) var(--ease-out), visibility 0s;
+  visibility: visible;
+}
+
+.srp-filters__clip {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* the panel's own space sits inside the clip, so the closed state is 0px tall */
+.srp-filters__clip::before {
+  content: '';
+  display: block;
+  height: clamp(var(--s-5), 2.4vw, var(--s-6));
+}
+
+.srp-filters__panel {
+  border-radius: var(--card-radius, 12px);
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgb(23 25 28 / 0.06), 0 18px 40px -24px rgb(23 25 28 / 0.35);
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity var(--dur-s) var(--ease-out), transform var(--dur-m) var(--ease-out);
+}
+
+.srp-filters.is-open .srp-filters__panel {
+  opacity: 1;
+  transform: none;
+  transition-delay: 60ms;
+}
+
+.srp-filters__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  padding-inline: var(--s-5);
+}
+
+.srp-filters__row + .srp-filters__row {
+  border-top: 1px solid var(--stock-line);
+}
+
+.srp-filters__row .srp-panel__group + .srp-panel__group {
+  border-top: 1px solid var(--stock-line);
+}
+
+@media (min-width: 768px) {
+  .srp-filters__row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--s-7);
+    padding-inline: var(--s-6);
+  }
+
+  .srp-filters__row .srp-panel__group + .srp-panel__group {
+    border-top: 0;
+  }
+
+  .srp-filters__row--wide {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .srp-filters__row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: clamp(var(--s-6), 4vw, var(--s-8));
+    padding-inline: clamp(var(--s-6), 3vw, var(--s-7));
+  }
+
+  .srp-filters__row--wide {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* the pill groups size to their pills (no lone "Sedan" on a second line): one band
+   that wraps whole groups, never single pills, before it gets too narrow */
+@media (min-width: 768px) {
+  .srp-filters__row--pills {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .srp-filters__row--pills .srp-panel__group {
+    flex: 1 0 auto;
+  }
+}
+
+.srp__clear {
+  white-space: nowrap;
+}
+
+.srp-filters__foot {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--s-4);
-  padding: var(--s-5) var(--s-6);
-  border-bottom: 1px solid var(--stock-line);
+  padding: var(--s-4) var(--s-5);
+  border-top: 1px solid var(--stock-line);
 }
 
-.srp-panel__close {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  margin-right: calc(-1 * var(--s-2));
-  border: 0;
-  border-radius: 50%;
-  background: #f0f0ee;
-  color: var(--c-ink);
-  cursor: pointer;
+@media (min-width: 768px) {
+  .srp-filters__foot {
+    justify-content: flex-end;
+    gap: var(--s-6);
+    padding-inline: var(--s-6);
+  }
 }
 
-.srp-panel__close:is(:hover, :focus-visible) {
-  background: var(--c-ink);
-  color: #ffffff;
+@media (min-width: 1024px) {
+  .srp-filters__foot {
+    padding-inline: clamp(var(--s-6), 3vw, var(--s-7));
+  }
 }
 
-.srp-panel__close .icon {
-  width: 18px;
-  height: 18px;
+.srp-filters__show {
+  min-width: 200px;
 }
 
-.srp-panel__body {
-  flex: 1;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: var(--s-2) var(--s-6) var(--s-6);
+/* the Filters button names its state: the chevron turns when the panel is open */
+.srp-bar__chev {
+  width: 16px;
+  height: 16px;
+  margin-left: 2px;
+  transition: transform var(--dur-s) var(--ease-out);
+}
+
+.srp-bar__filters[aria-expanded='true'] .srp-bar__chev {
+  transform: rotate(180deg);
 }
 
 .srp-panel__group {
+  min-width: 0;
   padding-block: var(--s-5);
-  border-bottom: 1px solid var(--stock-line);
 }
 
-.srp-panel__group:last-child {
-  border-bottom: 0;
+@media (min-width: 768px) {
+  .srp-panel__group {
+    padding-block: var(--s-6);
+  }
 }
 
 .srp-panel__group-head {
@@ -533,25 +587,17 @@
   color: #ffffff;
 }
 
-.srp-panel__foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s-4);
-  padding: var(--s-4) var(--s-6);
-  border-top: 1px solid var(--stock-line);
-}
-
-.srp-panel__show {
-  flex: 1;
-  max-width: 260px;
-}
-
 /* colour swatches: a dot and the word (never the hue alone) */
 .srp-swatches {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
   gap: var(--s-2);
+}
+
+@media (min-width: 1024px) {
+  .srp-swatches {
+    grid-template-columns: repeat(auto-fill, 84px);
+  }
 }
 
 .srp-swatch {
@@ -731,10 +777,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .srp-panel__scrim,
-  .srp-panel__sheet,
+  .srp-filters,
+  .srp-filters.is-open,
+  .srp-filters__panel,
+  .srp-bar__chev,
   .range__input::-webkit-slider-thumb {
     transition: none;
+  }
+
+  .srp-filters__panel {
+    transform: none;
   }
 }
 

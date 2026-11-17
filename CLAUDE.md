@@ -139,9 +139,10 @@ American muscle; consignment; service/restoration/paint/body; finance).
   cars). Grey ground, white panels, ink titles, Miami Blue only on the one filled ask. Home V5 cards link to the VDP,
   Inventory / View All → SRP; inner pages: solid bar from the start, links go back to index_v5.html sections.
   **SRP/VDP decisions (Alex, 2026-11-16):** no filter sidebar ("hello from 2000") and never a box with its own inner
-  scroll; make chips row + Filters + a designed sort menu (never the native select list); the rest in a right
-  slide-in panel — price / year / mileage as range sliders, body / transmission / drivetrain as pills, colour as
-  swatches with words. VDP: info ON the page (payment estimator, trade-in form, all photos — as on the other dealer
+  scroll; make chips row + Filters + a designed sort menu (never the native select list); the rest in an inline
+  accordion under the head row, across the page (2026-11-17; the right slide-in drawer rejected) — row 1 price / year /
+  mileage sliders, row 2 body / transmission / drivetrain pills, row 3 colour swatches with words; make lives only in
+  the chips row. VDP: info ON the page (payment estimator, trade-in form, all photos — as on the other dealer
   VDPs), no tiles that send you away; CARFAX = the official "Vehicle History Reports" logo, centred, no arrow.
   **V5 cards and panels: 12px radius** (buttons stay rectangles).
 - **2026-11-12 — V4 (`index_v4.html`)** (Alex: "делай из v3 v4"): a copy of the V3 app tree in `src/v4/`

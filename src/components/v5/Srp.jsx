@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import Icon from '../Icon.jsx'
 import { brand } from '../../data/brand.js'
-import { lockScroll, unlockScroll } from '../../motion/scroll.js'
+import { scrollToY } from '../../motion/scroll.js'
 import { StockPage, Crumbs, StockCard } from './StockPage.jsx'
 import {
   BODIES,
@@ -63,15 +63,30 @@ const priceIndex = (v, fallback) => (v === '' ? fallback : Math.max(0, PRICE_STO
 /**
  * SRP — inventory_v5.html (Alex, 2026-11-16: the sidebar "looks like 2000" → rebuilt).
  * The home page's language: make chips in one row (the Featured inventory quick
- * filters), "Filters" + sort beside them; the rest of the filters in a panel that
- * slides in from the right — price and year as range sliders (Alex), body and
- * transmission as pills. The results take the full width.
+ * filters), "Filters" + sort in the head row. "Filters" opens an accordion right
+ * under it, across the page (Alex, 2026-11-17: no slide-in drawer) — sliders in one
+ * row, pills in the next, colours last. The results take the full width.
  */
 export default function Srp() {
   const [f, setF] = useState(readQuery)
   const [open, setOpen] = useState(false)
-  // stable: the panel's open/close effect must not re-run on every filter change
-  const close = useCallback(() => setOpen(false), [])
+  const filtersBtn = useRef(null)
+  const headRow = useRef(null)
+  // Escape inside the panel: shut it and give focus back to the button that opened it
+  const close = useCallback(() => {
+    setOpen(false)
+    filtersBtn.current?.focus({ preventScroll: true })
+  }, [])
+  // "Show N cars": shut it and bring the results up (the head row stays put while it folds)
+  const showResults = useCallback(() => {
+    setOpen(false)
+    filtersBtn.current?.focus({ preventScroll: true })
+    const row = headRow.current
+    if (!row) return
+    const bar = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 0
+    const top = row.getBoundingClientRect().top
+    if (top < bar) scrollToY(window.scrollY + top - bar - 24)
+  }, [])
   const results = useMemo(() => searchStock(f), [f])
   const n = panelCount(f)
 
@@ -105,7 +120,7 @@ export default function Srp() {
       <section className="stock-head" aria-labelledby="srp-title">
         <div className="container">
           <Crumbs items={[{ label: 'Home', href: HOME_URL }, { label: 'Inventory' }]} />
-          <div className="stock-head__row">
+          <div className="stock-head__row" ref={headRow}>
             <div className="srp__title-block">
               <h1 id="srp-title" className="h2 stock-head__title">
                 Inventory
@@ -115,13 +130,23 @@ export default function Srp() {
               </p>
             </div>
             <div className="srp-bar__tools">
-              <button type="button" className="pill srp-bar__filters" aria-expanded={open} aria-controls="srp-panel" onClick={() => setOpen(true)}>
+              <button
+                ref={filtersBtn}
+                type="button"
+                className="pill srp-bar__filters"
+                aria-expanded={open}
+                aria-controls="srp-panel"
+                onClick={() => setOpen((o) => !o)}
+              >
                 <FiltersIcon />
                 Filters{n ? <span className="srp-bar__badge tabular">{n}</span> : null}
+                <Icon name="chevron-down" className="srp-bar__chev icon--static" />
               </button>
               <SortSelect value={f.sort} onChange={(v) => set({ sort: v })} />
             </div>
           </div>
+
+          <FilterPanel open={open} onClose={close} onShow={showResults} f={f} set={set} toggle={toggle} clear={clearPanel} count={results.length} />
         </div>
       </section>
 
@@ -177,170 +202,129 @@ export default function Srp() {
           </div>
         )}
       </div>
-
-      <FilterPanel open={open} onClose={close} f={f} set={set} toggle={toggle} clear={clearPanel} count={results.length} />
     </StockPage>
   )
 }
 
 /* ---------------------------------------------------------------------------
-   The panel: slides in from the right over a scrim. Escape, the scrim and the
-   close button shut it; focus moves in and returns; the page does not scroll
-   under it. Its own body scrolls only on short screens.
+   The filters: an accordion under the head row, as wide as the page. It folds
+   open in place (no scrim, no drawer, no scroll of its own); the results under it
+   update live. Three rows: the sliders, the pills, the colours. Make is not here —
+   the make chips under the head already do it.
    --------------------------------------------------------------------------- */
-function FilterPanel({ open, onClose, f, set, toggle, clear, count }) {
-  const ref = useRef(null)
-  const returnTo = useRef(null)
-
-  useEffect(() => {
-    if (!open) return
-    returnTo.current = document.activeElement
-    document.body.classList.add('is-locked')
-    lockScroll()
-    ref.current?.querySelector('.srp-panel__close')?.focus()
-    const onKey = (e) => {
-      if (e.key === 'Escape') onClose()
-      if (e.key !== 'Tab' || !ref.current) return
-      const items = [...ref.current.querySelectorAll('button, input, select')].filter((el) => !el.disabled)
-      const first = items[0]
-      const last = items[items.length - 1]
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault()
-        last.focus()
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault()
-        first.focus()
-      }
-    }
-    document.addEventListener('keydown', onKey)
-    return () => {
-      document.body.classList.remove('is-locked')
-      unlockScroll()
-      document.removeEventListener('keydown', onKey)
-      returnTo.current?.focus?.()
-    }
-  }, [open, onClose])
-
+function FilterPanel({ open, onClose, onShow, f, set, toggle, clear, count }) {
   const pLo = priceIndex(f.priceMin, 0)
   const pHi = priceIndex(f.priceMax, PRICE_STOPS.length - 1)
   const yLo = f.yearMin === '' ? YEAR_MIN : Number(f.yearMin)
   const yHi = f.yearMax === '' ? YEAR_MAX : Number(f.yearMax)
+  const onKey = (e) => {
+    if (e.key === 'Escape') {
+      e.stopPropagation()
+      onClose()
+    }
+  }
 
   return (
-    <div className={`srp-panel${open ? ' is-open' : ''}`} aria-hidden={!open} inert={!open}>
-      <button type="button" className="srp-panel__scrim" tabIndex={-1} aria-label="Close filters" onClick={onClose} />
-      <div ref={ref} id="srp-panel" className="srp-panel__sheet" role="dialog" aria-modal="true" aria-labelledby="srp-panel-title">
-        <div className="srp-panel__head">
-          <h2 id="srp-panel-title" className="h3 srp-panel__title">
-            Filters
-          </h2>
-          <button type="button" className="srp-panel__close" onClick={onClose} aria-label="Close filters">
-            <Icon name="close" className="icon--static" />
-          </button>
-        </div>
+    <div id="srp-panel" className={`srp-filters${open ? ' is-open' : ''}`} inert={!open} onKeyDown={onKey}>
+      <div className="srp-filters__clip">
+        <div className="srp-filters__panel" role="region" aria-label="Filters">
+          <div className="srp-filters__row">
+            <PanelGroup title="Price" value={priceText(pLo, pHi)}>
+              <Range
+                min={0}
+                max={PRICE_STOPS.length - 1}
+                lo={pLo}
+                hi={pHi}
+                labels={['Minimum price', 'Maximum price']}
+                text={(i) => (i === PRICE_STOPS.length - 1 ? 'No maximum' : fmtPrice(PRICE_STOPS[i]))}
+                ticks={[[0, '$0'], [PRICE_STOPS.indexOf(100000), '$100k'], [LAST, '$2M+']]}
+                onChange={(lo, hi) =>
+                  set({ priceMin: lo === 0 ? '' : String(PRICE_STOPS[lo]), priceMax: hi === PRICE_STOPS.length - 1 ? '' : String(PRICE_STOPS[hi]) })
+                }
+              />
+            </PanelGroup>
 
-        <div className="srp-panel__body" data-lenis-prevent>
-          <PanelGroup title="Make" value={f.make.length ? `${f.make.length} selected` : 'All'}>
-            <div className="srp-panel__pills" role="group" aria-label="Make">
-              {MAKES.map((m) => (
-                <button key={m} type="button" className="pill pill--outline pill--toggle" aria-pressed={f.make.includes(m)} onClick={() => toggle('make', m)}>
-                  {m}
-                </button>
-              ))}
-            </div>
-          </PanelGroup>
+            <PanelGroup title="Year" value={`${yLo} – ${yHi}`}>
+              <Range
+                min={YEAR_MIN}
+                max={YEAR_MAX}
+                lo={yLo}
+                hi={yHi}
+                labels={['Earliest year', 'Latest year']}
+                text={(y) => String(y)}
+                ticks={[[YEAR_MIN, String(YEAR_MIN)], [YEAR_MAX, String(YEAR_MAX)]]}
+                onChange={(lo, hi) => set({ yearMin: lo === YEAR_MIN ? '' : String(lo), yearMax: hi === YEAR_MAX ? '' : String(hi) })}
+              />
+            </PanelGroup>
 
-          <PanelGroup title="Price" value={priceText(pLo, pHi)}>
-            <Range
-              min={0}
-              max={PRICE_STOPS.length - 1}
-              lo={pLo}
-              hi={pHi}
-              labels={['Minimum price', 'Maximum price']}
-              text={(i) => (i === PRICE_STOPS.length - 1 ? 'No maximum' : fmtPrice(PRICE_STOPS[i]))}
-              ticks={[[0, '$0'], [PRICE_STOPS.indexOf(100000), '$100k'], [PRICE_STOPS.indexOf(500000), '$500k'], [LAST, '$2M+']]}
-              onChange={(lo, hi) =>
-                set({ priceMin: lo === 0 ? '' : String(PRICE_STOPS[lo]), priceMax: hi === PRICE_STOPS.length - 1 ? '' : String(PRICE_STOPS[hi]) })
-              }
-            />
-          </PanelGroup>
+            <PanelGroup title="Mileage" value={f.mileMax ? `Under ${Number(f.mileMax).toLocaleString('en-US')} mi` : 'Any mileage'}>
+              <Range
+                single
+                min={0}
+                max={MILE_STOPS.length}
+                lo={0}
+                hi={f.mileMax === '' ? MILE_STOPS.length : Math.max(0, MILE_STOPS.indexOf(Number(f.mileMax)))}
+                labels={['', 'Maximum mileage']}
+                text={(i) => (i === MILE_STOPS.length ? 'Any mileage' : `${MILE_STOPS[i].toLocaleString('en-US')} miles`)}
+                ticks={[[0, '1k'], [MILE_STOPS.indexOf(10000), '10k'], [MILE_STOPS.indexOf(50000), '50k'], [MILE_STOPS.length, 'Any']]}
+                onChange={(lo, hi) => set({ mileMax: hi === MILE_STOPS.length ? '' : String(MILE_STOPS[hi]) })}
+              />
+            </PanelGroup>
+          </div>
 
-          <PanelGroup title="Year" value={`${yLo} – ${yHi}`}>
-            <Range
-              min={YEAR_MIN}
-              max={YEAR_MAX}
-              lo={yLo}
-              hi={yHi}
-              labels={['Earliest year', 'Latest year']}
-              text={(y) => String(y)}
-              ticks={[[YEAR_MIN, String(YEAR_MIN)], [YEAR_MAX, String(YEAR_MAX)]]}
-              onChange={(lo, hi) => set({ yearMin: lo === YEAR_MIN ? '' : String(lo), yearMax: hi === YEAR_MAX ? '' : String(hi) })}
-            />
-          </PanelGroup>
+          <div className="srp-filters__row srp-filters__row--pills">
+            <PanelGroup title="Body type" value={f.body.length ? `${f.body.length} selected` : 'Any'}>
+              <div className="srp-panel__pills" role="group" aria-label="Body type">
+                {BODIES.map((b) => (
+                  <button key={b} type="button" className="pill pill--outline pill--toggle" aria-pressed={f.body.includes(b)} onClick={() => toggle('body', b)}>
+                    {b}
+                  </button>
+                ))}
+              </div>
+            </PanelGroup>
 
-          <PanelGroup title="Mileage" value={f.mileMax ? `Under ${Number(f.mileMax).toLocaleString('en-US')} mi` : 'Any mileage'}>
-            <Range
-              single
-              min={0}
-              max={MILE_STOPS.length}
-              lo={0}
-              hi={f.mileMax === '' ? MILE_STOPS.length : Math.max(0, MILE_STOPS.indexOf(Number(f.mileMax)))}
-              labels={['', 'Maximum mileage']}
-              text={(i) => (i === MILE_STOPS.length ? 'Any mileage' : `${MILE_STOPS[i].toLocaleString('en-US')} miles`)}
-              ticks={[[0, '1k'], [MILE_STOPS.indexOf(10000), '10k'], [MILE_STOPS.indexOf(50000), '50k'], [MILE_STOPS.length, 'Any']]}
-              onChange={(lo, hi) => set({ mileMax: hi === MILE_STOPS.length ? '' : String(MILE_STOPS[hi]) })}
-            />
-          </PanelGroup>
+            <PanelGroup title="Transmission" value={f.transmission || 'Any'}>
+              <div className="srp-panel__pills" role="group" aria-label="Transmission">
+                {['', ...TRANSMISSIONS].map((t) => (
+                  <button key={t || 'any'} type="button" className="pill pill--outline pill--toggle" aria-pressed={f.transmission === t} onClick={() => set({ transmission: t })}>
+                    {t || 'Any'}
+                  </button>
+                ))}
+              </div>
+            </PanelGroup>
 
-          <PanelGroup title="Body type">
-            <div className="srp-panel__pills" role="group" aria-label="Body type">
-              {BODIES.map((b) => (
-                <button key={b} type="button" className="pill pill--outline pill--toggle" aria-pressed={f.body.includes(b)} onClick={() => toggle('body', b)}>
-                  {b}
-                </button>
-              ))}
-            </div>
-          </PanelGroup>
+            <PanelGroup title="Drivetrain" value={f.drive.length ? `${f.drive.length} selected` : 'Any'}>
+              <div className="srp-panel__pills" role="group" aria-label="Drivetrain">
+                {DRIVES.map((d) => (
+                  <button key={d} type="button" className="pill pill--outline pill--toggle" aria-pressed={f.drive.includes(d)} onClick={() => toggle('drive', d)}>
+                    {d}
+                  </button>
+                ))}
+              </div>
+            </PanelGroup>
+          </div>
 
-          <PanelGroup title="Transmission">
-            <div className="srp-panel__pills" role="group" aria-label="Transmission">
-              {['', ...TRANSMISSIONS].map((t) => (
-                <button key={t || 'any'} type="button" className="pill pill--outline pill--toggle" aria-pressed={f.transmission === t} onClick={() => set({ transmission: t })}>
-                  {t || 'Any'}
-                </button>
-              ))}
-            </div>
-          </PanelGroup>
+          <div className="srp-filters__row srp-filters__row--wide">
+            <PanelGroup title="Exterior color" value={f.color.length ? f.color.join(', ') : 'Any'}>
+              <div className="srp-swatches" role="group" aria-label="Exterior color">
+                {COLORS.map(([c, hex]) => (
+                  <button key={c} type="button" className="srp-swatch" aria-pressed={f.color.includes(c)} onClick={() => toggle('color', c)}>
+                    <span className="srp-swatch__dot" style={{ background: hex }} aria-hidden="true" />
+                    <span className="srp-swatch__name small">{c}</span>
+                  </button>
+                ))}
+              </div>
+            </PanelGroup>
+          </div>
 
-          <PanelGroup title="Drivetrain">
-            <div className="srp-panel__pills" role="group" aria-label="Drivetrain">
-              {DRIVES.map((d) => (
-                <button key={d} type="button" className="pill pill--outline pill--toggle" aria-pressed={f.drive.includes(d)} onClick={() => toggle('drive', d)}>
-                  {d}
-                </button>
-              ))}
-            </div>
-          </PanelGroup>
-
-          <PanelGroup title="Exterior color">
-            <div className="srp-swatches" role="group" aria-label="Exterior color">
-              {COLORS.map(([c, hex]) => (
-                <button key={c} type="button" className="srp-swatch" aria-pressed={f.color.includes(c)} onClick={() => toggle('color', c)}>
-                  <span className="srp-swatch__dot" style={{ background: hex }} aria-hidden="true" />
-                  <span className="srp-swatch__name small">{c}</span>
-                </button>
-              ))}
-            </div>
-          </PanelGroup>
-        </div>
-
-        <div className="srp-panel__foot">
-          <button type="button" className="srp__clear small" onClick={clear}>
-            Reset
-          </button>
-          <button type="button" className="btn srp-panel__show" onClick={onClose}>
-            Show {count} {count === 1 ? 'car' : 'cars'}
-          </button>
+          <div className="srp-filters__foot">
+            <button type="button" className="srp__clear small" onClick={clear}>
+              Reset filters
+            </button>
+            <button type="button" className="btn srp-filters__show" onClick={onShow}>
+              Show {count} {count === 1 ? 'car' : 'cars'}
+            </button>
+          </div>
         </div>
       </div>
     </div>
