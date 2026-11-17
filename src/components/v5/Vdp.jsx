@@ -5,6 +5,7 @@ import { asset } from '../../data/asset.js'
 import { StockPage, Crumbs, StockCard, TitleText } from './StockPage.jsx'
 import AskDrawer from './AskDrawer.jsx'
 import CarBar from './CarBar.jsx'
+import SaveShare from './SaveShare.jsx'
 import { HOME_URL, SRP_URL, fmtMiles, fmtPrice, similarTo, stockById, stockTitle } from '../../data/v5/stock.js'
 
 const pad = (n) => String(n).padStart(2, '0')
@@ -105,6 +106,8 @@ export default function Vdp() {
                 <img className="vdp-carfax__badge" src={asset('assets/carfax-logo.svg')} width="151" height="36" alt="CARFAX Vehicle History Reports" />
                 <span className="vdp-carfax__text visually-hidden">See the vehicle history report</span>
               </a>
+              {/* Save · Share · Text to phone (Alex, 2026-11-17) */}
+              <SaveShare v={v} title={`${v.year} ${title}`} />
             </div>
           </div>
         </div>

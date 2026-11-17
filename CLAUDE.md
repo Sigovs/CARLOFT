@@ -151,7 +151,8 @@ American muscle; consignment; service/restoration/paint/body; finance).
   01/02/03 steps left, the car in its own form plate right (2x2 fields, condition toggles, near-white ask); the ask opens
   the panel with Trade-in ticked and the car in the message. The car bar (VDP): rises from the bottom once the summary's asks
   scroll away (car, price, Call, Ask), hides at the footer. Every dark surface on the VDP (payment plate, trade card,
-  car bar) = the grainy Reviews ground. No focus ring on script-focused
+  car bar) = the grainy Reviews ground. Save · Share · Text to phone = one quiet row at the foot of the
+  summary (Save in localStorage, Share = share sheet / copy link, Text to phone = number field; mockup sends nothing). No focus ring on script-focused
   jump targets (tabindex -1) — it drew a Miami Blue stripe over the footer.
   **V5 cards and panels: 12px radius** (buttons stay rectangles).
 - **2026-11-12 — V4 (`index_v4.html`)** (Alex: "делай из v3 v4"): a copy of the V3 app tree in `src/v4/`

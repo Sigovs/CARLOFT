@@ -1019,6 +1019,117 @@
   color: var(--c-ink-3);
 }
 
+/* Save · Share · Text to phone: one quiet row at the foot of the summary (Alex, 2026-11-17).
+   Three equal text buttons with their icons, a hairline above; Text to phone opens a
+   number field beneath. Confirmations appear under the row in meta ink. */
+.vdp-acts {
+  margin-top: var(--s-4);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--stock-line);
+}
+
+.vdp-acts__row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-1);
+}
+
+/* a narrow summary (phones, and the 1024 two-column layout): the icon over the
+   word, three equal columns — measured on the row itself, not the screen */
+.vdp-acts {
+  container-type: inline-size;
+}
+
+@container (max-width: 340px) {
+  .vdp-acts__row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .vdp-acts__row .vdp-act {
+    flex-direction: column;
+    justify-content: flex-start; /* the icons on one line, whatever the label's length */
+    gap: 4px;
+    min-height: 60px;
+    padding-block: var(--s-2);
+    line-height: 1.25;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+.vdp-act {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 var(--s-2);
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  font: inherit;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--c-ink);
+  cursor: pointer;
+  transition: background-color var(--dur-xs) var(--ease-out);
+}
+
+.vdp-act:hover,
+.vdp-act[aria-expanded='true'] {
+  background: #f1f1ef;
+}
+
+.vdp-act:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.vdp-act svg {
+  flex: none;
+}
+
+.vdp-acts__text {
+  display: grid;
+  gap: var(--s-2);
+  margin-top: var(--s-3);
+}
+
+.vdp-acts__text[hidden] {
+  display: none;
+}
+
+.vdp-acts__send {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--s-2);
+}
+
+.stock button.btn--secondary.vdp-acts__go {
+  --btn-bg: var(--c-ink);
+  --btn-fg: #ffffff;
+  --btn-border: var(--c-ink);
+  min-height: 48px;
+}
+
+.stock button.btn--secondary.vdp-acts__go:is(:hover, :focus-visible, :active) {
+  --btn-bg: #2b2e33;
+  --btn-fg: #ffffff;
+  --btn-border: #2b2e33;
+}
+
+.vdp-acts__note:empty {
+  display: none;
+}
+
+.vdp-acts__note {
+  margin-top: var(--s-2);
+  text-align: center;
+  color: var(--c-ink-3);
+}
+
 .vdp__title {
   margin-top: var(--s-2);
 }
