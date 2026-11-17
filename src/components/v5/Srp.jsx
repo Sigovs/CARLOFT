@@ -85,8 +85,7 @@ export default function Srp() {
     if (makesRow.current) ro.observe(makesRow.current)
     return () => ro.disconnect()
   }, [measure])
-  // the bar is stuck under the header: bring it back to its own place, so the panel
-  // (which opens under it) and the first results are in view
+  // after "Show N cars": if the bar has scrolled off, bring it back, so the first results are in view
   const unstick = useCallback(() => {
     const mark = barMark.current
     if (!mark) return
@@ -94,10 +93,7 @@ export default function Srp() {
     const top = mark.getBoundingClientRect().top
     if (top < head) scrollToY(window.scrollY + top - head)
   }, [])
-  const toggleOpen = () => {
-    if (!open) unstick()
-    setOpen((o) => !o)
-  }
+  const toggleOpen = () => setOpen((o) => !o)
   // Escape inside the panel: shut it and give focus back to the button that opened it
   const close = useCallback(() => {
     setOpen(false)
@@ -155,8 +151,7 @@ export default function Srp() {
         </div>
       </section>
 
-      {/* Filters · the makes · sort — one bar under the head (Alex, 2026-11-17); it sticks
-          under the header while the results scroll */}
+      {/* Filters · the makes · sort — one bar under the head (Alex, 2026-11-17), not sticky */}
       <span ref={barMark} className="srp-bar__mark" aria-hidden="true" />
       <div className="srp-bar">
         <div className="container srp-bar__inner">

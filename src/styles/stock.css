@@ -112,11 +112,10 @@
   color: var(--c-ink-3);
 }
 
-/* the bar: sticks under the header while the results scroll */
+/* the bar: Filters, the makes, sort — in the flow, not sticky (Alex, 2026-11-17) */
 .srp-bar {
-  position: sticky;
-  top: var(--header-h);
-  z-index: 5;
+  position: relative;
+  z-index: 5; /* the sort menu opens over the results */
   margin-top: clamp(var(--s-5), 3vw, var(--s-6));
   padding-block: var(--s-3);
   border-block: 1px solid var(--stock-line);
