@@ -1443,34 +1443,6 @@
   color: rgb(242 242 240 / 0.62);
 }
 
-/* trade-in: four fields and the ask in one row on wide screens */
-.vdp-trade {
-  display: grid;
-  gap: var(--s-4) var(--s-3);
-  align-items: end;
-  padding: clamp(var(--s-4), 2.4vw, var(--s-6));
-}
-
-@media (min-width: 480px) {
-  .vdp-trade {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-.vdp-trade__cta {
-  grid-column: 1 / -1;
-}
-
-@media (min-width: 1280px) {
-  .vdp-trade {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
-  }
-
-  .vdp-trade__cta {
-    grid-column: auto;
-  }
-}
-
 /* ---------- All photos ---------- */
 .vdp-photos {
   padding-top: clamp(var(--s-7), 6vw, var(--s-9));
@@ -1791,15 +1763,176 @@
   border-color: transparent;
 }
 
-/* ---------- "Get my offer": the ink fill (Alex) — the outline vanished on the white panel ---------- */
-.stock button.btn--secondary.vdp-trade__cta {
-  --btn-bg: var(--c-ink);
-  --btn-fg: #ffffff;
-  --btn-border: var(--c-ink);
+/* ---------- Value your trade: one dark card, another layout (Alex, 2026-11-17) ----------
+   The payment plate's #141415, 12px radius. Left: the promise and three numbered
+   steps (number + words; hairlines between whole steps). Right: the car in a form
+   plate of its own (#1e1e20), fields 2x2, condition as three toggles, the ask full
+   width in near-white. Boundaries 0.4 near-white (>= 3:1), labels 0.72 (9.6:1),
+   placeholders 0.6 (7.1:1); focus rings near-white. */
+.vdp-trade-card {
+  --focus-ring: 2px solid #f2f2f0;
+  display: grid;
+  gap: var(--s-6);
+  padding: clamp(var(--s-4), 3.2vw, var(--s-7));
+  border-radius: var(--card-radius, 12px);
+  background: #141415;
+  color: #f2f2f0;
 }
 
-.stock button.btn--secondary.vdp-trade__cta:is(:hover, :focus-visible, :active) {
-  --btn-bg: #2b2e33;
-  --btn-fg: #ffffff;
-  --btn-border: #2b2e33;
+@media (min-width: 1024px) {
+  .vdp-trade-card {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    align-items: center;
+    gap: clamp(var(--s-7), 5vw, 88px);
+    padding: clamp(var(--s-6), 4vw, 64px);
+  }
+}
+
+.vdp-trade-card__copy {
+  padding: var(--s-3) var(--s-2) 0;
+}
+
+@media (min-width: 1024px) {
+  .vdp-trade-card__copy {
+    padding: 0;
+  }
+}
+
+:root .stock .vdp-trade-card .section-title {
+  color: #f2f2f0;
+}
+
+.vdp-trade-card .vdp-tool__lede {
+  max-width: 40ch;
+  color: rgb(242 242 240 / 0.72);
+}
+
+.vdp-trade-steps {
+  margin: var(--s-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vdp-trade-steps li {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--s-3);
+  padding-block: var(--s-3);
+  border-top: 1px solid rgb(255 255 255 / 0.1);
+  font-size: var(--fs-body);
+  color: #f2f2f0;
+}
+
+.vdp-trade-steps__n {
+  font-family: var(--font-display);
+  font-size: var(--fs-small);
+  font-weight: 700;
+  color: rgb(242 242 240 / 0.6);
+}
+
+/* the form plate */
+.vdp-trade {
+  display: grid;
+  gap: var(--s-5);
+  padding: clamp(var(--s-5), 2.4vw, var(--s-6));
+  border-radius: 10px;
+  background: #1e1e20;
+}
+
+.vdp-trade__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-eyebrow);
+  font-weight: 700;
+  font-stretch: 110%;
+  letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase;
+  color: rgb(242 242 240 / 0.72);
+}
+
+.vdp-trade__fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-4) var(--s-3);
+}
+
+.vdp-trade__condition {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.vdp-trade__condition legend {
+  margin-bottom: var(--s-2);
+  padding: 0;
+}
+
+.vdp-trade__pills {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-2);
+}
+
+.vdp-trade__pill {
+  min-height: 44px;
+  padding: 0 var(--s-3);
+  border: 1px solid rgb(242 242 240 / 0.4);
+  border-radius: var(--radius);
+  background: transparent;
+  font: inherit;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: #f2f2f0;
+  cursor: pointer;
+  transition: background-color var(--dur-xs) var(--ease-out), border-color var(--dur-xs) var(--ease-out), color var(--dur-xs) var(--ease-out);
+}
+
+.vdp-trade__pill:hover {
+  border-color: #f2f2f0;
+}
+
+.vdp-trade__pill[aria-pressed='true'] {
+  border-color: #f2f2f0;
+  background: #f2f2f0;
+  color: #0f0f10;
+}
+
+.vdp-trade__pill:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.vdp-trade__cta {
+  width: 100%;
+  justify-content: center;
+}
+
+.vdp-trade-card .vdp-field__label {
+  color: rgb(242 242 240 / 0.72);
+}
+
+.vdp-trade-card .vdp-input {
+  border-color: rgb(242 242 240 / 0.4);
+  background: #141415;
+  color: #f2f2f0;
+}
+
+.vdp-trade-card .vdp-input::placeholder {
+  color: rgb(242 242 240 / 0.6);
+}
+
+.vdp-trade-card .vdp-input:is(:hover, :focus-visible) {
+  border-color: #f2f2f0;
+}
+
+.stock .vdp-trade-card button.btn--secondary.vdp-trade__cta {
+  --btn-bg: #f2f2f0;
+  --btn-fg: #0f0f10;
+  --btn-border: #f2f2f0;
+}
+
+.stock .vdp-trade-card button.btn--secondary.vdp-trade__cta:is(:hover, :focus-visible, :active) {
+  --btn-bg: #ffffff;
+  --btn-fg: #0f0f10;
+  --btn-border: #ffffff;
 }

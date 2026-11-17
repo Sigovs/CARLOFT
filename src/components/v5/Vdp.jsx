@@ -16,11 +16,11 @@ const pad = (n) => String(n).padStart(2, '0')
 export default function Vdp() {
   const id = new URLSearchParams(window.location.search).get('id')
   const v = stockById(id)
-  const [ask, setAsk] = useState({ open: false, preset: '' })
+  const [ask, setAsk] = useState({ open: false, preset: '', message: '' })
   const closeAsk = useCallback(() => setAsk((a) => ({ ...a, open: false })), [])
   const openAsk = (preset) => (e) => {
     e.preventDefault()
-    setAsk({ open: true, preset })
+    setAsk({ open: true, preset, message: '' })
   }
 
   useEffect(() => {
@@ -149,7 +149,7 @@ export default function Vdp() {
       {/* Finance and trade-in ON the page, no click away (Alex, 2026-11-16: "как на других
           дилерских — информация сразу, без перехода"; TWINS / PRESTIGE / MAX VDPs). */}
       <PaymentEstimator v={v} />
-      <TradeIn v={v} />
+      <TradeIn v={v} onAsk={(message) => setAsk({ open: true, preset: 'Trade-in', message })} />
 
       <section id="photos" className="vdp-photos" aria-labelledby="vdp-photos-title">
         <div className="container">
@@ -196,7 +196,7 @@ export default function Vdp() {
         </div>
       </section>
 
-      <AskDrawer v={v} open={ask.open} preset={ask.preset} onClose={closeAsk} />
+      <AskDrawer v={v} open={ask.open} preset={ask.preset} message={ask.message} onClose={closeAsk} />
     </StockPage>
   )
 }
@@ -358,30 +358,79 @@ function PaymentEstimator({ v }) {
 }
 
 /* ---------- trade-in ---------- */
-function TradeIn({ v }) {
+const CONDITIONS = ['Excellent', 'Good', 'Fair']
+
+/**
+ * Value your trade (Alex, 2026-11-17: "in a dark card, and a different design").
+ * One dark card: the promise and three steps on the left, the car in a form plate
+ * of its own on the right. "Get my offer" opens the enquiry panel with Trade-in
+ * ticked and the car written into the message — no jump to the footer.
+ */
+function TradeIn({ v, onAsk }) {
+  const [condition, setCondition] = useState('Good')
   const onSubmit = (e) => {
     e.preventDefault()
-    window.location.hash = `#contact?topic=sell&id=${encodeURIComponent(v.id)}`
+    const d = new FormData(e.currentTarget)
+    const car = ['year', 'make', 'model'].map((k) => String(d.get(k) || '').trim()).filter(Boolean).join(' ')
+    const miles = String(d.get('mileage') || '').trim()
+    onAsk(
+      `Hi, I'd like an offer for my ${car || 'car'}${miles ? `, ${miles} miles` : ''}, ${condition.toLowerCase()} condition — ` +
+        `to put toward the ${v.year} ${stockTitle(v)} (stock ${v.stockNo}).`,
+    )
   }
   return (
     <section className="vdp-tool" aria-labelledby="vdp-trade-title">
-      <div className="container vdp-details__grid">
-        <div className="vdp-tool__head">
-          <h2 id="vdp-trade-title" className="h3 section-title">
-            Value your trade
-          </h2>
-          <p className="body vdp-tool__lede">Tell us about your car and we come back with an offer you can put toward this one.</p>
+      <div className="container">
+        <div className="vdp-trade-card">
+          <div className="vdp-trade-card__copy">
+            <h2 id="vdp-trade-title" className="h3 section-title">
+              Value your trade
+            </h2>
+            <p className="body vdp-tool__lede">Tell us about your car and we come back with an offer you can put toward this one.</p>
+            <ol className="vdp-trade-steps">
+              <li>
+                <span className="vdp-trade-steps__n tabular">01</span>
+                <span>Tell us about your car</span>
+              </li>
+              <li>
+                <span className="vdp-trade-steps__n tabular">02</span>
+                <span>We look at it and make an offer</span>
+              </li>
+              <li>
+                <span className="vdp-trade-steps__n tabular">03</span>
+                <span>
+                  Put it toward the {v.year} <TitleText v={v} />
+                </span>
+              </li>
+            </ol>
+          </div>
+
+          <form className="vdp-trade" onSubmit={onSubmit} aria-labelledby="vdp-trade-form-title">
+            <p id="vdp-trade-form-title" className="vdp-trade__title">
+              Your car
+            </p>
+            <div className="vdp-trade__fields">
+              <Field label="Year">{(id) => <input id={id} name="year" className="vdp-input" inputMode="numeric" placeholder="2019" />}</Field>
+              <Field label="Make">{(id) => <input id={id} name="make" className="vdp-input" placeholder="Porsche" />}</Field>
+              <Field label="Model">{(id) => <input id={id} name="model" className="vdp-input" placeholder="Cayenne" />}</Field>
+              <Field label="Mileage">{(id) => <input id={id} name="mileage" className="vdp-input" inputMode="numeric" placeholder="32,000" />}</Field>
+            </div>
+            <fieldset className="vdp-trade__condition">
+              <legend className="vdp-field__label small">Condition</legend>
+              <div className="vdp-trade__pills">
+                {CONDITIONS.map((c) => (
+                  <button key={c} type="button" className="vdp-trade__pill" aria-pressed={condition === c} onClick={() => setCondition(c)}>
+                    {c}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+            <button type="submit" className="btn btn--secondary vdp-trade__cta">
+              Get my offer
+              <Icon name="arrow-right" />
+            </button>
+          </form>
         </div>
-        <form className="vdp-tool__panel vdp-trade" onSubmit={onSubmit}>
-          <Field label="Year">{(id) => <input id={id} className="vdp-input" inputMode="numeric" placeholder="2019" />}</Field>
-          <Field label="Make">{(id) => <input id={id} className="vdp-input" placeholder="Porsche" />}</Field>
-          <Field label="Model">{(id) => <input id={id} className="vdp-input" placeholder="Cayenne" />}</Field>
-          <Field label="Mileage">{(id) => <input id={id} className="vdp-input" inputMode="numeric" placeholder="32,000" />}</Field>
-          <button type="submit" className="btn btn--secondary vdp-trade__cta">
-            Get my offer
-            <Icon name="arrow-right" />
-          </button>
-        </form>
       </div>
     </section>
   )

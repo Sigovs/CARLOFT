@@ -13,7 +13,7 @@ export const ASK_TOPICS = ['Check availability', 'Book a viewing', 'CARFAX repor
  * the close button shut it; focus moves in, stays in, and returns.
  * The mockup sends nothing — the confirmation says so (content provenance).
  */
-export default function AskDrawer({ v, open, preset, onClose }) {
+export default function AskDrawer({ v, open, preset, message, onClose }) {
   const ref = useRef(null)
   const returnTo = useRef(null)
   const titleId = useId()
@@ -134,8 +134,8 @@ export default function AskDrawer({ v, open, preset, onClose }) {
                     name="message"
                     className="vdp-input ask__message"
                     rows={4}
-                    defaultValue={`Hi, I'm interested in the ${title} (stock ${v.stockNo}).`}
-                    key={open ? 'open' : 'closed'}
+                    defaultValue={message || `Hi, I'm interested in the ${title} (stock ${v.stockNo}).`}
+                    key={open ? `open-${message || ''}` : 'closed'}
                   />
                 )}
               </Field>
