@@ -145,6 +145,24 @@
   mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent);
 }
 
+/* 768+: more makes to come (Alex) — they wrap onto a second line instead of hiding
+   behind a sideways scroll; Filters and sort stay level with the first line */
+@media (min-width: 768px) {
+  .srp-bar__inner {
+    align-items: flex-start;
+  }
+
+  .srp-bar__makes {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  .srp-bar__makes[data-more] {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
 .srp-bar__makes::-webkit-scrollbar {
   display: none;
 }
@@ -305,28 +323,23 @@
 
 .srp-bar__filters {
   flex: none;
+  margin-top: 2px; /* level with the makes (their row keeps 2px for the focus ring) */
 }
 
-.srp-bar .sort {
-  flex: none;
-}
-
-/* phones: Filters and sort share the first line, the makes scroll on the second */
+/* phones: Filters stays put on the left, the makes scroll beside it to the screen's
+   edge; sort fills the head row */
 @media (max-width: 767px) {
   .srp-bar__inner {
-    flex-wrap: wrap;
-    gap: var(--s-3) var(--s-2);
+    gap: var(--s-2);
   }
 
   .srp-bar__makes {
-    order: 3;
-    flex-basis: 100%;
-    margin-inline: calc(-1 * var(--gutter));
-    padding-inline: var(--gutter);
+    margin-right: calc(-1 * var(--gutter));
+    padding-right: var(--gutter);
   }
 
-  .srp-bar .sort {
-    flex: 1;
+  .stock-head__row .sort {
+    flex: 1 1 100%;
   }
 
   .sort__button {

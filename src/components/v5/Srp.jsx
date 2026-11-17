@@ -147,11 +147,13 @@ export default function Srp() {
                 {countText} <span className="srp__of">of {stock.length}</span>
               </p>
             </div>
+            {/* sort beside the title and the count (Alex, 2026-11-17) */}
+            <SortSelect value={f.sort} onChange={(v) => set({ sort: v })} />
           </div>
         </div>
       </section>
 
-      {/* Filters · the makes · sort — one bar under the head (Alex, 2026-11-17), not sticky */}
+      {/* Filters and the makes — one bar under the head (Alex, 2026-11-17), not sticky */}
       <span ref={barMark} className="srp-bar__mark" aria-hidden="true" />
       <div className="srp-bar">
         <div className="container srp-bar__inner">
@@ -177,7 +179,6 @@ export default function Srp() {
               </button>
             ))}
           </div>
-          <SortSelect value={f.sort} onChange={(v) => set({ sort: v })} />
         </div>
       </div>
 
