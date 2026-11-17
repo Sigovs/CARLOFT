@@ -71,22 +71,44 @@ export default function Srp() {
   const [f, setF] = useState(readQuery)
   const [open, setOpen] = useState(false)
   const filtersBtn = useRef(null)
-  const headRow = useRef(null)
+  const barMark = useRef(null) // where the sticky bar sits in the flow
+  // the makes row fades at its right end only while more makes hide there
+  const makesRow = useRef(null)
+  const [more, setMore] = useState(false)
+  const measure = useCallback(() => {
+    const el = makesRow.current
+    if (el) setMore(el.scrollLeft + el.clientWidth < el.scrollWidth - 2)
+  }, [])
+  useEffect(() => {
+    measure()
+    const ro = new ResizeObserver(measure)
+    if (makesRow.current) ro.observe(makesRow.current)
+    return () => ro.disconnect()
+  }, [measure])
+  // the bar is stuck under the header: bring it back to its own place, so the panel
+  // (which opens under it) and the first results are in view
+  const unstick = useCallback(() => {
+    const mark = barMark.current
+    if (!mark) return
+    const head = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 0
+    const top = mark.getBoundingClientRect().top
+    if (top < head) scrollToY(window.scrollY + top - head)
+  }, [])
+  const toggleOpen = () => {
+    if (!open) unstick()
+    setOpen((o) => !o)
+  }
   // Escape inside the panel: shut it and give focus back to the button that opened it
   const close = useCallback(() => {
     setOpen(false)
     filtersBtn.current?.focus({ preventScroll: true })
   }, [])
-  // "Show N cars": shut it and bring the results up (the head row stays put while it folds)
+  // "Show N cars": shut it and bring the results up
   const showResults = useCallback(() => {
     setOpen(false)
     filtersBtn.current?.focus({ preventScroll: true })
-    const row = headRow.current
-    if (!row) return
-    const bar = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 0
-    const top = row.getBoundingClientRect().top
-    if (top < bar) scrollToY(window.scrollY + top - bar - 24)
-  }, [])
+    unstick()
+  }, [unstick])
   const results = useMemo(() => searchStock(f), [f])
   const n = panelCount(f)
 
@@ -120,7 +142,7 @@ export default function Srp() {
       <section className="stock-head" aria-labelledby="srp-title">
         <div className="container">
           <Crumbs items={[{ label: 'Home', href: HOME_URL }, { label: 'Inventory' }]} />
-          <div className="stock-head__row" ref={headRow}>
+          <div className="stock-head__row">
             <div className="srp__title-block">
               <h1 id="srp-title" className="h2 stock-head__title">
                 Inventory
@@ -129,30 +151,28 @@ export default function Srp() {
                 {countText} <span className="srp__of">of {stock.length}</span>
               </p>
             </div>
-            <div className="srp-bar__tools">
-              <button
-                ref={filtersBtn}
-                type="button"
-                className="pill srp-bar__filters"
-                aria-expanded={open}
-                aria-controls="srp-panel"
-                onClick={() => setOpen((o) => !o)}
-              >
-                <FiltersIcon />
-                Filters{n ? <span className="srp-bar__badge tabular">{n}</span> : null}
-                <Icon name="chevron-down" className="srp-bar__chev icon--static" />
-              </button>
-              <SortSelect value={f.sort} onChange={(v) => set({ sort: v })} />
-            </div>
           </div>
-
-          <FilterPanel open={open} onClose={close} onShow={showResults} f={f} set={set} toggle={toggle} clear={clearPanel} count={results.length} />
         </div>
       </section>
 
+      {/* Filters · the makes · sort — one bar under the head (Alex, 2026-11-17); it sticks
+          under the header while the results scroll */}
+      <span ref={barMark} className="srp-bar__mark" aria-hidden="true" />
       <div className="srp-bar">
         <div className="container srp-bar__inner">
-          <div className="srp-bar__makes" role="group" aria-label="Make">
+          <button
+            ref={filtersBtn}
+            type="button"
+            className="pill srp-bar__filters"
+            aria-expanded={open}
+            aria-controls="srp-panel"
+            onClick={toggleOpen}
+          >
+            <FiltersIcon />
+            Filters{n ? <span className="srp-bar__badge tabular">{n}</span> : null}
+            <Icon name="chevron-down" className="srp-bar__chev icon--static" />
+          </button>
+          <div className="srp-bar__makes" role="group" aria-label="Make" ref={makesRow} data-more={more || undefined} onScroll={measure}>
             <button type="button" className="pill pill--outline pill--toggle" aria-pressed={!f.make.length} onClick={() => set({ make: [] })}>
               All
             </button>
@@ -162,10 +182,13 @@ export default function Srp() {
               </button>
             ))}
           </div>
+          <SortSelect value={f.sort} onChange={(v) => set({ sort: v })} />
         </div>
       </div>
 
       <div className="container srp">
+        <FilterPanel open={open} onClose={close} onShow={showResults} f={f} set={set} toggle={toggle} clear={clearPanel} count={results.length} />
+
         {chips.length ? (
           <div className="srp__applied">
             <ul className="srp__chips" aria-label="Applied filters">

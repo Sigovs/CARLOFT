@@ -142,7 +142,7 @@ American muscle; consignment; service/restoration/paint/body; finance).
   scroll; make chips row + Filters + a designed sort menu (never the native select list); the rest in an inline
   accordion under the head row, across the page (2026-11-17; the right slide-in drawer rejected) — row 1 price / year /
   mileage sliders, row 2 body / transmission / drivetrain pills, row 3 colour swatches with words; make lives only in
-  the chips row. VDP: info ON the page (payment estimator, trade-in form, all photos — as on the other dealer
+  the chips row. Filters (left) and sort (right) sit IN the sticky make-chips bar; the accordion opens under it. VDP: info ON the page (payment estimator, trade-in form, all photos — as on the other dealer
   VDPs), no tiles that send you away; CARFAX = the official "Vehicle History Reports" logo, centred, no arrow.
   "Ask about this car" (and the CARFAX row, topic pre-ticked) = a right slide-in panel WITH the form (2026-11-17);
   Similar cars on the dark #0f0f10 straight into the footer. "Value your trade" = one dark card (#141415): promise +

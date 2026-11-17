@@ -137,9 +137,13 @@
   min-width: 0;
   overflow-x: auto;
   scrollbar-width: none;
-  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
-  mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
-  padding: 2px 32px 2px 2px; /* room for the focus ring and the fade */
+  padding: 2px; /* room for the focus ring */
+}
+
+/* more makes off to the right: the row fades out there (and only then) */
+.srp-bar__makes[data-more] {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent);
 }
 
 .srp-bar__makes::-webkit-scrollbar {
@@ -295,17 +299,34 @@
   }
 }
 
+.srp-bar__mark {
+  display: block;
+  height: 0;
+}
+
+.srp-bar__filters {
+  flex: none;
+}
+
+.srp-bar .sort {
+  flex: none;
+}
+
+/* phones: Filters and sort share the first line, the makes scroll on the second */
 @media (max-width: 767px) {
+  .srp-bar__inner {
+    flex-wrap: wrap;
+    gap: var(--s-3) var(--s-2);
+  }
+
   .srp-bar__makes {
+    order: 3;
+    flex-basis: 100%;
     margin-inline: calc(-1 * var(--gutter));
-    padding-inline: var(--gutter) 32px;
+    padding-inline: var(--gutter);
   }
 
-  .stock-head__row .srp-bar__tools {
-    width: 100%;
-  }
-
-  .sort {
+  .srp-bar .sort {
     flex: 1;
   }
 
@@ -417,11 +438,12 @@
   overflow: hidden;
 }
 
-/* the panel's own space sits inside the clip, so the closed state is 0px tall */
-.srp-filters__clip::before {
+/* the panel opens at the top of the results (their padding is the space above it);
+   the space below it sits inside the clip, so the closed state is 0px tall */
+.srp-filters__clip::after {
   content: '';
   display: block;
-  height: clamp(var(--s-5), 2.4vw, var(--s-6));
+  height: var(--s-5);
 }
 
 .srp-filters__panel {
