@@ -1,8 +1,9 @@
-import { useEffect, useId, useRef, useState } from 'react'
+import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import Icon from '../Icon.jsx'
 import { brand } from '../../data/brand.js'
 import { asset } from '../../data/asset.js'
 import { StockPage, Crumbs, StockCard, TitleText } from './StockPage.jsx'
+import AskDrawer from './AskDrawer.jsx'
 import { HOME_URL, SRP_URL, fmtMiles, fmtPrice, similarTo, stockById, stockTitle } from '../../data/v5/stock.js'
 
 const pad = (n) => String(n).padStart(2, '0')
@@ -15,6 +16,12 @@ const pad = (n) => String(n).padStart(2, '0')
 export default function Vdp() {
   const id = new URLSearchParams(window.location.search).get('id')
   const v = stockById(id)
+  const [ask, setAsk] = useState({ open: false, preset: '' })
+  const closeAsk = useCallback(() => setAsk((a) => ({ ...a, open: false })), [])
+  const openAsk = (preset) => (e) => {
+    e.preventDefault()
+    setAsk({ open: true, preset })
+  }
 
   useEffect(() => {
     if (v) document.title = `${v.year} ${stockTitle(v)} — ${brand.wordmark}`
@@ -74,7 +81,7 @@ export default function Vdp() {
                 <li>{v.color}</li>
               </ul>
               <div className="vdp__asks">
-                <a className="btn" href={`#contact?topic=car&id=${encodeURIComponent(v.id)}`}>
+                <a className="btn" href={`#contact?topic=car&id=${encodeURIComponent(v.id)}`} aria-haspopup="dialog" onClick={openAsk('')}>
                   Ask about this car
                   <Icon name="arrow-right" />
                 </a>
@@ -91,7 +98,7 @@ export default function Vdp() {
               {/* CARFAX (Alex, 2026-11-16). A placeholder row in our own type — not CARFAX's
                   badge: the live badge and report link come from the dealer's CARFAX account by
                   VIN, and neither the account nor the VINs exist yet. Until then it asks for it. */}
-              <a className="vdp-carfax" href={`#contact?topic=carfax&id=${encodeURIComponent(v.id)}`}>
+              <a className="vdp-carfax" href={`#contact?topic=carfax&id=${encodeURIComponent(v.id)}`} aria-haspopup="dialog" onClick={openAsk('CARFAX report')}>
                 {/* the CARFAX logo with "Vehicle History Reports" (Wikimedia Commons, Carfaxlogo3.svg — Alex's reference) */}
                 <img className="vdp-carfax__badge" src={asset('assets/carfax-logo.svg')} width="151" height="36" alt="CARFAX Vehicle History Reports" />
                 <span className="vdp-carfax__text visually-hidden">See the vehicle history report</span>
@@ -188,6 +195,8 @@ export default function Vdp() {
           </ul>
         </div>
       </section>
+
+      <AskDrawer v={v} open={ask.open} preset={ask.preset} onClose={closeAsk} />
     </StockPage>
   )
 }

@@ -144,6 +144,9 @@ American muscle; consignment; service/restoration/paint/body; finance).
   mileage sliders, row 2 body / transmission / drivetrain pills, row 3 colour swatches with words; make lives only in
   the chips row. VDP: info ON the page (payment estimator, trade-in form, all photos — as on the other dealer
   VDPs), no tiles that send you away; CARFAX = the official "Vehicle History Reports" logo, centred, no arrow.
+  "Ask about this car" (and the CARFAX row, topic pre-ticked) = a right slide-in panel WITH the form (2026-11-17);
+  Similar cars on the dark #0f0f10 straight into the footer; "Get my offer" ink-filled. No focus ring on script-focused
+  jump targets (tabindex -1) — it drew a Miami Blue stripe over the footer.
   **V5 cards and panels: 12px radius** (buttons stay rectangles).
 - **2026-11-12 — V4 (`index_v4.html`)** (Alex: "делай из v3 v4"): a copy of the V3 app tree in `src/v4/`
   (AppV4, useV4Motion, v4.css — class names keep the `v3-` prefix, each page loads only its own CSS).

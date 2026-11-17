@@ -1503,3 +1503,303 @@
 }
 
 
+
+/* ---------- "Ask about this car": a panel from the right with the form (Alex, 2026-11-17) ---------- */
+.ask {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-header) + 10);
+  pointer-events: none;
+}
+
+.ask.is-open {
+  pointer-events: auto;
+}
+
+/* closed: out of sight entirely (no shadow at the screen's edge), after the slide */
+.ask:not(.is-open) {
+  visibility: hidden;
+  transition: visibility 0s linear var(--dur-m);
+}
+
+.ask__scrim {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgb(10 10 11 / 0.55);
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity var(--dur-m) var(--ease-out);
+}
+
+.ask.is-open .ask__scrim {
+  opacity: 1;
+}
+
+.ask__sheet {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: min(520px, 100%);
+  background: #ffffff;
+  color: var(--c-ink);
+  box-shadow: -24px 0 48px -24px rgb(10 10 11 / 0.5);
+  transform: translateX(100%);
+  transition: transform var(--dur-m) var(--ease-out);
+}
+
+.ask.is-open .ask__sheet {
+  transform: none;
+}
+
+.ask__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-5) var(--s-6);
+  border-bottom: 1px solid rgb(23 25 28 / 0.1);
+}
+
+.ask__title {
+  color: var(--c-ink);
+}
+
+.ask__close {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-right: calc(-1 * var(--s-2));
+  border: 0;
+  border-radius: 50%;
+  background: #f0f0ee;
+  color: var(--c-ink);
+  cursor: pointer;
+  transition: background-color var(--dur-xs) var(--ease-out), color var(--dur-xs) var(--ease-out);
+}
+
+.ask__close:is(:hover, :focus-visible) {
+  background: var(--c-ink);
+  color: #ffffff;
+}
+
+.ask__close:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.ask__close .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.ask__body {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--s-5) var(--s-6) var(--s-6);
+}
+
+/* the car the question is about, pinned at the top */
+.ask__car {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--s-4);
+  padding: var(--s-3);
+  border-radius: var(--card-radius, 12px);
+  background: #f3f3f1;
+}
+
+.ask__car img {
+  width: 112px;
+  height: 75px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.ask__car-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-body);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.ask__car-meta {
+  margin-top: 2px;
+  color: var(--c-ink-3);
+}
+
+.ask__form {
+  display: grid;
+  gap: var(--s-5);
+  margin-top: var(--s-5);
+}
+
+.ask__topics {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.ask__legend {
+  margin-bottom: var(--s-3);
+  padding: 0;
+  color: var(--c-ink-3);
+}
+
+.ask__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.ask__pills .pill {
+  min-height: 44px;
+}
+
+.ask__pills .pill[aria-pressed='true'] {
+  border-color: var(--c-ink);
+  background: var(--c-ink);
+  color: #ffffff;
+}
+
+.ask__pair {
+  display: grid;
+  gap: var(--s-5);
+}
+
+@media (min-width: 480px) {
+  .ask__pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-4);
+  }
+}
+
+.ask__hint {
+  color: var(--c-ink-3);
+}
+
+.ask__message {
+  height: auto;
+  min-height: 120px;
+  padding-block: var(--s-3);
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.ask__send {
+  width: 100%;
+  justify-content: center;
+}
+
+.ask__or {
+  margin-top: calc(-1 * var(--s-2));
+  text-align: center;
+  color: var(--c-ink-3);
+}
+
+.ask__or a {
+  color: var(--c-ink);
+  font-weight: 600;
+  text-underline-offset: 3px;
+}
+
+.ask__done {
+  display: grid;
+  justify-items: start;
+  gap: var(--s-3);
+  margin-top: var(--s-6);
+}
+
+.ask__done-mark {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--c-accent);
+  color: var(--c-accent-ink);
+}
+
+.ask__done-title {
+  color: var(--c-ink);
+}
+
+.ask__done-title:focus {
+  outline: none;
+}
+
+.ask__done-text {
+  color: var(--c-ink-2);
+}
+
+.ask__done .btn {
+  margin-top: var(--s-3);
+}
+
+@media (max-width: 479px) {
+  .ask__head,
+  .ask__body {
+    padding-inline: var(--s-5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ask__scrim,
+  .ask__sheet {
+    transition: none;
+  }
+}
+
+/* ---------- Similar cars on the site's dark ground, straight into the footer (Alex, 2026-11-17) ----------
+   The footer's graphite #0f0f10, so the two read as one dark band; the white cards
+   carry the light. Title near-white 18.4:1; the button inverts to near-white. */
+.stock:has(.vdp-similar) {
+  padding-bottom: 0;
+}
+
+.vdp-similar {
+  margin-top: clamp(var(--s-7), 6vw, var(--s-9));
+  padding-block: clamp(var(--s-7), 6vw, var(--s-9));
+  background: #0f0f10;
+  color: var(--c-on-dark);
+}
+
+:root .stock .vdp-similar .section-title {
+  color: var(--c-on-dark);
+}
+
+.stock .vdp-similar a.btn--secondary {
+  --btn-bg: var(--c-on-dark);
+  --btn-fg: #0f0f10;
+  --btn-border: var(--c-on-dark);
+}
+
+.stock .vdp-similar a.btn--secondary:is(:hover, :focus-visible, :active) {
+  --btn-bg: #ffffff;
+  --btn-fg: #0f0f10;
+  --btn-border: #ffffff;
+}
+
+.stock .vdp-similar .card {
+  border-color: transparent;
+}
+
+/* ---------- "Get my offer": the ink fill (Alex) — the outline vanished on the white panel ---------- */
+.stock button.btn--secondary.vdp-trade__cta {
+  --btn-bg: var(--c-ink);
+  --btn-fg: #ffffff;
+  --btn-border: var(--c-ink);
+}
+
+.stock button.btn--secondary.vdp-trade__cta:is(:hover, :focus-visible, :active) {
+  --btn-bg: #2b2e33;
+  --btn-fg: #ffffff;
+  --btn-border: #2b2e33;
+}
