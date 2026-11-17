@@ -4,6 +4,7 @@ import { brand } from '../../data/brand.js'
 import { asset } from '../../data/asset.js'
 import { StockPage, Crumbs, StockCard, TitleText } from './StockPage.jsx'
 import AskDrawer from './AskDrawer.jsx'
+import CarBar from './CarBar.jsx'
 import { HOME_URL, SRP_URL, fmtMiles, fmtPrice, similarTo, stockById, stockTitle } from '../../data/v5/stock.js'
 
 const pad = (n) => String(n).padStart(2, '0')
@@ -18,6 +19,7 @@ export default function Vdp() {
   const v = stockById(id)
   const [ask, setAsk] = useState({ open: false, preset: '', message: '' })
   const closeAsk = useCallback(() => setAsk((a) => ({ ...a, open: false })), [])
+  const asksRef = useRef(null)
   const openAsk = (preset) => (e) => {
     e.preventDefault()
     setAsk({ open: true, preset, message: '' })
@@ -80,7 +82,7 @@ export default function Vdp() {
                 <li>{v.transmission}</li>
                 <li>{v.color}</li>
               </ul>
-              <div className="vdp__asks">
+              <div className="vdp__asks" ref={asksRef}>
                 <a className="btn" href={`#contact?topic=car&id=${encodeURIComponent(v.id)}`} aria-haspopup="dialog" onClick={openAsk('')}>
                   Ask about this car
                   <Icon name="arrow-right" />
@@ -196,6 +198,7 @@ export default function Vdp() {
         </div>
       </section>
 
+      <CarBar v={v} asksRef={asksRef} onAsk={openAsk('')} hidden={ask.open} />
       <AskDrawer v={v} open={ask.open} preset={ask.preset} message={ask.message} onClose={closeAsk} />
     </StockPage>
   )

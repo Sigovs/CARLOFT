@@ -1434,10 +1434,27 @@
   display: grid;
   align-content: start;
   gap: var(--s-2);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   padding: clamp(var(--s-5), 2.4vw, var(--s-6));
   border-radius: var(--radius);
-  background: #141415;
+  /* the site's grainy dark ground (Reviews, trade-in, the car bar) — Alex */
+  background:
+    radial-gradient(ellipse 70% 60% at 85% 10%, rgb(255 255 255 / 0.07) 0%, rgb(255 255 255 / 0.02) 50%, transparent 78%),
+    radial-gradient(ellipse 50% 40% at 10% 95%, rgb(255 255 255 / 0.035) 0%, transparent 70%),
+    var(--c-graphite);
   color: #f2f2f0;
+}
+
+.vdp-pay__result::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.07;
 }
 
 .vdp-pay__label {
@@ -1989,4 +2006,141 @@
   --btn-bg: #ffffff;
   --btn-fg: #0f0f10;
   --btn-border: #ffffff;
+}
+
+/* ---------- the car bar: the asks follow the visitor down the VDP (Alex, 2026-11-17) ----------
+   Rises from the bottom once the summary's asks are above the screen; steps aside
+   for the footer. On the site's grainy dark ground (Reviews, trade-in);
+   one Miami Blue fill (the same ask as the summary's), Call as the near-white outline. */
+.car-bar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: var(--z-header);
+  padding-block: var(--s-3);
+  isolation: isolate;
+  border-top: 1px solid rgb(255 255 255 / 0.08);
+  /* the Reviews / trade-in ground, stretched for a low wide bar (Alex): a light
+     pool behind the asks on the right, a fainter one behind the car on the left */
+  background:
+    radial-gradient(ellipse 38% 140% at 78% 0%, rgb(255 255 255 / 0.075) 0%, rgb(255 255 255 / 0.025) 50%, transparent 78%),
+    radial-gradient(ellipse 26% 120% at 12% 100%, rgb(255 255 255 / 0.04) 0%, transparent 72%),
+    var(--c-graphite);
+  color: #f2f2f0;
+  box-shadow: 0 -16px 40px -20px rgb(0 0 0 / 0.6);
+  transform: translateY(100%);
+  visibility: hidden;
+  transition: transform var(--dur-m) var(--ease-out), visibility 0s linear var(--dur-m);
+}
+
+/* the same film grain */
+.car-bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.07;
+}
+
+.car-bar.is-shown {
+  transform: none;
+  visibility: visible;
+  transition: transform var(--dur-m) var(--ease-out), visibility 0s;
+}
+
+.car-bar__inner {
+  --focus-ring: 2px solid var(--c-accent);
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.car-bar__img {
+  flex: none;
+  width: 84px;
+  height: 56px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.car-bar__car {
+  flex: 1;
+  min-width: 0;
+}
+
+.car-bar__title {
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-size: var(--fs-body);
+  font-weight: 700;
+  line-height: 1.25;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.car-bar__price {
+  margin-top: 2px;
+  font-weight: 600;
+}
+
+.car-bar__label {
+  font-weight: 400;
+  color: rgb(242 242 240 / 0.72);
+}
+
+.car-bar .btn {
+  flex: none;
+  min-height: 48px;
+}
+
+.stock .car-bar a.btn--secondary.car-bar__call {
+  --btn-bg: transparent;
+  --btn-fg: #f2f2f0;
+  --btn-border: rgb(242 242 240 / 0.5);
+}
+
+.stock .car-bar a.btn--secondary.car-bar__call:is(:hover, :focus-visible, :active) {
+  --btn-bg: #f2f2f0;
+  --btn-fg: #0f0f10;
+  --btn-border: #f2f2f0;
+}
+
+/* phones: price + the asks only; Call shrinks to its icon */
+@media (max-width: 767px) {
+  .car-bar {
+    padding-block: var(--s-2);
+  }
+
+  .car-bar__inner {
+    gap: var(--s-2);
+  }
+
+  .car-bar__img,
+  .car-bar__title {
+    display: none;
+  }
+
+  .car-bar__call {
+    width: 48px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .car-bar__call-text {
+    display: none;
+  }
+
+  .car-bar__ask {
+    padding-inline: var(--s-4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .car-bar,
+  .car-bar.is-shown {
+    transition: none;
+  }
 }
