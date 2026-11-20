@@ -1,0 +1,1 @@
+import{B as e,F as t,H as n}from"./inventory-DmGJwixg.js";import"./motion-B6R_2ZVV.js";import{t as r}from"./Vdp-BcpIg8vf.js";var i=n(),a=e(),o=t();(0,a.createRoot)(document.getElementById(`root`)).render((0,o.jsx)(i.StrictMode,{children:(0,o.jsx)(r,{})}));
