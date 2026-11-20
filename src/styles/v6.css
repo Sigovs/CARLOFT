@@ -392,3 +392,25 @@
     transform-origin: 15.3% 50%;
   }
 }
+
+/* ---------- Phones: hero (Alex, 2026-11-19) ----------
+   "the car lower and easier to see, less text over it; the 01/03 slider control can go;
+   the CTAs lower". Below 768 in portrait: the frame is anchored to the top and drawn
+   118% tall, so the car drops (and grows a little) out from under the headline and the
+   lead; the slider pill is hidden (swipe and the arrow keys still change the slide); the
+   CTAs sit at the frame's foot, just above the brand bar. */
+@media (max-width: 767px) and (max-aspect-ratio: 1 / 1) {
+  :root[data-edition='v6'] .slide__img img {
+    top: 0;
+    bottom: auto;
+    height: 118%;
+  }
+
+  :root[data-edition='v6'] .hero__controls {
+    display: none;
+  }
+
+  :root[data-edition='v6'] .hero {
+    --hero-bottom: var(--s-6);
+  }
+}
