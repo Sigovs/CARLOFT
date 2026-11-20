@@ -361,3 +361,34 @@
     transform: none;
   }
 }
+
+/* ---------- Phones: Sell / Consign photo as tall as Service / Restoration (Alex, 2026-11-19) ----------
+   Both frames 4:3 below 768 (svcfin.css .svcfin__frame), instead of Sell's 4:5. */
+@media (max-width: 767px) {
+  :root[data-edition='v6'] .sell__media {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* ---------- Phones: About (Alex, 2026-11-19) ----------
+   The frosted panel hung half over the photograph and half over a white ground, so
+   the glass turned grey and the type lost its contrast. Below 768: the section's ground
+   is the studio's own near-black, the photograph is shorter (the card rises with it)
+   and drawn closer, the two cars centred and larger. */
+@media (max-width: 767px) {
+  :root[data-edition='v6'] .about {
+    background: var(--c-graphite);
+  }
+
+  :root[data-edition='v6'] .about__media {
+    block-size: 340px;
+  }
+
+  /* the cars sit at 11–38% of the 16:10 frame (left-aligned): scaled 1.6× about a
+     point left of them, the pair lands on the centre of the screen at ~76% of its width */
+  :root[data-edition='v6'] .about__layer img {
+    object-position: 0% 56%;
+    transform: scale(1.6);
+    transform-origin: 15.3% 50%;
+  }
+}
