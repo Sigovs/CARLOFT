@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en" data-version="v2" data-variant="v2_2" data-round="v2_3" data-release="v5" data-edition="v6" data-page="srp">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Title and description are injected from src/data/brand.js (vite.config.js, brand-meta). -->
+    <title>Inventory — CAR LOFT — Used cars, classics, consignment and service</title>
+    <meta name="description" content="Independent dealership: used cars across price ranges, classic American muscle, consignment, service and restoration." />
+    <meta property="og:title" content="CAR LOFT — Used cars, classics, consignment and service" />
+    <meta property="og:description" content="Independent dealership: used cars across price ranges, classic American muscle, consignment, service and restoration." />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="data:," />
+    <!-- MOTION.md §6.6: scopes hover-transform CSS and staged layouts only; never hides content. -->
+    <script>
+      document.documentElement.classList.add('js')
+    </script>
+    <!-- V5 inner page: the SRP — search results (Alex, 2026-11-16: "делаем SRP, VDP"), data-page="srp".
+         Same layers as index_v5.html; the header links back to its sections. -->
+    <!-- V6 (Alex, 2026-11-17): the client round on top of the published V5 SRP + VDP — data-edition="v6" turns on
+         src/styles/v6.css and the V6 flag; the _v5 pages never move. -->
+    <!-- V5 (Alex, 2026-11-16): the client round of 16 November on top of the published V2.3 — the V2.2
+         Miami Blue back (#14f3ff, the gradient logo), a Miami Blue menu, a larger car and a heavier line in the
+         scrolled bar. data-release="v5" turns on src/styles/v5.css and the V5 flag; index_v2_3.html never moves. -->
+    <!-- V2.3 (Alex, 2026-11-12): the client round of 12 November on top of the published V2.2.
+         data-round="v2_3" turns on src/styles/v2_3.css and the V2_3 flag; index_v2_2.html never moves. -->
+    <!-- V2.2 (Alex, 2026-11-09): the client follows V2, so V2 is frozen and new work goes here.
+         data-version="v2" keeps every V2 behaviour; data-variant="v2_2" turns on src/styles/v2_2.css
+         and the V2_2 flag (src/data/version.js). index_v2.html is never touched by this layer. -->
+    <!-- V2 (client feedback 2026-10-29): data-version="v2" switches src/data to src/data/v2 and turns on src/styles/v2.css.
+         Slide 1 (V2.2: the red 911, generated studio frame). imagesizes mirrors heroSizes() in src/data/hero.js. -->
+    <script type="module" crossorigin src="/CARLOFT/assets/v6_srp-qf1fEryb.js"></script>
+    <link rel="modulepreload" crossorigin href="/CARLOFT/assets/inventory-DmGJwixg.js">
+    <link rel="modulepreload" crossorigin href="/CARLOFT/assets/motion-BvCzwq9A.js">
+    <link rel="modulepreload" crossorigin href="/CARLOFT/assets/StockPage-D9yJ6t7v.js">
+    <link rel="stylesheet" crossorigin href="/CARLOFT/assets/inventory-CBO2MiV2.css">
+    <link rel="stylesheet" crossorigin href="/CARLOFT/assets/motion-CpqrRV2G.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
