@@ -303,3 +303,32 @@
 :root[data-edition='v6'] .vdp-specs-first + .vdp-desc {
   padding-top: clamp(var(--s-6), 4vw, var(--s-8));
 }
+
+/* ---------- Mobile menu on graphite (client, Gus, 2026-11-19) ----------
+   "the back screen is so white that you lose the CAR LOFT logo". The open sheet
+   and the bar above it take the scrolled bar's graphite, so the white car and the
+   Miami Blue name read as they do everywhere else; the links stay Miami Blue
+   (≈14:1 on graphite), arrows, rules and the note go to the on-dark set. */
+:root[data-edition='v6'] .header.header:has(.header__sheet.is-open) {
+  --h-bg: var(--c-graphite) !important;
+  --h-fg: var(--c-on-dark) !important;
+  --h-fg-2: var(--c-on-dark-2) !important;
+  --h-border: var(--c-on-dark-hairline) !important;
+}
+
+:root[data-edition='v6'] .header__sheet {
+  background: var(--c-graphite);
+  border-top-color: var(--c-on-dark-hairline);
+}
+
+:root[data-edition='v6'] .header__sheet-links li + li {
+  border-top-color: var(--c-on-dark-hairline);
+}
+
+:root[data-edition='v6'] .header__sheet-link .icon {
+  color: var(--c-on-dark-2);
+}
+
+:root[data-edition='v6'] .header__sheet-note {
+  color: var(--c-on-dark-2);
+}
