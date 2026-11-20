@@ -332,3 +332,32 @@
 :root[data-edition='v6'] .header__sheet-note {
   color: var(--c-on-dark-2);
 }
+
+/* ---------- Menu open: the lock on the root, not on <body> (client, 2026-11-19) ----------
+   html is overflow: clip, so body's overflow: hidden (base.css .is-locked) never reached
+   the viewport — <body> became its own scroller at 0, and the sticky bar stuck to the top
+   of the document instead of the screen: opened mid-page, the menu had no bar above it.
+   On the root, hidden propagates to the viewport and the bar stays where it is. */
+:root[data-edition='v6'] body.is-locked {
+  overflow: visible;
+}
+
+:root[data-edition='v6']:has(body.is-locked) {
+  overflow: hidden;
+}
+
+/* ---------- Phones: the horizontal logo from the top (Alex, 2026-11-19) ----------
+   Below 768 the vertical lock-up no longer opens the page — the horizontal one
+   (white car + Miami Blue name, the scrolled bar's mark) is there from the first
+   screen, so the logo never changes shape on a phone. */
+@media (max-width: 767px) {
+  :root[data-edition='v6'] .header .header__mark--full {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  :root[data-edition='v6'] .header .header__mark--bar {
+    opacity: 1;
+    transform: none;
+  }
+}

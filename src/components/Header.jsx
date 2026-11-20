@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { brand, navLinks } from '../data/brand.js'
 import Icon from './Icon.jsx'
 import { lockScroll, unlockScroll } from '../motion/scroll.js'
-import { V2, V2_2, V2_3, V5, PAGE } from '../data/version.js'
+import { V2, V2_2, V2_3, V5, V6, PAGE } from '../data/version.js'
 import { HOME_URL, pageHref } from '../data/v5/stock.js'
 import { logoLight, logoV22, logoV23, logoV5 } from '../data/v2/logo.js'
 import LogoMark from './v2/LogoMark.jsx'
@@ -91,7 +91,11 @@ export default function Header({ ref }) {
     const button = menuButtonRef.current
     document.body.classList.add('is-locked')
     lockScroll()
-    sheet?.querySelector('a')?.focus()
+    // V6 (Alex): focus lands on the sheet itself (tabindex -1, no ring), not on the
+    // first link — the script-moved focus drew a Miami Blue box round "Inventory".
+    // Screen readers still enter the menu; Tab goes on to the first link.
+    if (V6) sheet?.focus({ preventScroll: true })
+    else sheet?.querySelector('a')?.focus()
 
     const onKey = (e) => {
       if (e.key === 'Escape') {
@@ -187,6 +191,7 @@ export default function Header({ ref }) {
         id="mobile-menu"
         ref={sheetRef}
         className={`header__sheet${open ? ' is-open' : ''}`}
+        tabIndex={V6 ? -1 : undefined}
         data-lenis-prevent
         hidden={!open}
       >
